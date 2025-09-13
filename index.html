@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SparkX Electronics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --cyan: #00ffff;
+      --blue: #007bff;
+      --dark-bg: #020b1c;
+      --bg-gradient: linear-gradient(135deg, #020b1c, #000000);
+      --glass-bg: rgba(15, 25, 45, 0.5);
+      --glass-border: rgba(0, 255, 255, 0.2);
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-gradient);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+       font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Particles */
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Glass Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--cyan);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+    }
+
+    nav .actions button {
+      padding: 0.6rem 1.2rem;
+      margin-left: 1rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: black;
+    }
+
+    nav .actions button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--cyan);
+    }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at center, #02142d, #000000);
+      position: relative;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      text-shadow: 0 0 15px var(--cyan);
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #aaa;
+      max-width: 600px;
+      margin-bottom: 2rem;
+    }
+
+    .hero button {
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      margin: 0.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+      background: linear-gradient(135deg, #00ffe5, #007bff);
+      color: black;
+    }
+
+    .hero button:hover {
+      box-shadow: 0 0 20px var(--cyan);
+      transform: scale(1.05);
+    }
+    
+    /* Promotion Banner */
+    #promotion-banner {
+        padding: 4rem 3rem;
+        text-align: center;
+        background: rgba(0, 255, 255, 0.1);
+        border-top: 1px solid var(--glass-border);
+        border-bottom: 1px solid var(--glass-border);
+        backdrop-filter: blur(10px);
+    }
+
+    #promotion-banner h2 {
+        font-size: 2.5rem;
+        color: var(--cyan);
+        text-shadow: 0 0 15px var(--cyan);
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
+    #promotion-banner p {
+        font-size: 1.1rem;
+        color: #eee;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* Services Grid */
+    .services {
+      padding: 6rem 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      background: linear-gradient(145deg, #010a18, #020f26);
+    }
+
+    .service-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(15px);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      transition: 0.4s;
+    }
+    
+    .service-card .service-icon {
+        height: 50px;
+        width: 50px;
+        margin: 0 auto 1.5rem auto;
+        color: var(--cyan);
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0, 255, 255, 0.5);
+    }
+
+    /* About Section */
+    .about-us {
+      padding: 6rem 3rem;
+      background: #000;
+    }
+    .about-us h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+    }
+    .about-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 4rem;
+    }
+    .about-item:nth-child(even) .about-image { order: 2; }
+    .about-image {
+      border: 2px solid var(--glass-border);
+      padding: 1rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 250px;
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 10px var(--glass-border); }
+      50% { box-shadow: 0 0 20px var(--cyan); }
+    }
+    .about-text h3 { font-size: 1.8rem; color: var(--cyan); }
+    .about-text p { color: #ccc; line-height: 1.7; }
+    
+    @media (max-width: 768px) {
+      .about-item { grid-template-columns: 1fr; }
+      .about-item:nth-child(even) .about-image { order: 0; }
+    }
+
+
+    /* Products */
+    .products {
+      padding: 6rem 3rem;
+      background: #000;
+    }
+
+    .products h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      perspective: 1000px;
+    }
+
+    .product-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      transition: transform 0.4s ease-out, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      transform-style: preserve-3d;
+    }
+    
+    .product-card:hover {
+      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+    }
+    
+    .product-card .img-container {
+        width: 100%;
+        height: 180px;
+        margin-bottom: 1.5rem;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: rgba(255,255,255,0.05);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color: #888;
+        font-size: 0.9rem;
+        transform: translateZ(20px);
+    }
+
+    .product-card .img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .product-card .product-details {
+      flex-grow: 1;
+      text-align: center;
+      transform: translateZ(10px);
+    }
+
+    .product-card h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    
+    .product-card .product-price {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--cyan);
+      font-weight: bold;
+    }
+    
+    .product-card .product-description {
+        font-size: 0.9rem;
+        color: #aaa;
+        margin-top: 1rem;
+        flex-grow: 1;
+    }
+
+    .product-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.5rem;
+        transform: translateZ(30px);
+    }
+    
+    .product-actions button {
+        flex: 1;
+        padding: 0.7rem 1rem;
+        border: none;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .buy-now-btn {
+        background: linear-gradient(135deg, var(--cyan), var(--blue));
+        color: black;
+    }
+    
+    .quick-view-btn {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        border: 1px solid var(--glass-border);
+    }
+
+    .buy-now-btn:hover, .quick-view-btn:hover {
+        box-shadow: 0 0 15px var(--cyan);
+        transform: scale(1.05);
+    }
+
+
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      background: rgba(15,25,45,0.8);
+      border-top: 1px solid var(--glass-border);
+      color: #aaa;
+    }
+    .social-icons {
+        margin-bottom: 1.5rem;
+    }
+    .social-icons a {
+        color: #888;
+        margin: 0 1rem;
+        font-size: 1.5rem;
+        transition: 0.3s;
+    }
+    .social-icons a:hover {
+        color: var(--cyan);
+        text-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* Generic Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.7);
+        backdrop-filter: blur(5px);
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .modal-content {
+        background: rgba(15, 25, 45, 0.8);
+        backdrop-filter: blur(20px);
+        margin: 10% auto;
+        padding: 2rem;
+        border: 1px solid rgba(0,255,255,0.3);
+        width: 90%;
+        max-width: 500px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0,255,255,0.2);
+        color: #fff;
+        position: relative;
+    }
+    
+    .modal-content h2 {
+        color: var(--cyan);
+        text-shadow: 0 0 10px var(--cyan);
+        text-align: center;
+        margin-top: 0;
+    }
+
+    .modal-content .close-btn {
+        color: #aaa;
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .modal-content .close-btn:hover {
+        color: var(--cyan);
+    }
+
+    /* Admin Panel Modal */
+    .admin-panel {
+        max-width: 900px;
+    }
+    
+    .admin-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--glass-border);
+        margin-bottom: 2rem;
+    }
+    .tab-btn {
+        padding: 0.8rem 1.5rem;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        color: #aaa;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: 0.3s;
+        border-bottom: 3px solid transparent;
+    }
+    .tab-btn.active {
+        color: var(--cyan);
+        border-bottom: 3px solid var(--cyan);
+    }
+
+    .admin-tab-content {
+        display: none;
+    }
+    .admin-tab-content.active {
+        display: block;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .admin-table th, .admin-table td {
+        border: 1px solid var(--glass-border);
+        padding: 0.8rem;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .admin-table th {
+        background-color: rgba(0,255,255,0.1);
+    }
+    
+    .admin-table img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    
+    .admin-table .product-description-cell {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.9rem;
+        color: #ccc;
+    }
+
+    .admin-table button {
+        padding: 0.4rem 0.8rem;
+        margin-right: 0.5rem;
+        border: 1px solid var(--cyan);
+        border-radius: 5px;
+        cursor: pointer;
+        background: transparent;
+        color: var(--cyan);
+        transition: 0.3s;
+    }
+
+    .admin-table button:hover {
+        background: var(--cyan);
+        color: black;
+    }
+
+    .admin-form {
+        background: rgba(0,0,0,0.3);
+        padding: 1.5rem;
+        border-radius: 10px;
+        border: 1px solid var(--glass-border);
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .form-group {
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+    
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    input[type="text"], input[type="tel"], textarea, input[type="search"] {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.7rem;
+        border-radius: 5px;
+        border: 1px solid rgba(0,255,255,0.3);
+        background: rgba(0,0,0,0.5);
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+    }
+    
+    textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+    
+    input[type="file"], input[type="checkbox"] {
+      color: #ccc;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .image-preview-container {
+      text-align: center;
+    }
+    
+    #image-preview {
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 5px;
+      border: 1px solid rgba(0,255,255,0.3);
+    }
+    
+    #remove-image-btn {
+      background: #8B0000;
+      color: white;
+      border: 1px solid #ff0000;
+      margin-top: 0.5rem;
+    }
+
+    .form-actions {
+      text-align: right;
+      margin-top: 1rem;
+    }
+
+    .form-actions button {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: black;
+      margin-left: 1rem;
+    }
+
+    .form-actions button:hover {
+      box-shadow: 0 0 15px var(--cyan);
+    }
+    
+    /* Delivery, Payment, Confirmation, Orders & Quick View Modals */
+    #product-to-buy-info, #quick-view-info {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--glass-border);
+    }
+    #product-to-buy-info h3, #quick-view-info h3 { margin: 0.5rem 0; }
+    #product-to-buy-info p, #quick-view-info p.price { margin: 0; color: var(--cyan); font-size: 1.2rem; }
+    
+    #quick-view-img {
+        width: 100%;
+        max-height: 250px;
+        object-fit: contain;
+        margin-bottom: 1rem;
+    }
+    
+    #quick-view-info p.description {
+        color: #ccc;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    #qr-code-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    #payment-details {
+        text-align: center;
+    }
+    #payment-details p { margin: 0.5rem 0; }
+    #payment-details .price { font-size: 1.5rem; color: var(--cyan); }
+    #payment-details .upi-id { font-size: 0.9rem; color: #ccc; }
+    
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .summary-item:last-child { border-bottom: none; }
+    
+    .summary-label { color: #ccc; }
+    .summary-value { font-weight: bold; }
+    
+    .confirmation-summary, .order-details-summary {
+        background: rgba(0,0,0,0.2);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    .tracking-id {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: rgba(0,255,255,0.1);
+        border: 1px dashed var(--cyan);
+        border-radius: 5px;
+        text-align: center;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        color: var(--cyan);
+    }
+    #order-search-results {
+        margin-top: 1.5rem;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    #order-search-results .order-result-card {
+        background: rgba(0,0,0,0.3);
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        border: 1px solid var(--glass-border);
+    }
+    .order-result-header {
+        padding: 1rem;
+        border-bottom: 1px solid var(--glass-border);
+    }
+    .order-result-body {
+        padding: 1rem;
+    }
+    .order-result-body .summary-item {
+        padding: 0.6rem 0;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">SparkX</div>
+    <ul>
+      <li><a href="#hero-section">Home</a></li>
+      <li><a href="#products-section">Shop</a></li>
+      <li><a href="#services-section">Services</a></li>
+      <li><a href="#about-section">About</a></li>
+      <li><a href="#" id="my-orders-btn">My Orders</a></li>
+    </ul>
+    <div class="actions">
+      <button onclick="document.getElementById('products-section').scrollIntoView();">Shop Now</button>
+      <button id="admin-btn">Admin</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero-section">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+      <h1>Powering the Future with Innovative Electronics</h1>
+      <p>Your trusted partner for quality components, expert repairs, and cutting-edge solutions.</p>
+      <button onclick="document.getElementById('products-section').scrollIntoView();">Shop Now</button>
+      <button onclick="document.getElementById('services-section').scrollIntoView();">Our Services</button>
+    </div>
+  </section>
+
+  <!-- Promotion Banner -->
+  <section id="promotion-banner" style="display: none;"></section>
+
+  <!-- Services -->
+  <section class="services" id="services-section">
+    <div class="service-card">
+        <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18M18.75 3v18M9 6.75h6.375a3.375 3.375 0 013.375 3.375v3.75a3.375 3.375 0 01-3.375 3.375H9V6.75z" /></svg>
+        </div>
+        <h3>Corporate & Home Services</h3>
+    </div>
+    <div class="service-card">
+        <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.73-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.048-.58-.188-1.193-.343-1.743m-4.474 4.474l-5.63-6.837a2.548 2.548 0 113.586 3.586l3.03-2.496m-3.586 3.586l-2.496 3.03" /></svg>
+        </div>
+        <h3>Fan & Cooler Servicing</h3>
+    </div>
+    <div class="service-card">
+        <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" /></svg>
+        </div>
+        <h3>Complete Wiring Solutions</h3>
+    </div>
+    <div class="service-card">
+        <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.73-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.048-.58-.188-1.193-.343-1.743m-4.474 4.474l-5.63-6.837a2.548 2.548 0 113.586 3.586l3.03-2.496m-3.586 3.586l-2.496 3.03" /></svg>
+        </div>
+        <h3>Repair & Installation</h3>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-us" id="about-section">
+      <h2>About SparkX</h2>
+      <div class="about-item">
+          <div class="about-text">
+              <h3>Who We Are</h3>
+              <p>Spark X Electronics is a leading electronics trading and service provider with a vision to bring advanced, reliable, and sustainable technology solutions to homes and businesses. Founded with a mission to make quality electronics accessible, we have quickly grown into a trusted name in sales, services, and maintenance of electronic products.</p>
+          </div>
+          <div class="about-image">A professional team working on electronics with glowing circuit background.</div>
+      </div>
+      <div class="about-item">
+          <div class="about-text">
+              <h3>Our Vision</h3>
+              <p>We envision Spark X Electronics as a global player in electronics and digital services, recognized for excellence, innovation, and customer satisfaction. By blending modern technology with everyday needs, we aim to redefine living standards and make advanced electronics an integral part of daily life.</p>
+          </div>
+          <div class="about-image">Futuristic city with neon-lit Spark X billboards.</div>
+      </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products" id="products-section">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+      <div class="product-card" data-id="1">
+        <div class="img-container">No Image</div>
+        <div class="product-details">
+          <h3>High-Speed Ceiling Fan</h3>
+          <p class="product-price">₹1199</p>
+          <p class="product-description">A high-performance ceiling fan for maximum airflow.</p>
+        </div>
+        <div class="product-actions">
+          <button class="quick-view-btn">Quick View</button>
+          <button class="buy-now-btn">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card" data-id="2">
+        <div class="img-container">No Image</div>
+        <div class="product-details">
+          <h3>Portable Table Fan</h3>
+          <p class="product-price">₹799</p>
+           <p class="product-description">Compact and powerful fan, perfect for personal cooling.</p>
+        </div>
+        <div class="product-actions">
+          <button class="quick-view-btn">Quick View</button>
+          <button class="buy-now-btn">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card" data-id="3">
+        <div class="img-container">No Image</div>
+        <div class="product-details">
+          <h3>Personal Air Cooler</h3>
+          <p class="product-price">₹3499</p>
+          <p class="product-description">Efficient air cooler with honeycomb pads for quick cooling.</p>
+        </div>
+        <div class="product-actions">
+          <button class="quick-view-btn">Quick View</button>
+          <button class="buy-now-btn">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card" data-id="4">
+        <div class="img-container">No Image</div>
+        <div class="product-details">
+          <h3>9W LED Bulb (Pack of 4)</h3>
+          <p class="product-price">₹299</p>
+          <p class="product-description">Energy-saving bright white LED bulbs for your home.</p>
+        </div>
+        <div class="product-actions">
+          <button class="quick-view-btn">Quick View</button>
+          <button class="buy-now-btn">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card" data-id="5">
+        <div class="img-container">No Image</div>
+        <div class="product-details">
+          <h3>1.5mm Copper Wire (90m)</h3>
+          <p class="product-price">₹1299</p>
+          <p class="product-description">High-quality, insulated copper wire for safe electrical wiring.</p>
+        </div>
+        <div class="product-actions">
+          <button class="quick-view-btn">Quick View</button>
+          <button class="buy-now-btn">Buy Now</button>
+        </div>
+      </div>
+      <div class="product-card" data-id="6">
+        <div class="img-container">No Image</div>
+        <div class="product-details">
+          <h3>Digital Multimeter</h3>
+          <p class="product-price">₹499</p>
+          <p class="product-description">A must-have tool for any electronics enthusiast or professional.</p>
+        </div>
+        <div class="product-actions">
+          <button class="quick-view-btn">Quick View</button>
+          <button class="buy-now-btn">Buy Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-icons">
+        <a href="#" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8a1.25 1.25 0 0 1-1.25-1.25A1.25 1.25 0 0 1 17.25 5.5M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3Z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 5.83c-.25 2.01-1.55 3.28-3.56 3.53c-1.24.16-2.5.21-3.92.23c-1.42.02-2.73.02-4.16.02s-2.75 0-4.17-.02c-1.42-.02-2.68-.07-3.92-.23C.96 21.11-.34 19.84.02 17.83c.13-.67.22-1.34.28-2.09C.36 15.01.4 14.32.4 12c0-2.19.16-3.8.44-5.83C1.09 4.16 2.39 2.89 4.4 2.64c1.24-.16 2.5-.21 3.92-.23c1.42-.02 2.73-.02 4.16-.02s2.75 0 4.17.02c1.42.02 2.68.07 3.92.23c2.01.25 3.31 1.52 3.56 3.53Z"/></svg></a>
+    </div>
+    <p>© 2025 SparkX Electronics. Powering Innovation Worldwide.</p>
+  </footer>
+
+  <!-- All Modals -->
+  <!-- Admin Panel Modal -->
+  <div id="admin-modal" class="modal">
+      <div class="modal-content admin-panel">
+          <span class="close-btn">&times;</span>
+          <h2>Admin Panel</h2>
+          <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="products">Manage Products</button>
+            <button class="tab-btn" data-tab="promotion">Manage Promotion</button>
+          </div>
+
+          <!-- Products Tab -->
+          <div id="tab-content-products" class="admin-tab-content active">
+            <table class="admin-table">
+                <thead><tr><th>Image</th><th>Product Name</th><th>Description</th><th>Price</th><th>Actions</th></tr></thead>
+                <tbody id="admin-product-list"></tbody>
+            </table>
+            <div class="admin-form">
+              <h3 id="form-title">Add New Product</h3>
+              <form id="product-form">
+                  <input type="hidden" id="product-id"><input type="hidden" id="remove-image-flag" value="false">
+                  <div class="form-row">
+                      <div class="form-group"><label for="product-name">Product Name</label><input type="text" id="product-name" required></div>
+                      <div class="form-group"><label for="product-price">Price</label><input type="text" id="product-price" placeholder="e.g., ₹1199" required></div>
+                  </div>
+                  <div class="form-group"><label for="product-description-input">Description</label><textarea id="product-description-input" required></textarea></div>
+                   <div class="form-row">
+                      <div class="form-group"><label for="product-image">Product Image (Optional)</label><input type="file" id="product-image" accept="image/*"></div>
+                      <div class="form-group image-preview-container">
+                          <img id="image-preview" src="" alt="Image Preview" style="display: none;">
+                          <button type="button" id="remove-image-btn" style="display: none;">Remove Image</button>
+                      </div>
+                  </div>
+                  <div class="form-actions">
+                      <button type="button" id="form-cancel-btn" style="display:none; background: #555;">Cancel</button>
+                      <button type="submit" id="form-submit-btn">Add Product</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Promotion Tab -->
+          <div id="tab-content-promotion" class="admin-tab-content">
+             <div class="admin-form">
+                <h3>Manage Homepage Promotion</h3>
+                <form id="promotion-form">
+                    <div class="form-group"><label for="promotion-headline-input">Headline</label><input type="text" id="promotion-headline-input" placeholder="e.g., Festival Sale!"></div>
+                    <div class="form-group"><label for="promotion-description-input">Description</label><textarea id="promotion-description-input" placeholder="e.g., Get up to 40% off..."></textarea></div>
+                    <div class="form-group checkbox-group"><input type="checkbox" id="promotion-active-checkbox"><label for="promotion-active-checkbox">Activate Promotion</label></div>
+                    <div class="form-actions"><button type="submit">Save Promotion</button></div>
+                </form>
+            </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Delivery Details Modal -->
+  <div id="delivery-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Delivery Details</h2>
+      <div id="product-to-buy-info"></div>
+      <form id="delivery-form">
+        <div class="form-group"><label for="customer-name">Full Name</label><input type="text" id="customer-name" required></div>
+        <div class="form-group"><label for="customer-mobile">Mobile Number</label><input type="tel" id="customer-mobile" required></div>
+        <div class="form-group"><label for="customer-address">Full Address</label><textarea id="customer-address" required></textarea></div>
+        <div class="form-actions"><button type="submit" id="proceed-to-pay-btn">Proceed to Pay</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Payment QR Code Modal -->
+  <div id="payment-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Scan to Pay</h2>
+      <div id="qr-code-container"></div>
+      <div id="payment-details"></div>
+      <div class="form-actions" style="justify-content: center; display: flex;"><button id="confirm-payment-btn">Confirm Payment</button></div>
+    </div>
+  </div>
+
+  <!-- Order Confirmation Modal -->
+  <div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Thank You! Order Confirmed.</h2>
+        <p>Your order has been successfully placed. A summary has been provided below.</p>
+        <div class="confirmation-summary"></div>
+        <div class="tracking-id"></div>
+    </div>
+  </div>
+
+  <!-- Quick View Modal -->
+  <div id="quick-view-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div id="quick-view-info"></div>
+    </div>
+  </div>
+
+  <!-- My Orders Modal -->
+  <div id="my-orders-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>My Orders</h2>
+        <p>Enter your Tracking ID or Mobile Number to find your orders.</p>
+        <form id="order-search-form">
+            <div class="form-group">
+                <label for="order-search-input">Tracking ID or Mobile</label>
+                <input type="search" id="order-search-input" placeholder="e.g., SPARKX-A1B2C3D4 or 9120...">
+            </div>
+            <div class="form-actions" style="justify-content:flex-end; display:flex;">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+        <div id="order-search-results"></div>
+    </div>
+  </div>
+
+
+  <script>
+    // Simple particle animation for the hero section
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles-js');
+        const particleCount = 50;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.background = 'var(--cyan)';
+            particle.style.borderRadius = '50%';
+            const size = Math.random() * 3;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.opacity = Math.random();
+            const duration = Math.random() * 20 + 10;
+            particle.animate([
+                { transform: `translateY(0px)` },
+                { transform: `translateY(-${window.innerHeight * Math.random()}px)` }
+            ], {
+                duration: duration * 1000,
+                iterations: Infinity,
+                direction: 'alternate',
+                easing: 'linear',
+                delay: -Math.random() * duration * 1000
+            });
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        createParticles();
+
+        // --- Common elements & State ---
+        const productGrid = document.querySelector('.product-grid');
+        let currentProductForPurchase = {};
+        let currentCustomerDetails = {};
+
+        // --- Smooth Scrolling for Nav ---
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            if(anchor.id !== 'my-orders-btn') {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+
+
+        // --- Promotion Logic ---
+        const promotionBanner = document.getElementById('promotion-banner');
+        const promotionForm = document.getElementById('promotion-form');
+        const promotionHeadlineInput = document.getElementById('promotion-headline-input');
+        const promotionDescriptionInput = document.getElementById('promotion-description-input');
+        const promotionActiveCheckbox = document.getElementById('promotion-active-checkbox');
+
+        const updatePromotionBanner = () => {
+            const promotionData = JSON.parse(localStorage.getItem('promotionData'));
+            if (promotionData && promotionData.isActive) {
+                promotionBanner.innerHTML = `
+                    <h2>${promotionData.headline}</h2>
+                    <p>${promotionData.description}</p>`;
+                promotionBanner.style.display = 'block';
+            } else {
+                promotionBanner.style.display = 'none';
+            }
+        };
+        
+        const loadPromotionDataIntoForm = () => {
+            const promotionData = JSON.parse(localStorage.getItem('promotionData'));
+            if(promotionData) {
+                promotionHeadlineInput.value = promotionData.headline || '';
+                promotionDescriptionInput.value = promotionData.description || '';
+                promotionActiveCheckbox.checked = promotionData.isActive || false;
+            }
+        };
+
+        promotionForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const promotionData = {
+                headline: promotionHeadlineInput.value,
+                description: promotionDescriptionInput.value,
+                isActive: promotionActiveCheckbox.checked,
+            };
+            localStorage.setItem('promotionData', JSON.stringify(promotionData));
+            updatePromotionBanner();
+            alert('Promotion updated!');
+        });
+        
+        updatePromotionBanner(); // Load banner state on page load
+
+
+        // --- Admin Panel Logic ---
+        const adminModal = document.getElementById('admin-modal');
+        const adminBtn = document.getElementById('admin-btn');
+        const adminProductList = document.getElementById('admin-product-list');
+        const productForm = document.getElementById('product-form');
+        const formTitle = document.getElementById('form-title');
+        const formSubmitBtn = document.getElementById('form-submit-btn');
+        const formCancelBtn = document.getElementById('form-cancel-btn');
+        const productIdInput = document.getElementById('product-id');
+        const productNameInput = document.getElementById('product-name');
+        const productPriceInput = document.getElementById('product-price');
+        const productDescriptionInput = document.getElementById('product-description-input');
+        const productImageInput = document.getElementById('product-image');
+        const imagePreview = document.getElementById('image-preview');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+        const removeImageFlag = document.getElementById('remove-image-flag');
+
+        let nextId = 7; 
+        
+        // Admin Tabs
+        document.querySelector('.admin-tabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-btn')) {
+                const tabId = e.target.dataset.tab;
+                document.querySelectorAll('.admin-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                document.querySelectorAll('.admin-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `tab-content-${tabId}`) content.classList.add('active');
+                });
+            }
+        });
+
+
+        const renderAdminProducts = () => {
+            adminProductList.innerHTML = ''; 
+            productGrid.querySelectorAll('.product-card').forEach(card => {
+                const id = card.dataset.id;
+                const name = card.querySelector('h3').textContent;
+                const price = card.querySelector('.product-price').textContent;
+                const description = card.querySelector('.product-description').textContent;
+                const imageEl = card.querySelector('.img-container img');
+                const imgSrc = imageEl ? imageEl.src : '';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${imgSrc ? `<img src="${imgSrc}" alt="${name}">` : 'No Image'}</td>
+                    <td>${name}</td>
+                    <td class="product-description-cell" title="${description}">${description}</td>
+                    <td>${price}</td>
+                    <td>
+                        <button class="edit-btn" data-id="${id}">Edit</button>
+                        <button class="delete-btn" data-id="${id}">Delete</button>
+                    </td>
+                `;
+                adminProductList.appendChild(row);
+            });
+        };
+
+        adminBtn.onclick = () => {
+            openModal(adminModal);
+            renderAdminProducts();
+            loadPromotionDataIntoForm();
+            resetAdminForm();
+        };
+
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = productIdInput.value;
+            const name = productNameInput.value;
+            const price = productPriceInput.value;
+            const description = productDescriptionInput.value;
+            const imageFile = productImageInput.files[0];
+
+            const processProductUpdate = (imgSrc = null) => {
+                 if (id) { // Editing
+                    const cardToUpdate = productGrid.querySelector(`.product-card[data-id="${id}"]`);
+                    if (cardToUpdate) {
+                        cardToUpdate.querySelector('h3').textContent = name;
+                        cardToUpdate.querySelector('.product-price').textContent = price;
+                        cardToUpdate.querySelector('.product-description').textContent = description;
+                        const imgContainer = cardToUpdate.querySelector('.img-container');
+                        
+                        if (removeImageFlag.value === 'true') {
+                            imgContainer.innerHTML = 'No Image';
+                        } else if (imgSrc) {
+                            imgContainer.innerHTML = `<img src="${imgSrc}" alt="${name}">`;
+                        }
+                    }
+                } else { // Adding
+                    const newCard = document.createElement('div');
+                    newCard.className = 'product-card';
+                    newCard.dataset.id = nextId++;
+                    newCard.innerHTML = `
+                        <div class="img-container">${imgSrc ? `<img src="${imgSrc}" alt="${name}">` : 'No Image'}</div>
+                        <div class="product-details"><h3>${name}</h3><p class="product-price">${price}</p><p class="product-description">${description}</p></div>
+                        <div class="product-actions"><button class="quick-view-btn">Quick View</button><button class="buy-now-btn">Buy Now</button></div>`;
+                    productGrid.appendChild(newCard);
+                    addCardHoverEffect(newCard);
+                }
+                renderAdminProducts();
+                resetAdminForm();
+            };
+
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = (event) => { processProductUpdate(event.target.result); };
+                reader.readAsDataURL(imageFile);
+            } else {
+                 const card = productGrid.querySelector(`.product-card[data-id="${id}"]`);
+                 const existingImgSrc = card ? card.querySelector('.img-container img')?.src : null;
+                 processProductUpdate(existingImgSrc);
+            }
+        });
+
+        adminProductList.addEventListener('click', (e) => {
+            const id = e.target.dataset.id;
+            if (e.target.classList.contains('delete-btn')) {
+                if (confirm('Are you sure you want to delete this product?')) {
+                    productGrid.querySelector(`.product-card[data-id="${id}"]`)?.remove();
+                    renderAdminProducts();
+                }
+            }
+            if (e.target.classList.contains('edit-btn')) {
+                const card = productGrid.querySelector(`.product-card[data-id="${id}"]`);
+                if (card) {
+                    productIdInput.value = id;
+                    productNameInput.value = card.querySelector('h3').textContent;
+                    productPriceInput.value = card.querySelector('.product-price').textContent;
+                    productDescriptionInput.value = card.querySelector('.product-description').textContent;
+                    const imageEl = card.querySelector('.img-container img');
+                    
+                    if (imageEl) {
+                        imagePreview.src = imageEl.src;
+                        imagePreview.style.display = 'block';
+                        removeImageBtn.style.display = 'inline-block';
+                    } else {
+                         imagePreview.style.display = 'none';
+                         removeImageBtn.style.display = 'none';
+                    }
+
+                    formTitle.textContent = 'Edit Product';
+                    formSubmitBtn.textContent = 'Save Changes';
+                    formCancelBtn.style.display = 'inline-block';
+                }
+            }
+        });
+        
+        productImageInput.addEventListener('change', () => {
+            if (productImageInput.files && productImageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    removeImageBtn.style.display = 'inline-block';
+                    removeImageFlag.value = 'false';
+                };
+                reader.readAsDataURL(productImageInput.files[0]);
+            }
+        });
+        
+        removeImageBtn.onclick = () => {
+            productImageInput.value = '';
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
+            removeImageBtn.style.display = 'none';
+            removeImageFlag.value = 'true';
+        };
+        
+        formCancelBtn.onclick = () => { resetAdminForm(); };
+
+        const resetAdminForm = () => {
+            productForm.reset();
+            productIdInput.value = '';
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
+            removeImageBtn.style.display = 'none';
+            removeImageFlag.value = 'false';
+            formTitle.textContent = 'Add New Product';
+            formSubmitBtn.textContent = 'Add Product';
+            formCancelBtn.style.display = 'none';
+        };
+        
+        // --- 3D Card Hover Effect ---
+        function addCardHoverEffect(card) {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const { width, height } = rect;
+                const rotateX = (y / height - 0.5) * -15; // Invert for natural feel
+                const rotateY = (x / width - 0.5) * 15;
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+            });
+        }
+        document.querySelectorAll('.product-card').forEach(addCardHoverEffect);
+
+
+        // --- Modals (Generic Open/Close) ---
+        const allModals = document.querySelectorAll('.modal');
+        function openModal(modal) { modal.style.display = 'block'; }
+        function closeModal(modal) { modal.style.display = 'none'; }
+        
+        allModals.forEach(modal => {
+            modal.querySelector('.close-btn').onclick = () => closeModal(modal);
+        });
+        
+        window.onclick = (event) => {
+            allModals.forEach(modal => {
+                if (event.target == modal) closeModal(modal);
+            });
+        };
+
+        // --- Purchase Flow & Quick View ---
+        const deliveryModal = document.getElementById('delivery-modal');
+        const paymentModal = document.getElementById('payment-modal');
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const quickViewModal = document.getElementById('quick-view-modal');
+        const deliveryForm = document.getElementById('delivery-form');
+        const upiId = '9120795494@ybl';
+        let qrCodeInstance = null;
+        
+        productGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            if (!card) return;
+
+            const name = card.querySelector('h3').textContent;
+            const price = card.querySelector('.product-price').textContent;
+            const description = card.querySelector('.product-description').textContent;
+            const imageSrc = card.querySelector('.img-container img')?.src;
+
+            if (e.target.classList.contains('buy-now-btn')) {
+                currentProductForPurchase = { name, price, description, imageSrc };
+                document.getElementById('product-to-buy-info').innerHTML = `<h3>${name}</h3><p>${price}</p>`;
+                openModal(deliveryModal);
+            }
+            if (e.target.classList.contains('quick-view-btn')) {
+                document.getElementById('quick-view-info').innerHTML = `
+                    ${imageSrc ? `<img src="${imageSrc}" id="quick-view-img" alt="${name}">` : ''}
+                    <h3>${name}</h3>
+                    <p class="price">${price}</p>
+                    <p class="description">${description}</p>`;
+                openModal(quickViewModal);
+            }
+        });
+        
+        deliveryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('customer-name').value;
+            const mobile = document.getElementById('customer-mobile').value;
+            const address = document.getElementById('customer-address').value;
+
+            if (name && mobile && address) {
+                currentCustomerDetails = { name, mobile, address };
+                closeModal(deliveryModal);
+                deliveryForm.reset();
+                
+                const amount = currentProductForPurchase.price.replace('₹', '').trim();
+                const productName = encodeURIComponent(currentProductForPurchase.name);
+                const upiUrl = `upi://pay?pa=${upiId}&pn=SparkX%20Electronics&am=${amount}&cu=INR&tn=Purchase%20of%20${productName}`;
+
+                const qrContainer = document.getElementById('qr-code-container');
+                qrContainer.innerHTML = '';
+                new QRCode(qrContainer, { text: upiUrl, width: 200, height: 200 });
+                
+                document.getElementById('payment-details').innerHTML = `<p>Please Pay:</p><p class="price">${currentProductForPurchase.price}</p><p>Scan with any UPI app.</p><p class="upi-id">UPI ID: ${upiId}</p>`;
+                openModal(paymentModal);
+            } else {
+                alert('Please fill in all delivery details.');
+            }
+        });
+
+        document.getElementById('confirm-payment-btn').addEventListener('click', () => {
+            closeModal(paymentModal);
+            const trackingId = `SPARKX-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
+
+            const order = {
+                product: currentProductForPurchase,
+                customer: currentCustomerDetails,
+                trackingId: trackingId,
+                date: new Date().toLocaleString()
+            };
+
+            // Save order to localStorage
+            const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+            orders.push(order);
+            localStorage.setItem('sparkxOrders', JSON.stringify(orders));
+
+            document.querySelector('#confirmation-modal .confirmation-summary').innerHTML = `
+                <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${order.product.name}</span></div>
+                <div class="summary-item"><span class="summary-label">Amount Paid:</span><span class="summary-value">${order.product.price}</span></div>
+                <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>
+                <div class="summary-item"><span class="summary-label">Contact:</span><span class="summary-value">${order.customer.mobile}</span></div>
+                <div class="summary-item"><span class="summary-label">Address:</span><span class="summary-value">${order.customer.address}</span></div>`;
+            document.querySelector('#confirmation-modal .tracking-id').innerHTML = `Tracking ID: ${order.trackingId}`;
+            openModal(confirmationModal);
+        });
+        
+        // --- My Orders Logic ---
+        const myOrdersModal = document.getElementById('my-orders-modal');
+        document.getElementById('my-orders-btn').onclick = (e) => {
+            e.preventDefault();
+            document.getElementById('order-search-results').innerHTML = ''; // Clear previous results
+            document.getElementById('order-search-form').reset();
+            openModal(myOrdersModal);
+        };
+
+        document.getElementById('order-search-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchTerm = document.getElementById('order-search-input').value.trim();
+            const resultsContainer = document.getElementById('order-search-results');
+            if (!searchTerm) return;
+            
+            const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+            const foundOrders = allOrders.filter(order => order.trackingId === searchTerm || order.customer.mobile === searchTerm);
+
+            if (foundOrders.length > 0) {
+                resultsContainer.innerHTML = foundOrders.map(order => `
+                    <div class="order-result-card">
+                        <div class="order-result-header">
+                            <strong>Order Date:</strong> ${order.date}<br>
+                            <strong>Tracking ID:</strong> ${order.trackingId}
+                        </div>
+                        <div class="order-result-body">
+                           <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${order.product.name}</span></div>
+                           <div class="summary-item"><span class="summary-label">Price:</span><span class="summary-value">${order.product.price}</span></div>
+                           <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>
+                           <div class="summary-item"><span class="summary-label">Address:</span><span class="summary-value">${order.customer.address}</span></div>
+                        </div>
+                    </div>`).join('');
+            } else {
+                resultsContainer.innerHTML = `<p style="text-align:center;">No orders found for "${searchTerm}".</p>`;
+            }
+        });
+
+    });
+  </script>
+</body>
+</html>
