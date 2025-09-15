@@ -173,36 +173,93 @@
         margin: 0 auto;
     }
 
-    /* Services Grid */
+    /* Services Accordion */
     .services {
       padding: 6rem 3rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
       background: linear-gradient(145deg, #010a18, #020f26);
     }
 
-    .service-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(15px);
-      padding: 2rem;
-      border-radius: 20px;
-      text-align: center;
-      transition: 0.4s;
+    .services h2 {
+        text-align: center;
+        margin-bottom: 3rem;
+        font-size: 2.5rem;
+        color: var(--cyan);
+        text-shadow: 0 0 10px var(--cyan);
     }
     
-    .service-card .service-icon {
-        height: 50px;
-        width: 50px;
-        margin: 0 auto 1.5rem auto;
+    .accordion-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .accordion-item {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        transition: 0.4s;
+    }
+
+    .accordion-item:hover {
+        border-color: var(--cyan);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    
+    .service-icon {
+        height: 40px;
+        width: 40px;
         color: var(--cyan);
     }
 
-    .service-card:hover {
-      transform: translateY(-10px);
-      border-color: var(--cyan);
-      box-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0, 255, 255, 0.5);
+    .accordion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 1.5rem 2rem;
+        background: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .accordion-header-content {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .accordion-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .accordion-icon {
+        font-size: 2rem;
+        font-weight: 300;
+        color: var(--cyan);
+        transition: transform 0.3s ease-out;
+    }
+
+    .accordion-header.active .accordion-icon {
+        transform: rotate(45deg);
+    }
+
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+    }
+
+    .accordion-content p {
+        padding: 0 2rem 1.5rem 2rem;
+        margin: 0;
+        color: #ccc;
+        line-height: 1.7;
+        padding-left: calc(2rem + 40px + 1.5rem); /* Align with heading text */
     }
 
     /* About Section */
@@ -278,6 +335,8 @@
       display: flex;
       flex-direction: column;
       transform-style: preserve-3d;
+      position: relative;
+      overflow: hidden;
     }
     
     .product-card:hover {
@@ -323,6 +382,31 @@
       font-weight: bold;
     }
     
+    .product-price del {
+        color: #aaa;
+        font-weight: normal;
+        font-size: 1rem;
+        margin-right: 0.5rem;
+    }
+    
+    .product-price ins {
+        text-decoration: none;
+        color: var(--cyan);
+    }
+    
+    .sale-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #ff4444;
+        color: white;
+        padding: 4px 10px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        border-radius: 5px;
+        z-index: 5;
+    }
+    
     .product-card .product-description {
         font-size: 0.9rem;
         color: #aaa;
@@ -362,6 +446,74 @@
     .buy-now-btn:hover, .quick-view-btn:hover {
         box-shadow: 0 0 15px var(--cyan);
         transform: scale(1.05);
+    }
+    
+    /* Star Ratings */
+    .star-rating {
+        margin: 0.75rem 0 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .star-rating .star {
+        font-size: 1.2rem;
+        color: #888;
+    }
+    .star-rating .star.filled {
+        color: #ffc107;
+        text-shadow: 0 0 5px #ffc107;
+    }
+    .star-rating .rating-count {
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+        color: #aaa;
+    }
+    
+    /* Rating input in modal */
+    .rating-submission {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--glass-border);
+        text-align: center;
+    }
+    .rating-submission h4 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        color: #ccc;
+    }
+    .rating-input {
+        font-size: 2rem;
+        cursor: pointer;
+    }
+    .rating-input .star {
+        color: #888;
+        transition: color 0.2s, transform 0.2s;
+        display: inline-block;
+    }
+    .rating-input .star:hover {
+        transform: scale(1.2);
+    }
+    .rating-input:hover .star {
+        color: #ffc107;
+    }
+    .rating-input .star:hover ~ .star {
+        color: #888;
+    }
+    #submit-rating-btn {
+        margin-top: 1.5rem;
+        padding: 0.6rem 1.5rem;
+        border: 1px solid var(--cyan);
+        border-radius: 50px;
+        background: transparent;
+        color: var(--cyan);
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    #submit-rating-btn:hover {
+        background: var(--cyan);
+        color: black;
     }
 
 
@@ -745,29 +897,56 @@
 
   <!-- Services -->
   <section class="services" id="services-section">
-    <div class="service-card">
-        <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18M18.75 3v18M9 6.75h6.375a3.375 3.375 0 013.375 3.375v3.75a3.375 3.375 0 01-3.375 3.375H9V6.75z" /></svg>
+    <h2>Our Services</h2>
+    <div class="accordion-container">
+        <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+                <div class="accordion-header-content">
+                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18M18.75 3v18M9 6.75h6.375a3.375 3.375 0 013.375 3.375v3.75a3.375 3.375 0 01-3.375 3.375H9V6.75z" /></svg></div>
+                    <h3>Corporate & Home Services</h3>
+                </div>
+                <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <p>We provide bespoke electronics solutions for both corporate offices and residential clients. Our services include Annual Maintenance Contracts (AMCs), bulk installations for new setups, and customized wiring plans to ensure optimal performance and safety. Trust SparkX for reliable and professional service at any scale.</p>
+            </div>
         </div>
-        <h3>Corporate & Home Services</h3>
-    </div>
-    <div class="service-card">
-        <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.73-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.048-.58-.188-1.193-.343-1.743m-4.474 4.474l-5.63-6.837a2.548 2.548 0 113.586 3.586l3.03-2.496m-3.586 3.586l-2.496 3.03" /></svg>
+        <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+                <div class="accordion-header-content">
+                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.73-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.048-.58-.188-1.193-.343-1.743m-4.474 4.474l-5.63-6.837a2.548 2.548 0 113.586 3.586l3.03-2.496m-3.586 3.586l-2.496 3.03" /></svg></div>
+                    <h3>Fan & Cooler Servicing</h3>
+                </div>
+                <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <p>Keep your cool with our expert fan and cooler servicing. Our comprehensive check-up includes deep cleaning of blades and components, motor inspection and oiling, bearing lubrication, and performance testing to ensure silent, efficient operation and extend the life of your appliances.</p>
+            </div>
         </div>
-        <h3>Fan & Cooler Servicing</h3>
-    </div>
-    <div class="service-card">
-        <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" /></svg>
+        <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+                <div class="accordion-header-content">
+                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" /></svg></div>
+                    <h3>Complete Wiring Solutions</h3>
+                </div>
+                <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <p>From brand new constructions to renovations and system upgrades, we offer end-to-end electrical wiring solutions. Our certified electricians adhere to the highest safety standards, ensuring a secure and reliable power infrastructure for your property. We also conduct safety audits and troubleshoot existing wiring issues.</p>
+            </div>
         </div>
-        <h3>Complete Wiring Solutions</h3>
-    </div>
-    <div class="service-card">
-        <div class="service-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.73-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.048-.58-.188-1.193-.343-1.743m-4.474 4.474l-5.63-6.837a2.548 2.548 0 113.586 3.586l3.03-2.496m-3.586 3.586l-2.496 3.03" /></svg>
+        <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+                <div class="accordion-header-content">
+                    <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.73-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.048-.58-.188-1.193-.343-1.743m-4.474 4.474l-5.63-6.837a2.548 2.548 0 113.586 3.586l3.03-2.496m-3.586 3.586l-2.496 3.03" /></svg></div>
+                    <h3>Repair & Installation</h3>
+                </div>
+                <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <p>Got a faulty appliance? Need a new one installed? Our skilled technicians are here to help. We repair a wide range of electronic devices and provide seamless installation services for fans, coolers, lighting, and more. Quick, efficient, and hassle-free service is our guarantee.</p>
+            </div>
         </div>
-        <h3>Repair & Installation</h3>
     </div>
   </section>
 
@@ -795,10 +974,12 @@
     <h2>Featured Products</h2>
     <div class="product-grid">
       <div class="product-card" data-id="1">
+        <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
           <h3>High-Speed Ceiling Fan</h3>
-          <p class="product-price">₹1199</p>
+          <p class="product-price" data-original-price="₹1199">₹1199</p>
+          <div class="star-rating"></div>
           <p class="product-description">A high-performance ceiling fan for maximum airflow.</p>
         </div>
         <div class="product-actions">
@@ -807,10 +988,12 @@
         </div>
       </div>
       <div class="product-card" data-id="2">
+        <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
           <h3>Portable Table Fan</h3>
-          <p class="product-price">₹799</p>
+          <p class="product-price" data-original-price="₹799">₹799</p>
+          <div class="star-rating"></div>
            <p class="product-description">Compact and powerful fan, perfect for personal cooling.</p>
         </div>
         <div class="product-actions">
@@ -819,10 +1002,12 @@
         </div>
       </div>
       <div class="product-card" data-id="3">
+        <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
           <h3>Personal Air Cooler</h3>
-          <p class="product-price">₹3499</p>
+          <p class="product-price" data-original-price="₹3499">₹3499</p>
+          <div class="star-rating"></div>
           <p class="product-description">Efficient air cooler with honeycomb pads for quick cooling.</p>
         </div>
         <div class="product-actions">
@@ -831,10 +1016,12 @@
         </div>
       </div>
       <div class="product-card" data-id="4">
+        <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
           <h3>9W LED Bulb (Pack of 4)</h3>
-          <p class="product-price">₹299</p>
+          <p class="product-price" data-original-price="₹299">₹299</p>
+          <div class="star-rating"></div>
           <p class="product-description">Energy-saving bright white LED bulbs for your home.</p>
         </div>
         <div class="product-actions">
@@ -843,10 +1030,12 @@
         </div>
       </div>
       <div class="product-card" data-id="5">
+        <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
           <h3>1.5mm Copper Wire (90m)</h3>
-          <p class="product-price">₹1299</p>
+          <p class="product-price" data-original-price="₹1299">₹1299</p>
+          <div class="star-rating"></div>
           <p class="product-description">High-quality, insulated copper wire for safe electrical wiring.</p>
         </div>
         <div class="product-actions">
@@ -855,10 +1044,12 @@
         </div>
       </div>
       <div class="product-card" data-id="6">
+        <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
           <h3>Digital Multimeter</h3>
-          <p class="product-price">₹499</p>
+          <p class="product-price" data-original-price="₹499">₹499</p>
+          <div class="star-rating"></div>
           <p class="product-description">A must-have tool for any electronics enthusiast or professional.</p>
         </div>
         <div class="product-actions">
@@ -874,7 +1065,7 @@
     <div class="social-icons">
         <a href="#" aria-label="LinkedIn"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z"/></svg></a>
         <a href="#" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8a1.25 1.25 0 0 1-1.25-1.25A1.25 1.25 0 0 1 17.25 5.5M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3Z"/></svg></a>
-        <a href="#" aria-label="YouTube"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 5.83c-.25 2.01-1.55 3.28-3.56 3.53c-1.24.16-2.5.21-3.92.23c-1.42.02-2.73.02-4.16.02s-2.75 0-4.17-.02c-1.42-.02-2.68-.07-3.92-.23C.96 21.11-.34 19.84.02 17.83c.13-.67.22-1.34.28-2.09C.36 15.01.4 14.32.4 12c0-2.19.16-3.8.44-5.83C1.09 4.16 2.39 2.89 4.4 2.64c1.24-.16 2.5-.21 3.92-.23c1.42-.02 2.73-.02 4.16.02s2.75 0 4.17.02c1.42.02 2.68.07 3.92.23c2.01.25 3.31 1.52 3.56 3.53Z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 5.83c-.25 2.01-1.55 3.28-3.56 3.53c-1.24.16-2.5.21-3.92.23c-1.42.02-2.73.02-4.16.02s-2.75 0-4.17-.02c-1.42-.02-2.68-.07-3.92-.23C.96 21.11-.34 19.84.02 17.83c.13-.67.22-1.34.28-2.09C.36 15.01.4 14.32.4 12c0-2.19.16-3.8.44-5.83C1.09 4.16 2.39 2.89 4.4 2.64c1.24-.16 2.5-.21 3.92-.23c1.42-.02 2.73-.02 4.16.02s2.75 0 4.17-.02c1.42.02 2.68.07 3.92.23c2.01.25 3.31 1.52 3.56 3.53Z"/></svg></a>
     </div>
     <p>© 2025 SparkX Electronics. Powering Innovation Worldwide.</p>
   </footer>
@@ -949,7 +1140,7 @@
                 <h3>Manage Homepage Promotion</h3>
                 <form id="promotion-form">
                     <div class="form-group"><label for="promotion-headline-input">Headline</label><input type="text" id="promotion-headline-input" placeholder="e.g., Festival Sale!"></div>
-                    <div class="form-group"><label for="promotion-description-input">Description</label><textarea id="promotion-description-input" placeholder="e.g., Get up to 40% off..."></textarea></div>
+                    <div class="form-group"><label for="promotion-description-input">Description</label><textarea id="promotion-description-input" placeholder="e.g., Get up to 40% off on all products..."></textarea></div>
                     <div class="form-group checkbox-group"><input type="checkbox" id="promotion-active-checkbox"><label for="promotion-active-checkbox">Activate Promotion</label></div>
                     <div class="form-actions"><button type="submit">Save Promotion</button></div>
                 </form>
@@ -1025,6 +1216,17 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <div id="quick-view-info"></div>
+      <div class="rating-submission">
+          <h4>Rate this product:</h4>
+          <div class="rating-input" data-product-id="">
+              <span class="star" data-value="1">☆</span>
+              <span class="star" data-value="2">☆</span>
+              <span class="star" data-value="3">☆</span>
+              <span class="star" data-value="4">☆</span>
+              <span class="star" data-value="5">☆</span>
+          </div>
+          <button id="submit-rating-btn" style="display: none;">Submit Rating</button>
+      </div>
     </div>
   </div>
 
@@ -1052,6 +1254,7 @@
     // Simple particle animation for the hero section
     function createParticles() {
         const particlesContainer = document.getElementById('particles-js');
+        if (!particlesContainer) return;
         const particleCount = 50;
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
@@ -1087,6 +1290,7 @@
         const productGrid = document.querySelector('.product-grid');
         let currentProductForPurchase = {};
         let currentCustomerDetails = {};
+        let activeDiscountPercent = 0;
 
         // --- Smooth Scrolling for Nav ---
         document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
@@ -1100,13 +1304,69 @@
             }
         });
 
+        // --- Accordion Logic ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
 
-        // --- Promotion Logic ---
+            header.addEventListener('click', () => {
+                const isActive = header.classList.contains('active');
+                
+                document.querySelectorAll('.accordion-header.active').forEach(activeHeader => {
+                    if (activeHeader !== header) {
+                        activeHeader.classList.remove('active');
+                        activeHeader.setAttribute('aria-expanded', 'false');
+                        activeHeader.nextElementSibling.style.maxHeight = null;
+                    }
+                });
+
+                if (isActive) {
+                    header.classList.remove('active');
+                    header.setAttribute('aria-expanded', 'false');
+                    content.style.maxHeight = null;
+                } else {
+                    header.classList.add('active');
+                    header.setAttribute('aria-expanded', 'true');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+
+
+        // --- Promotion & Discount Logic ---
         const promotionBanner = document.getElementById('promotion-banner');
         const promotionForm = document.getElementById('promotion-form');
         const promotionHeadlineInput = document.getElementById('promotion-headline-input');
         const promotionDescriptionInput = document.getElementById('promotion-description-input');
         const promotionActiveCheckbox = document.getElementById('promotion-active-checkbox');
+        
+        const extractDiscount = (text) => {
+          const match = text.match(/\b(\d{1,3})\s*%/);
+          return match ? parseInt(match[1], 10) : 0;
+        };
+        
+        const updateAllProductPrices = () => {
+            document.querySelectorAll('.product-card').forEach(card => {
+                const priceEl = card.querySelector('.product-price');
+                const saleBadge = card.querySelector('.sale-badge');
+                if (!priceEl.dataset.originalPrice) {
+                    priceEl.dataset.originalPrice = priceEl.textContent;
+                }
+                
+                const originalPriceText = priceEl.dataset.originalPrice;
+                const originalPriceNum = parseFloat(originalPriceText.replace('₹', ''));
+
+                if (activeDiscountPercent > 0) {
+                    const discountedPrice = Math.round(originalPriceNum * (1 - activeDiscountPercent / 100));
+                    priceEl.innerHTML = `<del>${originalPriceText}</del> <ins>₹${discountedPrice}</ins>`;
+                    if(saleBadge) saleBadge.style.display = 'block';
+                } else {
+                    priceEl.innerHTML = originalPriceText;
+                    if(saleBadge) saleBadge.style.display = 'none';
+                }
+            });
+        };
 
         const updatePromotionBanner = () => {
             const promotionData = JSON.parse(localStorage.getItem('promotionData'));
@@ -1115,9 +1375,12 @@
                     <h2>${promotionData.headline}</h2>
                     <p>${promotionData.description}</p>`;
                 promotionBanner.style.display = 'block';
+                activeDiscountPercent = extractDiscount(promotionData.description);
             } else {
                 promotionBanner.style.display = 'none';
+                activeDiscountPercent = 0;
             }
+            updateAllProductPrices();
         };
         
         const loadPromotionDataIntoForm = () => {
@@ -1140,10 +1403,7 @@
             updatePromotionBanner();
             alert('Promotion updated!');
         });
-        
-        updatePromotionBanner(); // Load banner state on page load
 
-        
         // --- Admin Authentication ---
         const DEFAULT_USER_ID = 'anees0121';
         const DEFAULT_PASSWORD = 'Lovetrust$0121';
@@ -1151,7 +1411,7 @@
         const getCredentials = () => {
             const storedCreds = JSON.parse(localStorage.getItem('adminCredentials'));
             return {
-                userId: DEFAULT_USER_ID, // User ID is fixed
+                userId: DEFAULT_USER_ID,
                 password: storedCreds ? storedCreds.password : DEFAULT_PASSWORD
             };
         };
@@ -1166,9 +1426,7 @@
         const adminBtn = document.getElementById('admin-btn');
         const adminModal = document.getElementById('admin-modal');
 
-        adminBtn.onclick = () => {
-            openModal(loginModal);
-        };
+        adminBtn.onclick = () => { openModal(loginModal); };
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1180,7 +1438,6 @@
                 closeModal(loginModal);
                 loginForm.reset();
                 loginError.style.display = 'none';
-
                 openModal(adminModal);
                 renderAdminProducts();
                 loadPromotionDataIntoForm();
@@ -1208,20 +1465,18 @@
 
         let nextId = 7; 
         
-        // Admin Tabs
         document.querySelector('.admin-tabs').addEventListener('click', (e) => {
-            if (e.target.classList.contains('tab-btn')) {
-                const tabId = e.target.dataset.tab;
+            const tabButton = e.target.closest('.tab-btn');
+            if (tabButton) {
+                const tabId = tabButton.dataset.tab;
                 document.querySelectorAll('.admin-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                document.querySelectorAll('.admin-tab-content').forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === `tab-content-${tabId}`) content.classList.add('active');
-                });
+                document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active'));
+                tabButton.classList.add('active');
+                const activeContent = document.getElementById(`tab-content-${tabId}`);
+                if (activeContent) activeContent.classList.add('active');
             }
         });
         
-        // Change Password Logic
         const changePasswordForm = document.getElementById('change-password-form');
         changePasswordForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1231,30 +1486,26 @@
             const creds = getCredentials();
 
             if (oldPassword !== creds.password) {
-                alert('Old password is not correct.');
-                return;
+                alert('Old password is not correct.'); return;
             }
             if (newPassword !== confirmPassword) {
-                alert('New passwords do not match.');
-                return;
+                alert('New passwords do not match.'); return;
             }
             if (newPassword.length < 8) {
-                alert('New password must be at least 8 characters long.');
-                return;
+                alert('New password must be at least 8 characters long.'); return;
             }
-
             setCredentials(newPassword);
             alert('Password updated successfully!');
             changePasswordForm.reset();
         });
-
 
         const renderAdminProducts = () => {
             adminProductList.innerHTML = ''; 
             productGrid.querySelectorAll('.product-card').forEach(card => {
                 const id = card.dataset.id;
                 const name = card.querySelector('h3').textContent;
-                const price = card.querySelector('.product-price').textContent;
+                const priceEl = card.querySelector('.product-price');
+                const price = priceEl.dataset.originalPrice || priceEl.textContent;
                 const description = card.querySelector('.product-description').textContent;
                 const imageEl = card.querySelector('.img-container img');
                 const imgSrc = imageEl ? imageEl.src : '';
@@ -1287,7 +1538,9 @@
                     const cardToUpdate = productGrid.querySelector(`.product-card[data-id="${id}"]`);
                     if (cardToUpdate) {
                         cardToUpdate.querySelector('h3').textContent = name;
-                        cardToUpdate.querySelector('.product-price').textContent = price;
+                        const priceEl = cardToUpdate.querySelector('.product-price');
+                        priceEl.textContent = price;
+                        priceEl.dataset.originalPrice = price;
                         cardToUpdate.querySelector('.product-description').textContent = description;
                         const imgContainer = cardToUpdate.querySelector('.img-container');
                         
@@ -1300,14 +1553,23 @@
                 } else { // Adding
                     const newCard = document.createElement('div');
                     newCard.className = 'product-card';
-                    newCard.dataset.id = nextId++;
+                    const newId = nextId++;
+                    newCard.dataset.id = newId;
                     newCard.innerHTML = `
+                        <div class="sale-badge" style="display: none;">Sale</div>
                         <div class="img-container">${imgSrc ? `<img src="${imgSrc}" alt="${name}">` : 'No Image'}</div>
-                        <div class="product-details"><h3>${name}</h3><p class="product-price">${price}</p><p class="product-description">${description}</p></div>
+                        <div class="product-details">
+                            <h3>${name}</h3>
+                            <p class="product-price" data-original-price="${price}">${price}</p>
+                            <div class="star-rating"></div>
+                            <p class="product-description">${description}</p>
+                        </div>
                         <div class="product-actions"><button class="quick-view-btn">Quick View</button><button class="buy-now-btn">Buy Now</button></div>`;
                     productGrid.appendChild(newCard);
+                    renderStarRating(newCard.querySelector('.star-rating'), newId);
                     addCardHoverEffect(newCard);
                 }
+                updateAllProductPrices();
                 renderAdminProducts();
                 resetAdminForm();
             };
@@ -1336,7 +1598,8 @@
                 if (card) {
                     productIdInput.value = id;
                     productNameInput.value = card.querySelector('h3').textContent;
-                    productPriceInput.value = card.querySelector('.product-price').textContent;
+                    const priceEl = card.querySelector('.product-price');
+                    productPriceInput.value = priceEl.dataset.originalPrice || priceEl.textContent;
                     productDescriptionInput.value = card.querySelector('.product-description').textContent;
                     const imageEl = card.querySelector('.img-container img');
                     
@@ -1391,14 +1654,13 @@
             formCancelBtn.style.display = 'none';
         };
         
-        // --- 3D Card Hover Effect ---
         function addCardHoverEffect(card) {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 const { width, height } = rect;
-                const rotateX = (y / height - 0.5) * -15; // Invert for natural feel
+                const rotateX = (y / height - 0.5) * -15;
                 const rotateY = (x / width - 0.5) * 15;
                 card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
             });
@@ -1409,7 +1671,6 @@
         document.querySelectorAll('.product-card').forEach(addCardHoverEffect);
 
 
-        // --- Modals (Generic Open/Close) ---
         const allModals = document.querySelectorAll('.modal');
         function openModal(modal) { modal.style.display = 'block'; }
         function closeModal(modal) { modal.style.display = 'none'; }
@@ -1424,35 +1685,43 @@
             });
         };
 
-        // --- Purchase Flow & Quick View ---
         const deliveryModal = document.getElementById('delivery-modal');
         const paymentModal = document.getElementById('payment-modal');
         const confirmationModal = document.getElementById('confirmation-modal');
         const quickViewModal = document.getElementById('quick-view-modal');
         const deliveryForm = document.getElementById('delivery-form');
         const upiId = '9120795494@ybl';
-        let qrCodeInstance = null;
         
         productGrid.addEventListener('click', (e) => {
             const card = e.target.closest('.product-card');
             if (!card) return;
 
+            const productId = card.dataset.id;
             const name = card.querySelector('h3').textContent;
-            const price = card.querySelector('.product-price').textContent;
+            const priceEl = card.querySelector('.product-price');
+            const finalPriceText = priceEl.querySelector('ins')?.textContent || priceEl.textContent;
             const description = card.querySelector('.product-description').textContent;
             const imageSrc = card.querySelector('.img-container img')?.src;
 
             if (e.target.classList.contains('buy-now-btn')) {
-                currentProductForPurchase = { name, price, description, imageSrc };
-                document.getElementById('product-to-buy-info').innerHTML = `<h3>${name}</h3><p>${price}</p>`;
+                currentProductForPurchase = { name, price: finalPriceText, description, imageSrc };
+                document.getElementById('product-to-buy-info').innerHTML = `<h3>${name}</h3><p class="price">${finalPriceText}</p>`;
                 openModal(deliveryModal);
             }
             if (e.target.classList.contains('quick-view-btn')) {
+                 const quickViewPriceEl = document.getElementById('quick-view-info').querySelector('.price') || document.createElement('p');
+                 quickViewPriceEl.className = 'price';
+                 quickViewPriceEl.innerHTML = priceEl.innerHTML;
+
                 document.getElementById('quick-view-info').innerHTML = `
                     ${imageSrc ? `<img src="${imageSrc}" id="quick-view-img" alt="${name}">` : ''}
                     <h3>${name}</h3>
-                    <p class="price">${price}</p>
+                    <div class="price">${priceEl.innerHTML}</div>
                     <p class="description">${description}</p>`;
+                
+                const ratingInput = quickViewModal.querySelector('.rating-input');
+                ratingInput.dataset.productId = productId;
+                resetRatingInput();
                 openModal(quickViewModal);
             }
         });
@@ -1494,7 +1763,6 @@
                 date: new Date().toLocaleString()
             };
 
-            // Save order to localStorage
             const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
             orders.push(order);
             localStorage.setItem('sparkxOrders', JSON.stringify(orders));
@@ -1509,11 +1777,10 @@
             openModal(confirmationModal);
         });
         
-        // --- My Orders Logic ---
         const myOrdersModal = document.getElementById('my-orders-modal');
         document.getElementById('my-orders-btn').onclick = (e) => {
             e.preventDefault();
-            document.getElementById('order-search-results').innerHTML = ''; // Clear previous results
+            document.getElementById('order-search-results').innerHTML = '';
             document.getElementById('order-search-form').reset();
             openModal(myOrdersModal);
         };
@@ -1545,7 +1812,91 @@
                 resultsContainer.innerHTML = `<p style="text-align:center;">No orders found for "${searchTerm}".</p>`;
             }
         });
+        
+        const getRatings = () => JSON.parse(localStorage.getItem('productRatings')) || {};
+        const saveRatings = (ratings) => localStorage.setItem('productRatings', JSON.stringify(ratings));
 
+        const addRating = (productId, rating) => {
+            const ratings = getRatings();
+            if (!ratings[productId]) ratings[productId] = [];
+            ratings[productId].push(rating);
+            saveRatings(ratings);
+        };
+
+        const renderStarRating = (container, productId) => {
+            if (!container) return;
+            const ratings = getRatings();
+            const productRatings = ratings[productId] || [];
+            const count = productRatings.length;
+            const average = count > 0 ? (productRatings.reduce((a, b) => a + b, 0) / count) : 0;
+            const averageRounded = Math.round(average * 2) / 2;
+
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += `<span class="star${i <= averageRounded ? ' filled' : ''}">★</span>`;
+            }
+            
+            const countText = count > 0 ? `(${count} ${count > 1 ? 'ratings' : 'rating'})` : '(No ratings yet)';
+            container.innerHTML = `${starsHtml} <span class="rating-count">${countText}</span>`;
+        };
+        
+        document.querySelectorAll('.product-card').forEach(card => {
+            const ratingContainer = card.querySelector('.star-rating');
+            const productId = card.dataset.id;
+            renderStarRating(ratingContainer, productId);
+        });
+        
+        const ratingInputContainer = quickViewModal.querySelector('.rating-input');
+        const submitRatingBtn = document.getElementById('submit-rating-btn');
+        let selectedRating = 0;
+        
+        const updateInputStars = (ratingValue) => {
+            const stars = ratingInputContainer.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.style.color = star.dataset.value <= ratingValue ? '#ffc107' : '#888';
+            });
+        };
+
+        const resetRatingInput = () => {
+            selectedRating = 0;
+            updateInputStars(0);
+            submitRatingBtn.style.display = 'none';
+        }
+
+        ratingInputContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('star')) {
+                selectedRating = parseInt(e.target.dataset.value);
+                updateInputStars(selectedRating);
+                submitRatingBtn.style.display = 'inline-block';
+            }
+        });
+
+        ratingInputContainer.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('star')) {
+                updateInputStars(parseInt(e.target.dataset.value));
+            }
+        });
+
+        ratingInputContainer.addEventListener('mouseout', () => {
+            updateInputStars(selectedRating);
+        });
+        
+        submitRatingBtn.addEventListener('click', () => {
+            const productId = ratingInputContainer.dataset.productId;
+            if (productId && selectedRating > 0) {
+                addRating(productId, selectedRating);
+                const mainCard = document.querySelector(`.product-card[data-id="${productId}"]`);
+                if(mainCard) {
+                    renderStarRating(mainCard.querySelector('.star-rating'), productId);
+                }
+                alert(`Thank you for your ${selectedRating}-star rating!`);
+                resetRatingInput();
+                closeModal(quickViewModal);
+            }
+        });
+        
+        // --- Initial Page Load Actions ---
+        updatePromotionBanner(); // This will apply discounts on page load
     });
   </script>
 </body>
