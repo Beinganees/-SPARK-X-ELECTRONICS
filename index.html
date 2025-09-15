@@ -516,6 +516,84 @@
         color: black;
     }
 
+    /* Testimonials Section */
+    .testimonials {
+      padding: 6rem 3rem;
+      background: var(--dark-bg);
+    }
+    .testimonials h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2.5rem;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testimonial-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: 0.3s;
+    }
+    .testimonial-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-10px);
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-avatar-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid var(--cyan);
+      padding: 8px;
+      box-sizing: border-box;
+      background: rgba(0, 255, 255, 0.1);
+      color: var(--cyan);
+    }
+    .testimonial-author h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+    .testimonial-author p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    .testimonial-card blockquote {
+      margin: 0;
+      font-style: italic;
+      color: #ccc;
+      line-height: 1.7;
+      flex-grow: 1;
+      position: relative;
+      padding-left: 1rem;
+    }
+    .testimonial-card blockquote::before {
+      content: '“';
+      font-family: 'Poppins', sans-serif;
+      position: absolute;
+      left: -1rem;
+      top: -1.5rem;
+      font-size: 5rem;
+      color: var(--cyan);
+      opacity: 0.2;
+      z-index: -1;
+    }
 
     /* Footer */
     footer {
@@ -604,6 +682,7 @@
         display: flex;
         border-bottom: 1px solid var(--glass-border);
         margin-bottom: 2rem;
+        flex-wrap: wrap;
     }
     .tab-btn {
         padding: 0.8rem 1.5rem;
@@ -707,7 +786,7 @@
       color: #ccc;
     }
 
-    input[type="text"], input[type="tel"], input[type="password"], textarea, input[type="search"] {
+    input[type="text"], input[type="tel"], input[type="password"], textarea, input[type="search"], input[type="file"] {
         width: 100%;
         box-sizing: border-box;
         padding: 0.7rem;
@@ -718,12 +797,16 @@
         font-family: 'Inter', sans-serif;
     }
     
+    input[type="file"] {
+        padding: 0.5rem;
+    }
+    
     textarea {
         resize: vertical;
         min-height: 80px;
     }
     
-    input[type="file"], input[type="checkbox"] {
+    input[type="checkbox"] {
       color: #ccc;
     }
     
@@ -737,11 +820,12 @@
       text-align: center;
     }
     
-    #image-preview {
+    #image-preview, #screenshot-preview {
       max-width: 100px;
       max-height: 100px;
       border-radius: 5px;
       border: 1px solid rgba(0,255,255,0.3);
+      margin-top: 0.5rem;
     }
     
     #remove-image-btn {
@@ -854,12 +938,85 @@
     .order-result-header {
         padding: 1rem;
         border-bottom: 1px solid var(--glass-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     .order-result-body {
         padding: 1rem;
     }
     .order-result-body .summary-item {
         padding: 0.6rem 0;
+    }
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: white;
+    }
+    .status-pending { background-color: #ffc107; color: black; }
+    .status-confirmed { background-color: #28a745; }
+    .status-rejected { background-color: #dc3545; }
+
+    /* Verification Admin Tab */
+    #pending-verifications-list {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    .pending-order-card {
+        background: rgba(0,0,0,0.3);
+        border: 1px solid var(--glass-border);
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    .pending-order-card h4 {
+        color: var(--cyan);
+        margin-top: 0;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 0.5rem;
+    }
+    .pending-order-card p {
+        margin: 0.4rem 0;
+        font-size: 0.9rem;
+    }
+    .payment-proof img {
+        max-width: 100px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+    .payment-proof img:hover {
+        transform: scale(1.1);
+    }
+    .verification-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--glass-border);
+    }
+    .verification-actions button {
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        font-weight: bold;
+    }
+    .approve-btn {
+        background: #28a745;
+        border: 1px solid #28a745;
+        color: white;
+    }
+     .reject-btn {
+        background: #dc3545;
+        border: 1px solid #dc3545;
+        color: white;
     }
 
   </style>
@@ -1060,6 +1217,49 @@
     </div>
   </section>
 
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials-section">
+      <h2>What Our Customers Say</h2>
+      <div class="testimonial-grid">
+          <div class="testimonial-card">
+              <div class="testimonial-author">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="testimonial-avatar-icon"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" /></svg>
+                  <div>
+                      <h4>Priya Sharma</h4>
+                      <p>Homeowner, Bangalore</p>
+                  </div>
+              </div>
+              <blockquote>
+                  "SparkX's team was incredibly professional. They rewired my entire house, and their work was neat and efficient. The new LED lighting they installed is fantastic and has lowered my energy bills!"
+              </blockquote>
+          </div>
+          <div class="testimonial-card">
+              <div class="testimonial-author">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="testimonial-avatar-icon"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" /></svg>
+                  <div>
+                      <h4>Amit Singh</h4>
+                      <p>Office Manager, Mumbai</p>
+                  </div>
+              </div>
+              <blockquote>
+                  "We hired SparkX for our office's annual maintenance contract. Their response time is excellent, and their technicians are knowledgeable. Our equipment runs smoothly thanks to their proactive service."
+              </blockquote>
+          </div>
+          <div class="testimonial-card">
+              <div class="testimonial-author">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="testimonial-avatar-icon"><path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" /></svg>
+                  <div>
+                      <h4>Sunita Reddy</h4>
+                      <p>DIY Enthusiast, Hyderabad</p>
+                  </div>
+              </div>
+              <blockquote>
+                  "The quality of the components I bought from SparkX is top-notch. Their online store is easy to navigate, and the products are priced fairly. It's my go-to shop for all my electronic projects."
+              </blockquote>
+          </div>
+      </div>
+  </section>
+
   <!-- Footer -->
   <footer>
     <div class="social-icons">
@@ -1101,6 +1301,7 @@
           <div class="admin-tabs">
             <button class="tab-btn active" data-tab="products">Manage Products</button>
             <button class="tab-btn" data-tab="promotion">Manage Promotion</button>
+            <button class="tab-btn" data-tab="verification">Payment Verification</button>
             <button class="tab-btn" data-tab="security">Security</button>
           </div>
 
@@ -1147,6 +1348,14 @@
             </div>
           </div>
           
+          <!-- Verification Tab -->
+          <div id="tab-content-verification" class="admin-tab-content">
+             <h3>Pending Verifications</h3>
+             <div id="pending-verifications-list">
+                <p style="text-align:center; color: #aaa;">No pending verifications.</p>
+             </div>
+          </div>
+
           <!-- Security Tab -->
           <div id="tab-content-security" class="admin-tab-content">
              <div class="admin-form">
@@ -1170,7 +1379,6 @@
                 </form>
             </div>
           </div>
-
       </div>
   </div>
 
@@ -1196,18 +1404,50 @@
       <h2>Scan to Pay</h2>
       <div id="qr-code-container"></div>
       <div id="payment-details"></div>
-      <div class="form-actions" style="justify-content: center; display: flex;"><button id="confirm-payment-btn">Confirm Payment</button></div>
+      <div class="form-actions" style="justify-content: center; display: flex;"><button id="confirm-payment-btn">I Have Paid</button></div>
     </div>
   </div>
+  
+  <!-- Payment Verification Modal -->
+  <div id="payment-verification-modal" class="modal">
+      <div class="modal-content">
+          <span class="close-btn">&times;</span>
+          <h2>Submit Payment Details</h2>
+          <p>Please upload a screenshot of your payment confirmation to verify your order.</p>
+          <form id="payment-verification-form">
+              <div class="form-group">
+                  <label for="payment-screenshot">Payment Screenshot (Required)</label>
+                  <input type="file" id="payment-screenshot" accept="image/*" required>
+                  <img id="screenshot-preview" src="" alt="Screenshot Preview" style="display:none;">
+              </div>
+              <div class="form-group">
+                  <label for="banking-name">Your Name (as in bank account) (Optional)</label>
+                  <input type="text" id="banking-name">
+              </div>
+              <div class="form-group">
+                  <label for="contact-no">Contact No. (Optional)</label>
+                  <input type="tel" id="contact-no">
+              </div>
+              <div class="form-group">
+                  <label for="upi-id">UPI ID (Optional)</label>
+                  <input type="text" id="upi-id" placeholder="e.g., yourname@okhdfc">
+              </div>
+              <div class="form-actions"><button type="submit">Submit for Verification</button></div>
+          </form>
+      </div>
+  </div>
+
 
   <!-- Order Confirmation Modal -->
   <div id="confirmation-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <h2>Thank You! Order Confirmed.</h2>
-        <p>Your order has been successfully placed. A summary has been provided below.</p>
-        <div class="confirmation-summary"></div>
-        <div class="tracking-id"></div>
+        <div id="confirmation-content">
+            <h2>Thank You! Order Received.</h2>
+            <p>Your order is awaiting payment verification. You will be able to track it once confirmed.</p>
+            <div class="confirmation-summary"></div>
+            <div class="tracking-id" style="display:none;"></div>
+        </div>
     </div>
   </div>
 
@@ -1239,7 +1479,7 @@
         <form id="order-search-form">
             <div class="form-group">
                 <label for="order-search-input">Tracking ID or Mobile</label>
-                <input type="search" id="order-search-input" placeholder="e.g., SPARKX-A1B2C3D4 or 9120...">
+                <input type="search" id="order-search-input" placeholder="e.g., SPARKX-IN1001 or 9120...">
             </div>
             <div class="form-actions" style="justify-content:flex-end; display:flex;">
                 <button type="submit">Search</button>
@@ -1440,6 +1680,7 @@
                 loginError.style.display = 'none';
                 openModal(adminModal);
                 renderAdminProducts();
+                renderPendingVerifications();
                 loadPromotionDataIntoForm();
                 resetAdminForm();
             } else {
@@ -1471,9 +1712,12 @@
                 const tabId = tabButton.dataset.tab;
                 document.querySelectorAll('.admin-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active'));
+                
                 tabButton.classList.add('active');
                 const activeContent = document.getElementById(`tab-content-${tabId}`);
-                if (activeContent) activeContent.classList.add('active');
+                if (activeContent) {
+                   activeContent.classList.add('active');
+                }
             }
         });
         
@@ -1751,30 +1995,151 @@
                 alert('Please fill in all delivery details.');
             }
         });
+        
+        const paymentVerificationModal = document.getElementById('payment-verification-modal');
+        const paymentVerificationForm = document.getElementById('payment-verification-form');
 
         document.getElementById('confirm-payment-btn').addEventListener('click', () => {
             closeModal(paymentModal);
-            const trackingId = `SPARKX-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
+            openModal(paymentVerificationModal);
+        });
 
-            const order = {
-                product: currentProductForPurchase,
-                customer: currentCustomerDetails,
-                trackingId: trackingId,
-                date: new Date().toLocaleString()
+        document.getElementById('payment-screenshot').addEventListener('change', function() {
+            const preview = document.getElementById('screenshot-preview');
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        
+        paymentVerificationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const screenshotFile = document.getElementById('payment-screenshot').files[0];
+            const bankingName = document.getElementById('banking-name').value;
+            const contactNo = document.getElementById('contact-no').value;
+            const upiId = document.getElementById('upi-id').value;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const screenshotDataUrl = event.target.result;
+
+                const order = {
+                    orderId: Date.now() + '-' + currentCustomerDetails.mobile,
+                    product: currentProductForPurchase,
+                    customer: currentCustomerDetails,
+                    paymentProof: {
+                        screenshotDataUrl,
+                        bankingName,
+                        contactNo,
+                        upiId
+                    },
+                    status: 'pending', // pending, confirmed, rejected
+                    date: new Date().toLocaleString()
+                };
+
+                const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+                orders.push(order);
+                localStorage.setItem('sparkxOrders', JSON.stringify(orders));
+
+                closeModal(paymentVerificationModal);
+                paymentVerificationForm.reset();
+                document.getElementById('screenshot-preview').style.display = 'none';
+                
+                showConfirmation(order);
             };
+            reader.readAsDataURL(screenshotFile);
+        });
+        
+        function showConfirmation(order) {
+            const confirmationContent = document.getElementById('confirmation-content');
+            const summaryContainer = confirmationContent.querySelector('.confirmation-summary');
+            const trackingIdContainer = confirmationContent.querySelector('.tracking-id');
+            const headline = confirmationContent.querySelector('h2');
+            const subtext = confirmationContent.querySelector('p');
 
-            const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
-            orders.push(order);
-            localStorage.setItem('sparkxOrders', JSON.stringify(orders));
-
-            document.querySelector('#confirmation-modal .confirmation-summary').innerHTML = `
+            summaryContainer.innerHTML = `
                 <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${order.product.name}</span></div>
                 <div class="summary-item"><span class="summary-label">Amount Paid:</span><span class="summary-value">${order.product.price}</span></div>
-                <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>
-                <div class="summary-item"><span class="summary-label">Contact:</span><span class="summary-value">${order.customer.mobile}</span></div>
-                <div class="summary-item"><span class="summary-label">Address:</span><span class="summary-value">${order.customer.address}</span></div>`;
-            document.querySelector('#confirmation-modal .tracking-id').innerHTML = `Tracking ID: ${order.trackingId}`;
+                <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>`;
+
+            if (order.status === 'confirmed') {
+                headline.textContent = 'Thank You! Order Confirmed.';
+                subtext.textContent = 'Your order has been successfully placed. Your tracking ID is below.';
+                trackingIdContainer.textContent = `Tracking ID: ${order.trackingId}`;
+                trackingIdContainer.style.display = 'block';
+            } else { // pending
+                headline.textContent = 'Thank You! Order Received.';
+                subtext.textContent = 'Your order is awaiting payment verification. You will be able to track it here once confirmed.';
+                trackingIdContainer.style.display = 'none';
+            }
             openModal(confirmationModal);
+        }
+
+        const renderPendingVerifications = () => {
+            const listContainer = document.getElementById('pending-verifications-list');
+            const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+            const pendingOrders = allOrders.filter(o => o.status === 'pending');
+
+            if (pendingOrders.length === 0) {
+                listContainer.innerHTML = '<p style="text-align:center; color: #aaa;">No pending verifications.</p>';
+                return;
+            }
+
+            listContainer.innerHTML = pendingOrders.map(order => `
+                <div class="pending-order-card">
+                    <div class="order-info">
+                        <h4>Order Details</h4>
+                        <p><strong>Product:</strong> ${order.product.name}</p>
+                        <p><strong>Price:</strong> ${order.product.price}</p>
+                        <p><strong>Customer:</strong> ${order.customer.name}</p>
+                        <p><strong>Mobile:</strong> ${order.customer.mobile}</p>
+                        <p><strong>Address:</strong> ${order.customer.address}</p>
+                        <p><strong>Date:</strong> ${order.date}</p>
+                    </div>
+                    <div class="payment-proof">
+                        <h4>Payment Proof</h4>
+                        <a href="${order.paymentProof.screenshotDataUrl}" target="_blank" rel="noopener noreferrer">
+                            <img src="${order.paymentProof.screenshotDataUrl}" alt="Screenshot">
+                        </a>
+                        ${order.paymentProof.bankingName ? `<p><strong>Bank Name:</strong> ${order.paymentProof.bankingName}</p>` : ''}
+                        ${order.paymentProof.contactNo ? `<p><strong>Contact:</strong> ${order.paymentProof.contactNo}</p>` : ''}
+                        ${order.paymentProof.upiId ? `<p><strong>UPI ID:</strong> ${order.paymentProof.upiId}</p>` : ''}
+                    </div>
+                    <div class="verification-actions">
+                        <button class="approve-btn" data-order-id="${order.orderId}">Approve</button>
+                        <button class="reject-btn" data-order-id="${order.orderId}">Reject</button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        document.getElementById('pending-verifications-list').addEventListener('click', (e) => {
+            const orderId = e.target.dataset.orderId;
+            if (!orderId) return;
+
+            let allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+            const orderIndex = allOrders.findIndex(o => o.orderId === orderId);
+
+            if (orderIndex === -1) return;
+
+            if (e.target.classList.contains('approve-btn')) {
+                let counter = parseInt(localStorage.getItem('sparkxTrackingCounter') || '1000');
+                counter++;
+                allOrders[orderIndex].status = 'confirmed';
+                allOrders[orderIndex].trackingId = `SPARKX-IN${counter}`;
+                localStorage.setItem('sparkxTrackingCounter', counter);
+                alert(`Order approved. Tracking ID: ${allOrders[orderIndex].trackingId}`);
+            } else if (e.target.classList.contains('reject-btn')) {
+                allOrders[orderIndex].status = 'rejected';
+                alert('Order rejected.');
+            }
+            
+            localStorage.setItem('sparkxOrders', JSON.stringify(allOrders));
+            renderPendingVerifications();
         });
         
         const myOrdersModal = document.getElementById('my-orders-modal');
@@ -1787,25 +2152,34 @@
 
         document.getElementById('order-search-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const searchTerm = document.getElementById('order-search-input').value.trim();
+            const searchTerm = document.getElementById('order-search-input').value.trim().toUpperCase();
             const resultsContainer = document.getElementById('order-search-results');
             if (!searchTerm) return;
             
             const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
-            const foundOrders = allOrders.filter(order => order.trackingId === searchTerm || order.customer.mobile === searchTerm);
+            const foundOrders = allOrders.filter(order => 
+                (order.trackingId && order.trackingId.toUpperCase() === searchTerm) || 
+                (order.customer.mobile === searchTerm.replace(/\s/g, ''))
+            );
+            
+            const getStatusBadge = (status) => {
+                if (status === 'confirmed') return `<span class="status-badge status-confirmed">Confirmed</span>`;
+                if (status === 'rejected') return `<span class="status-badge status-rejected">Rejected</span>`;
+                return `<span class="status-badge status-pending">Pending</span>`;
+            };
 
             if (foundOrders.length > 0) {
                 resultsContainer.innerHTML = foundOrders.map(order => `
                     <div class="order-result-card">
                         <div class="order-result-header">
-                            <strong>Order Date:</strong> ${order.date}<br>
-                            <strong>Tracking ID:</strong> ${order.trackingId}
+                            <div><strong>Order Date:</strong> ${order.date}</div>
+                            ${getStatusBadge(order.status)}
                         </div>
                         <div class="order-result-body">
                            <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${order.product.name}</span></div>
                            <div class="summary-item"><span class="summary-label">Price:</span><span class="summary-value">${order.product.price}</span></div>
                            <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>
-                           <div class="summary-item"><span class="summary-label">Address:</span><span class="summary-value">${order.customer.address}</span></div>
+                           ${order.status === 'confirmed' ? `<div class="summary-item"><span class="summary-label">Tracking ID:</span><span class="summary-value">${order.trackingId}</span></div>` : ''}
                         </div>
                     </div>`).join('');
             } else {
