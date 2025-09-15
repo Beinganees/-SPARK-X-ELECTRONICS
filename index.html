@@ -18,6 +18,10 @@
       --glass-border: rgba(0, 255, 255, 0.2);
     }
     
+    * {
+      box-sizing: border-box;
+    }
+    
     html {
       scroll-behavior: smooth;
     }
@@ -626,10 +630,12 @@
         top: 0;
         width: 100%;
         height: 100%;
-        overflow: auto;
         background-color: rgba(0,0,0,0.7);
         backdrop-filter: blur(5px);
         animation: fadeIn 0.3s ease-out;
+        /* Added for flex centering */
+        align-items: center;
+        justify-content: center;
     }
     
     @keyframes fadeIn {
@@ -640,7 +646,7 @@
     .modal-content {
         background: rgba(15, 25, 45, 0.8);
         backdrop-filter: blur(20px);
-        margin: 10% auto;
+        margin: 0;
         padding: 2rem;
         border: 1px solid rgba(0,255,255,0.3);
         width: 90%;
@@ -649,6 +655,8 @@
         box-shadow: 0 0 30px rgba(0,255,255,0.2);
         color: #fff;
         position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
     }
     
     .modal-content h2 {
@@ -788,7 +796,6 @@
 
     input[type="text"], input[type="tel"], input[type="password"], textarea, input[type="search"], input[type="file"] {
         width: 100%;
-        box-sizing: border-box;
         padding: 0.7rem;
         border-radius: 5px;
         border: 1px solid rgba(0,255,255,0.3);
@@ -1018,7 +1025,24 @@
         border: 1px solid #dc3545;
         color: white;
     }
-
+    
+    /* Order Success Modal */
+    .success-icon circle {
+        animation: success-circle-anim 0.6s ease-in-out;
+    }
+    .success-icon path {
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: success-check-anim 0.4s 0.3s ease-in-out forwards;
+    }
+    @keyframes success-circle-anim {
+        from { transform: scale(0); }
+        to { transform: scale(1); }
+    }
+    @keyframes success-check-anim {
+        from { stroke-dashoffset: 48; }
+        to { stroke-dashoffset: 0; }
+    }
   </style>
 </head>
 <body>
@@ -1324,7 +1348,7 @@
                       <div class="form-group"><label for="product-image">Product Image (Optional)</label><input type="file" id="product-image" accept="image/*"></div>
                       <div class="form-group image-preview-container">
                           <img id="image-preview" src="" alt="Image Preview" style="display: none;">
-                          <button type="button" id="remove-image-btn" style="display: none;">Remove Image</button>
+                          <button type="button" id="remove-image-btn" style="display: none;">Remove Current Image</button>
                       </div>
                   </div>
                   <div class="form-actions">
@@ -1438,15 +1462,28 @@
   </div>
 
 
-  <!-- Order Confirmation Modal -->
-  <div id="confirmation-modal" class="modal">
+  <!-- Order Submission Pending Modal -->
+  <div id="submission-pending-modal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <div id="confirmation-content">
-            <h2>Thank You! Order Received.</h2>
-            <p>Your order is awaiting payment verification. You will be able to track it once confirmed.</p>
+        <div id="submission-pending-content">
+            <h2>Payment Submitted for Verification</h2>
+            <p>Your order is now pending. You can check its status using the 'My Orders' button with your mobile number. A tracking ID will be available there once the order is confirmed.</p>
             <div class="confirmation-summary"></div>
-            <div class="tracking-id" style="display:none;"></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Order Success Modal -->
+  <div id="order-success-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div id="order-success-content" style="text-align: center;">
+            <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" style="width: 80px; height: 80px; margin: 0 auto 1.5rem;"><circle cx="26" cy="26" r="25" fill="#28a745" /><path fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M14 27l5 5 16-16"/></svg>
+            <h2>Order Confirmed!</h2>
+            <p>Your payment has been verified and your order is being processed.</p>
+            <div class="order-details-summary"></div>
+            <div class="tracking-id" style="margin-top:1.5rem;"></div>
         </div>
     </div>
   </div>
@@ -1846,15 +1883,20 @@
                     productPriceInput.value = priceEl.dataset.originalPrice || priceEl.textContent;
                     productDescriptionInput.value = card.querySelector('.product-description').textContent;
                     const imageEl = card.querySelector('.img-container img');
+                    const imageLabel = document.querySelector('label[for="product-image"]');
                     
                     if (imageEl) {
                         imagePreview.src = imageEl.src;
                         imagePreview.style.display = 'block';
                         removeImageBtn.style.display = 'inline-block';
+                        imageLabel.textContent = 'Replace Current Image (Optional)';
                     } else {
                          imagePreview.style.display = 'none';
                          removeImageBtn.style.display = 'none';
+                         imageLabel.textContent = 'Add Product Image (Optional)';
                     }
+                    removeImageBtn.textContent = 'Remove Current Image';
+
 
                     formTitle.textContent = 'Edit Product';
                     formSubmitBtn.textContent = 'Save Changes';
@@ -1893,6 +1935,8 @@
             imagePreview.style.display = 'none';
             removeImageBtn.style.display = 'none';
             removeImageFlag.value = 'false';
+            document.querySelector('label[for="product-image"]').textContent = 'Product Image (Optional)';
+            removeImageBtn.textContent = 'Remove Image';
             formTitle.textContent = 'Add New Product';
             formSubmitBtn.textContent = 'Add Product';
             formCancelBtn.style.display = 'none';
@@ -1916,8 +1960,17 @@
 
 
         const allModals = document.querySelectorAll('.modal');
-        function openModal(modal) { modal.style.display = 'block'; }
-        function closeModal(modal) { modal.style.display = 'none'; }
+        function openModal(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            const isAnyModalOpen = Array.from(allModals).some(m => m.style.display === 'flex');
+            if (!isAnyModalOpen) {
+                document.body.style.overflow = '';
+            }
+        }
         
         allModals.forEach(modal => {
             modal.querySelector('.close-btn').onclick = () => closeModal(modal);
@@ -1931,7 +1984,7 @@
 
         const deliveryModal = document.getElementById('delivery-modal');
         const paymentModal = document.getElementById('payment-modal');
-        const confirmationModal = document.getElementById('confirmation-modal');
+        const submissionPendingModal = document.getElementById('submission-pending-modal');
         const quickViewModal = document.getElementById('quick-view-modal');
         const deliveryForm = document.getElementById('delivery-form');
         const upiId = '9120795494@ybl';
@@ -2049,34 +2102,21 @@
                 paymentVerificationForm.reset();
                 document.getElementById('screenshot-preview').style.display = 'none';
                 
-                showConfirmation(order);
+                showSubmissionPending(order);
             };
             reader.readAsDataURL(screenshotFile);
         });
         
-        function showConfirmation(order) {
-            const confirmationContent = document.getElementById('confirmation-content');
-            const summaryContainer = confirmationContent.querySelector('.confirmation-summary');
-            const trackingIdContainer = confirmationContent.querySelector('.tracking-id');
-            const headline = confirmationContent.querySelector('h2');
-            const subtext = confirmationContent.querySelector('p');
+        function showSubmissionPending(order) {
+            const content = document.getElementById('submission-pending-content');
+            const summaryContainer = content.querySelector('.confirmation-summary');
 
             summaryContainer.innerHTML = `
                 <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${order.product.name}</span></div>
                 <div class="summary-item"><span class="summary-label">Amount Paid:</span><span class="summary-value">${order.product.price}</span></div>
                 <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>`;
-
-            if (order.status === 'confirmed') {
-                headline.textContent = 'Thank You! Order Confirmed.';
-                subtext.textContent = 'Your order has been successfully placed. Your tracking ID is below.';
-                trackingIdContainer.textContent = `Tracking ID: ${order.trackingId}`;
-                trackingIdContainer.style.display = 'block';
-            } else { // pending
-                headline.textContent = 'Thank You! Order Received.';
-                subtext.textContent = 'Your order is awaiting payment verification. You will be able to track it here once confirmed.';
-                trackingIdContainer.style.display = 'none';
-            }
-            openModal(confirmationModal);
+            
+            openModal(submissionPendingModal);
         }
 
         const renderPendingVerifications = () => {
@@ -2143,6 +2183,8 @@
         });
         
         const myOrdersModal = document.getElementById('my-orders-modal');
+        const orderSuccessModal = document.getElementById('order-success-modal');
+
         document.getElementById('my-orders-btn').onclick = (e) => {
             e.preventDefault();
             document.getElementById('order-search-results').innerHTML = '';
@@ -2152,16 +2194,35 @@
 
         document.getElementById('order-search-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const searchTerm = document.getElementById('order-search-input').value.trim().toUpperCase();
+            const searchTerm = document.getElementById('order-search-input').value.trim();
             const resultsContainer = document.getElementById('order-search-results');
             if (!searchTerm) return;
             
             const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
             const foundOrders = allOrders.filter(order => 
-                (order.trackingId && order.trackingId.toUpperCase() === searchTerm) || 
+                (order.trackingId && order.trackingId.toUpperCase() === searchTerm.toUpperCase()) || 
                 (order.customer.mobile === searchTerm.replace(/\s/g, ''))
             );
             
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            // Show a success modal for the first confirmed order found
+            const confirmedOrder = foundOrders.find(o => o.status === 'confirmed');
+            if (confirmedOrder) {
+                const successContent = document.getElementById('order-success-content');
+                const summaryContainer = successContent.querySelector('.order-details-summary');
+                const trackingIdContainer = successContent.querySelector('.tracking-id');
+                
+                summaryContainer.innerHTML = `
+                    <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${confirmedOrder.product.name}</span></div>
+                    <div class="summary-item"><span class="summary-label">Price:</span><span class="summary-value">${confirmedOrder.product.price}</span></div>
+                    <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${confirmedOrder.customer.name}</span></div>
+                `;
+                trackingIdContainer.innerHTML = `<strong>Tracking ID: ${confirmedOrder.trackingId}</strong>`;
+                openModal(orderSuccessModal);
+                return; 
+            }
+
             const getStatusBadge = (status) => {
                 if (status === 'confirmed') return `<span class="status-badge status-confirmed">Confirmed</span>`;
                 if (status === 'rejected') return `<span class="status-badge status-rejected">Rejected</span>`;
