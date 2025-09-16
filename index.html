@@ -495,6 +495,32 @@
         transform: scale(1.05);
     }
     
+    /* Product Variants */
+    .product-variants {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+        min-height: 28px; /* Reserve space to prevent layout shift */
+    }
+    .variant-btn {
+        padding: 0.3rem 0.8rem;
+        border: 1px solid var(--glass-border);
+        border-radius: 50px;
+        background: transparent;
+        color: #ccc;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 0.8rem;
+    }
+    .variant-btn.active, .variant-btn:hover {
+        background: var(--cyan);
+        color: black;
+        border-color: var(--cyan);
+        font-weight: bold;
+    }
+    
     /* Star Ratings */
     .star-rating {
         margin: 0.75rem 0 0.5rem;
@@ -960,6 +986,25 @@
         background: var(--cyan);
         color: black;
     }
+    
+    /* Variant Management in Admin Panel */
+    #variant-list .variant-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem;
+        border-radius: 5px;
+        background: rgba(0,0,0,0.3);
+        margin-bottom: 0.5rem;
+    }
+    #variant-list .variant-item span {
+        flex: 1;
+    }
+    #variant-list .variant-item button {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
 
     .admin-form {
         /* Styles are now handled by .admin-card */
@@ -1444,6 +1489,7 @@
           <h3>High-Speed Ceiling Fan</h3>
           <p class="product-price" data-original-price="₹1199">₹1199</p>
           <div class="star-rating"></div>
+          <div class="product-variants"></div>
           <p class="product-description">A high-performance ceiling fan for maximum airflow.</p>
         </div>
         <div class="product-actions">
@@ -1458,6 +1504,7 @@
           <h3>Portable Table Fan</h3>
           <p class="product-price" data-original-price="₹799">₹799</p>
           <div class="star-rating"></div>
+          <div class="product-variants"></div>
            <p class="product-description">Compact and powerful fan, perfect for personal cooling.</p>
         </div>
         <div class="product-actions">
@@ -1472,6 +1519,7 @@
           <h3>Personal Air Cooler</h3>
           <p class="product-price" data-original-price="₹3499">₹3499</p>
           <div class="star-rating"></div>
+          <div class="product-variants"></div>
           <p class="product-description">Efficient air cooler with honeycomb pads for quick cooling.</p>
         </div>
         <div class="product-actions">
@@ -1486,6 +1534,7 @@
           <h3>9W LED Bulb (Pack of 4)</h3>
           <p class="product-price" data-original-price="₹299">₹299</p>
           <div class="star-rating"></div>
+          <div class="product-variants"></div>
           <p class="product-description">Energy-saving bright white LED bulbs for your home.</p>
         </div>
         <div class="product-actions">
@@ -1500,6 +1549,7 @@
           <h3>1.5mm Copper Wire (90m)</h3>
           <p class="product-price" data-original-price="₹1299">₹1299</p>
           <div class="star-rating"></div>
+          <div class="product-variants"></div>
           <p class="product-description">High-quality, insulated copper wire for safe electrical wiring.</p>
         </div>
         <div class="product-actions">
@@ -1514,6 +1564,7 @@
           <h3>Digital Multimeter</h3>
           <p class="product-price" data-original-price="₹499">₹499</p>
           <div class="star-rating"></div>
+          <div class="product-variants"></div>
           <p class="product-description">A must-have tool for any electronics enthusiast or professional.</p>
         </div>
         <div class="product-actions">
@@ -1571,14 +1622,14 @@
   <section class="gallery" id="gallery-section">
       <h2>Our Gallery</h2>
       <div class="gallery-grid">
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Product+Display" alt="A curated display of various electronic products sold by SparkX." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Workshop" alt="A technician carefully repairing a device in the SparkX workshop." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Expert+Wiring" alt="Neatly organized and installed electrical wiring in a modern home." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Team+At+Work" alt="The SparkX team collaborating on a complex project." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Cooler+Servicing" alt="Close-up of a high-performance air cooler being serviced." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Component+Stock" alt="Shelves stocked with various high-quality electronic components." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=LED+Installation" alt="A beautifully lit room showcasing a professional LED installation." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Happy+Customer" alt="A satisfied customer with their newly installed ceiling fan." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=High-Speed+Fan" alt="A sleek, modern high-speed ceiling fan from SparkX." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Portable+Fan" alt="A compact and powerful portable table fan." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Air+Cooler" alt="An efficient personal air cooler with advanced cooling technology." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=LED+Bulbs" alt="A pack of bright, energy-saving 9W LED bulbs." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Copper+Wire" alt="A 90-meter coil of high-quality 1.5mm insulated copper wire." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Multimeter" alt="A precise digital multimeter, an essential tool for electronics work." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Expert+Repair" alt="A technician skillfully servicing electronic equipment in the workshop." loading="lazy"></div>
+          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Wiring+Solutions" alt="A neatly organized electrical panel showcasing our complete wiring solutions." loading="lazy"></div>
       </div>
   </section>
 
@@ -1660,7 +1711,13 @@
                               <div class="form-group"><label for="product-sale-price">Sale Price (Optional)</label><input type="text" id="product-sale-price" placeholder="e.g., ₹999"></div>
                           </div>
                           <div class="form-group"><label for="product-description-input">Description</label><textarea id="product-description-input" required></textarea></div>
-                           <div class="form-row">
+                           <div class="admin-card" style="background: rgba(0,0,0,0.5);">
+                              <h3 style="margin-top:0; text-align: left;">Manage Variants</h3>
+                              <p style="font-size: 0.8rem; color: #aaa; margin-top: -1rem; margin-bottom: 1rem;">Add variants like colors or sizes. Leave price fields blank to use the main product price.</p>
+                              <div id="variant-list"></div>
+                              <button type="button" id="add-variant-btn" style="padding: 0.5rem 1rem; border-radius: 5px; margin-top: 1rem; border:1px solid var(--cyan); background:transparent; color: var(--cyan); cursor:pointer;">+ Add Variant</button>
+                          </div>
+                           <div class="form-row" style="margin-top:2rem">
                               <div class="form-group"><label for="product-image">Product Image (Optional)</label><input type="file" id="product-image" accept="image/*"></div>
                               <div class="form-group image-preview-container">
                                   <img id="image-preview" src="" alt="Image Preview" style="display: none;">
@@ -1807,7 +1864,9 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <h2 id="quick-view-modal-title" style="text-align: center; margin-bottom: 1.5rem;">Product Details</h2>
-      <div id="quick-view-content"></div>
+      <div id="quick-view-content">
+        <!-- Content will be injected by JS -->
+      </div>
       <div class="rating-submission">
           <h4>Rate this product:</h4>
           <div class="rating-input" data-product-id="">
@@ -1840,6 +1899,33 @@
         <div id="order-search-results"></div>
     </div>
   </div>
+  
+  <!-- Variant Modal (for Admin) -->
+  <div id="variant-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="variant-modal-title">
+    <div class="modal-content" style="max-width: 400px;">
+      <span class="close-btn">&times;</span>
+      <h2 id="variant-modal-title">Add Variant</h2>
+      <form id="variant-form">
+        <input type="hidden" id="variant-id-input">
+        <div class="form-group">
+          <label for="variant-name-input">Variant Name (e.g., Red, 128GB)</label>
+          <input type="text" id="variant-name-input" required>
+        </div>
+        <div class="form-group">
+          <label for="variant-price-input">Variant Price (Optional)</label>
+          <input type="text" id="variant-price-input" placeholder="Overrides main price">
+        </div>
+        <div class="form-group">
+          <label for="variant-sale-price-input">Variant Sale Price (Optional)</label>
+          <input type="text" id="variant-sale-price-input" placeholder="Overrides sale price">
+        </div>
+        <div class="form-actions">
+          <button type="submit">Save Variant</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 
   <!-- Gallery Lightbox -->
   <div id="gallery-lightbox" class="lightbox">
@@ -1894,6 +1980,7 @@
         let currentProductForPurchase = {};
         let currentCustomerDetails = {};
         let activeDiscountPercent = 0;
+        let currentEditingVariants = [];
         
         // --- Hamburger Menu Logic ---
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -1969,45 +2056,6 @@
           const match = text.match(/\b(\d{1,3})\s*%/);
           return match ? parseInt(match[1], 10) : 0;
         };
-        
-        const updateAllProductPrices = () => {
-            document.querySelectorAll('.product-card').forEach(card => {
-                const priceEl = card.querySelector('.product-price');
-                const saleBadge = card.querySelector('.sale-badge');
-                if (!priceEl.dataset.originalPrice) {
-                    priceEl.dataset.originalPrice = priceEl.textContent;
-                }
-                
-                const originalPriceText = priceEl.dataset.originalPrice;
-                const originalPriceNum = parseFloat(originalPriceText.replace('₹', ''));
-                const individualSalePriceText = card.dataset.salePrice;
-                const individualSalePriceNum = individualSalePriceText ? parseFloat(individualSalePriceText.replace('₹', '')) : null;
-
-                let finalPrice = originalPriceNum;
-                let discountPercent = 0;
-                
-                if (individualSalePriceNum && individualSalePriceNum < originalPriceNum) {
-                    finalPrice = individualSalePriceNum;
-                    discountPercent = Math.round(((originalPriceNum - finalPrice) / originalPriceNum) * 100);
-                } else if (activeDiscountPercent > 0) {
-                    finalPrice = Math.round(originalPriceNum * (1 - activeDiscountPercent / 100));
-                    discountPercent = activeDiscountPercent;
-                }
-
-                if (discountPercent > 0 && finalPrice < originalPriceNum) {
-                    priceEl.innerHTML = `<del>${originalPriceText}</del> <ins>₹${finalPrice}</ins>`;
-                    if(saleBadge) {
-                        saleBadge.textContent = `${discountPercent}% OFF`;
-                        saleBadge.style.display = 'block';
-                    }
-                } else {
-                    priceEl.innerHTML = originalPriceText;
-                    if(saleBadge) {
-                        saleBadge.style.display = 'none';
-                    }
-                }
-            });
-        };
 
         const updatePromotionBanner = () => {
             const promotionData = JSON.parse(localStorage.getItem('promotionData'));
@@ -2021,7 +2069,7 @@
                 promotionBanner.style.display = 'none';
                 activeDiscountPercent = 0;
             }
-            updateAllProductPrices();
+            refreshAllProductsUI();
         };
         
         const loadPromotionDataIntoForm = () => {
@@ -2044,6 +2092,86 @@
             updatePromotionBanner();
             alert('Promotion updated!');
         });
+        
+        // --- Product Variant & Price Rendering Logic ---
+        const refreshAllProductsUI = () => {
+            document.querySelectorAll('.product-card').forEach(card => {
+                renderFrontendVariants(card);
+            });
+        };
+        
+        const renderFrontendVariants = (card) => {
+            const variantsContainer = card.querySelector('.product-variants');
+            if (!variantsContainer) return;
+            
+            const variantsJson = card.dataset.variants;
+            const variants = variantsJson ? JSON.parse(variantsJson) : [];
+            
+            variantsContainer.innerHTML = '';
+            
+            if (variants.length > 0) {
+                variants.forEach(variant => {
+                    const btn = document.createElement('button');
+                    btn.className = 'variant-btn';
+                    btn.dataset.variantId = variant.id;
+                    btn.textContent = variant.name;
+                    btn.onclick = () => updateProductDisplay(card, variant.id);
+                    variantsContainer.appendChild(btn);
+                });
+                updateProductDisplay(card, variants[0].id); // Select first variant by default
+            } else {
+                updateProductDisplay(card, null); // Render with no variants
+            }
+        };
+
+        const updateProductDisplay = (card, selectedVariantId) => {
+            const priceEl = card.querySelector('.product-price');
+            const saleBadge = card.querySelector('.sale-badge');
+            
+            const baseOriginalPriceText = card.querySelector('.product-price').dataset.originalPrice;
+            const baseSalePriceText = card.dataset.salePrice;
+            const variantsJson = card.dataset.variants;
+            const variants = variantsJson ? JSON.parse(variantsJson) : [];
+            
+            let selectedVariant = null;
+            if (selectedVariantId) {
+                selectedVariant = variants.find(v => v.id == selectedVariantId);
+                // Update active button state
+                card.querySelectorAll('.variant-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.variantId == selectedVariantId);
+                });
+            }
+
+            // Determine final prices
+            let originalPriceText = selectedVariant?.price || baseOriginalPriceText;
+            let salePriceText = selectedVariant?.salePrice || baseSalePriceText;
+
+            const originalPriceNum = parseFloat(originalPriceText.replace('₹', ''));
+            const salePriceNum = salePriceText ? parseFloat(salePriceText.replace('₹', '')) : null;
+
+            let finalPrice = originalPriceNum;
+            let discountPercent = 0;
+            
+            if (salePriceNum && salePriceNum < originalPriceNum) {
+                finalPrice = salePriceNum;
+                discountPercent = Math.round(((originalPriceNum - finalPrice) / originalPriceNum) * 100);
+            } else if (activeDiscountPercent > 0) {
+                finalPrice = Math.round(originalPriceNum * (1 - activeDiscountPercent / 100));
+                discountPercent = activeDiscountPercent;
+            }
+
+            if (discountPercent > 0 && finalPrice < originalPriceNum) {
+                priceEl.innerHTML = `<del>${originalPriceText}</del> <ins>₹${finalPrice}</ins>`;
+                if(saleBadge) {
+                    saleBadge.textContent = `${discountPercent}% OFF`;
+                    saleBadge.style.display = 'block';
+                }
+            } else {
+                priceEl.innerHTML = originalPriceText;
+                if(saleBadge) saleBadge.style.display = 'none';
+            }
+        };
+
 
         // --- Admin Authentication ---
         const DEFAULT_USER_ID = 'anees0121';
@@ -2184,33 +2312,31 @@
             const imageFile = productImageInput.files[0];
 
             const processProductUpdate = (imgSrc = null) => {
+                 let cardToUpdate;
                  if (id) { // Editing
-                    const cardToUpdate = productGrid.querySelector(`.product-card[data-id="${id}"]`);
+                    cardToUpdate = productGrid.querySelector(`.product-card[data-id="${id}"]`);
                     if (cardToUpdate) {
                         cardToUpdate.querySelector('h3').textContent = name;
                         const priceEl = cardToUpdate.querySelector('.product-price');
                         priceEl.textContent = price;
                         priceEl.dataset.originalPrice = price;
-                        if (salePrice) {
-                            cardToUpdate.dataset.salePrice = salePrice;
-                        } else {
-                            cardToUpdate.removeAttribute('data-sale-price');
-                        }
+                        if (salePrice) cardToUpdate.dataset.salePrice = salePrice;
+                        else cardToUpdate.removeAttribute('data-sale-price');
                         cardToUpdate.querySelector('.product-description').textContent = description;
-                        const imgContainer = cardToUpdate.querySelector('.img-container');
                         
-                        if (removeImageFlag.value === 'true') {
-                            imgContainer.innerHTML = 'No Image';
-                        } else if (imgSrc) {
-                            imgContainer.innerHTML = `<img src="${imgSrc}" alt="${name}" loading="lazy">`;
-                        }
+                        cardToUpdate.dataset.variants = JSON.stringify(currentEditingVariants);
+
+                        const imgContainer = cardToUpdate.querySelector('.img-container');
+                        if (removeImageFlag.value === 'true') imgContainer.innerHTML = 'No Image';
+                        else if (imgSrc) imgContainer.innerHTML = `<img src="${imgSrc}" alt="${name}" loading="lazy">`;
                     }
                 } else { // Adding
+                    const newId = nextId++;
                     const newCard = document.createElement('div');
                     newCard.className = 'product-card';
-                    const newId = nextId++;
                     newCard.dataset.id = newId;
                     if (salePrice) newCard.dataset.salePrice = salePrice;
+                    newCard.dataset.variants = JSON.stringify(currentEditingVariants);
                     newCard.innerHTML = `
                         <div class="sale-badge" style="display: none;">Sale</div>
                         <div class="img-container">${imgSrc ? `<img src="${imgSrc}" alt="${name}" loading="lazy">` : 'No Image'}</div>
@@ -2218,14 +2344,17 @@
                             <h3>${name}</h3>
                             <p class="product-price" data-original-price="${price}">${price}</p>
                             <div class="star-rating"></div>
+                            <div class="product-variants"></div>
                             <p class="product-description">${description}</p>
                         </div>
                         <div class="product-actions"><button class="quick-view-btn">Quick View</button><button class="buy-now-btn">Buy Now</button></div>`;
                     productGrid.appendChild(newCard);
+                    cardToUpdate = newCard;
                     renderStarRating(newCard.querySelector('.star-rating'), newId);
                     addCardHoverEffect(newCard);
                 }
-                updateAllProductPrices();
+                
+                renderFrontendVariants(cardToUpdate);
                 renderAdminProducts();
                 resetAdminForm();
             };
@@ -2258,6 +2387,11 @@
                     productPriceInput.value = priceEl.dataset.originalPrice || priceEl.textContent;
                     productSalePriceInput.value = card.dataset.salePrice || '';
                     productDescriptionInput.value = card.querySelector('.product-description').textContent;
+                    
+                    const variantsJson = card.dataset.variants;
+                    currentEditingVariants = variantsJson ? JSON.parse(variantsJson) : [];
+                    renderAdminVariantList();
+                    
                     const imageEl = card.querySelector('.img-container img');
                     const imageLabel = document.querySelector('label[for="product-image"]');
                     
@@ -2278,7 +2412,6 @@
                     formSubmitBtn.textContent = 'Save Changes';
                     formCancelBtn.style.display = 'inline-block';
                     
-                    // Scroll form into view
                     document.querySelector('.admin-main-content').scrollTop = document.querySelector('.admin-main-content').scrollHeight;
                 }
             }
@@ -2319,7 +2452,88 @@
             formTitle.textContent = 'Add New Product';
             formSubmitBtn.textContent = 'Add Product';
             formCancelBtn.style.display = 'none';
+            currentEditingVariants = [];
+            renderAdminVariantList();
         };
+        
+        // --- Admin Panel Variant Management ---
+        const variantModal = document.getElementById('variant-modal');
+        const variantForm = document.getElementById('variant-form');
+        const variantIdInput = document.getElementById('variant-id-input');
+        const variantNameInput = document.getElementById('variant-name-input');
+        const variantPriceInput = document.getElementById('variant-price-input');
+        const variantSalePriceInput = document.getElementById('variant-sale-price-input');
+        
+        document.getElementById('add-variant-btn').onclick = () => {
+            variantForm.reset();
+            variantIdInput.value = '';
+            variantModal.querySelector('h2').textContent = 'Add Variant';
+            openModal(variantModal);
+        };
+        
+        variantForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const variantId = variantIdInput.value;
+            const newVariant = {
+                id: variantId ? variantId : Date.now(),
+                name: variantNameInput.value,
+                price: variantPriceInput.value,
+                salePrice: variantSalePriceInput.value,
+            };
+            
+            if (variantId) { // Editing
+                const index = currentEditingVariants.findIndex(v => v.id == variantId);
+                if (index > -1) currentEditingVariants[index] = newVariant;
+            } else { // Adding
+                currentEditingVariants.push(newVariant);
+            }
+            renderAdminVariantList();
+            closeModal(variantModal);
+        });
+
+        const renderAdminVariantList = () => {
+            const listEl = document.getElementById('variant-list');
+            listEl.innerHTML = '';
+            currentEditingVariants.forEach(variant => {
+                const item = document.createElement('div');
+                item.className = 'variant-item';
+                item.innerHTML = `
+                    <span>${variant.name}</span>
+                    <span>${variant.salePrice ? `<del>${variant.price}</del> <ins>${variant.salePrice}</ins>` : variant.price || 'Uses main price'}</span>
+                    <div>
+                        <button type="button" class="edit-variant-btn" data-id="${variant.id}">Edit</button>
+                        <button type="button" class="delete-variant-btn" data-id="${variant.id}" style="background:#dc3545; border-color:#dc3545; color:white;">Del</button>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+        };
+        
+        document.getElementById('variant-list').addEventListener('click', (e) => {
+            const variantId = e.target.dataset.id;
+            if (!variantId) return;
+            
+            if (e.target.classList.contains('edit-variant-btn')) {
+                const variant = currentEditingVariants.find(v => v.id == variantId);
+                if (variant) {
+                    variantForm.reset();
+                    variantIdInput.value = variant.id;
+                    variantNameInput.value = variant.name;
+                    variantPriceInput.value = variant.price;
+                    variantSalePriceInput.value = variant.salePrice;
+                    variantModal.querySelector('h2').textContent = 'Edit Variant';
+                    openModal(variantModal);
+                }
+            }
+            
+            if (e.target.classList.contains('delete-variant-btn')) {
+                if (confirm('Delete this variant?')) {
+                    currentEditingVariants = currentEditingVariants.filter(v => v.id != variantId);
+                    renderAdminVariantList();
+                }
+            }
+        });
+
         
         function addCardHoverEffect(card) {
             card.addEventListener('mousemove', (e) => {
@@ -2382,7 +2596,11 @@
         function closeModal(modal) {
             modal.style.display = 'none';
             document.removeEventListener('keydown', trapFocus);
-            currentModal = null;
+            
+            // Check if closing modal is the current one
+            if (currentModal === modal) {
+                 currentModal = null;
+            }
 
             const isAnyModalOpen = Array.from(allModals).some(m => m.style.display === 'flex');
             if (!isAnyModalOpen) {
@@ -2415,27 +2633,38 @@
             if (!card) return;
 
             const productId = card.dataset.id;
-            const name = card.querySelector('h3').textContent;
+            const baseName = card.querySelector('h3').textContent;
             const priceEl = card.querySelector('.product-price');
             const finalPriceText = priceEl.querySelector('ins')?.textContent || priceEl.textContent;
             const description = card.querySelector('.product-description').textContent;
             const imageSrc = card.querySelector('.img-container img')?.src;
+            
+            let finalName = baseName;
+            const activeVariantBtn = card.querySelector('.variant-btn.active');
+            if (activeVariantBtn) {
+                finalName = `${baseName} (${activeVariantBtn.textContent})`;
+            }
 
             if (e.target.classList.contains('buy-now-btn')) {
-                currentProductForPurchase = { name, price: finalPriceText, description, imageSrc };
-                document.getElementById('product-to-buy-info').innerHTML = `<h3>${name}</h3><p class="price">${finalPriceText}</p>`;
+                currentProductForPurchase = { name: finalName, price: finalPriceText, description, imageSrc };
+                document.getElementById('product-to-buy-info').innerHTML = `<h3>${finalName}</h3><p class="price">${finalPriceText}</p>`;
                 openModal(deliveryModal);
             }
             if (e.target.classList.contains('quick-view-btn')) {
-                 const quickViewPriceEl = document.createElement('div');
-                 quickViewPriceEl.className = 'price';
-                 quickViewPriceEl.innerHTML = priceEl.innerHTML;
-
-                document.getElementById('quick-view-content').innerHTML = `
-                    ${imageSrc ? `<img src="${imageSrc}" id="quick-view-img" alt="${name}" loading="lazy">` : ''}
-                    <h3>${name}</h3>
+                 const quickViewContent = document.getElementById('quick-view-content');
+                 quickViewContent.innerHTML = `
+                    ${imageSrc ? `<img src="${imageSrc}" id="quick-view-img" alt="${baseName}" loading="lazy">` : ''}
+                    <h3>${baseName}</h3>
                     <div class="price">${priceEl.innerHTML}</div>
-                    <p class="description">${description}</p>`;
+                    <div class="product-variants"></div>
+                    <p class="description" style="margin-top:1rem">${description}</p>`;
+                
+                const qvCard = quickViewContent.parentElement;
+                qvCard.dataset.variants = card.dataset.variants;
+                qvCard.dataset.salePrice = card.dataset.salePrice;
+                qvCard.querySelector('.price').dataset.originalPrice = priceEl.dataset.originalPrice;
+                
+                renderFrontendVariants(qvCard);
                 
                 const ratingInput = quickViewModal.querySelector('.rating-input');
                 ratingInput.dataset.productId = productId;
@@ -2796,7 +3025,7 @@
         });
 
         // --- Initial Page Load Actions ---
-        updatePromotionBanner(); // This will apply discounts on page load
+        updatePromotionBanner(); // This will apply discounts & variants on page load
     });
   </script>
 </body>
