@@ -1027,7 +1027,7 @@
       font-size: 0.9rem;
       color: #ccc;
     }
-    input[type="text"], input[type="tel"], input[type="password"], textarea, input[type="search"], input[type="file"] {
+    input[type="text"], input[type="tel"], input[type="password"], textarea, input[type="search"], input[type="file"], input[type="email"] {
         width: 100%;
         padding: 0.7rem;
         border-radius: 5px;
@@ -1250,7 +1250,7 @@
         color: white;
     }
     
-    /* Order Success Modal */
+    /* Order Success & Confirmation Modals */
     .success-icon circle {
         animation: success-circle-anim 0.6s ease-in-out;
     }
@@ -1266,6 +1266,47 @@
     @keyframes success-check-anim {
         from { stroke-dashoffset: 48; }
         to { stroke-dashoffset: 0; }
+    }
+    
+    /* Payment Processing Spinner */
+    .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-left-color: var(--cyan);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 1.5rem auto;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Email Confirmation Preview */
+    .email-preview {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: rgba(0,0,0,0.3);
+        border-radius: 10px;
+        border: 1px solid var(--glass-border);
+        text-align: left;
+        font-family: monospace;
+        font-size: 0.9rem;
+        color: #ccc;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+    .email-preview h4 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+    }
+    #email-subject {
+        font-weight: bold;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--glass-border);
     }
     
     @media (max-width: 992px) {
@@ -1786,6 +1827,7 @@
       <form id="delivery-form">
         <div class="form-group"><label for="customer-name">Full Name</label><input type="text" id="customer-name" required></div>
         <div class="form-group"><label for="customer-mobile">Mobile Number</label><input type="tel" id="customer-mobile" required></div>
+        <div class="form-group"><label for="customer-email">Email Address</label><input type="email" id="customer-email" required></div>
         <div class="form-group"><label for="customer-address">Full Address</label><textarea id="customer-address" required></textarea></div>
         <div class="form-actions"><button type="submit" id="proceed-to-pay-btn">Proceed to Pay</button></div>
       </form>
@@ -1799,53 +1841,11 @@
       <h2 id="payment-modal-title">Scan to Pay</h2>
       <div id="qr-code-container"></div>
       <div id="payment-details"></div>
-      <div class="form-actions" style="justify-content: center; display: flex;"><button id="confirm-payment-btn">I Have Paid</button></div>
-    </div>
-  </div>
-  
-  <!-- Payment Verification Modal -->
-  <div id="payment-verification-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payment-verification-modal-title">
-      <div class="modal-content">
-          <span class="close-btn">&times;</span>
-          <h2 id="payment-verification-modal-title">Submit Payment Details</h2>
-          <p>Please upload a screenshot of your payment confirmation to verify your order.</p>
-          <form id="payment-verification-form">
-              <div class="form-group">
-                  <label for="payment-screenshot">Payment Screenshot (Required)</label>
-                  <input type="file" id="payment-screenshot" accept="image/*" required>
-                  <img id="screenshot-preview" src="" alt="Screenshot Preview" style="display:none;">
-              </div>
-              <div class="form-group">
-                  <label for="banking-name">Your Name (as in bank account) (Optional)</label>
-                  <input type="text" id="banking-name">
-              </div>
-              <div class="form-group">
-                  <label for="contact-no">Contact No. (Optional)</label>
-                  <input type="tel" id="contact-no">
-              </div>
-              <div class="form-group">
-                  <label for="upi-id">UPI ID (Optional)</label>
-                  <input type="text" id="upi-id" placeholder="e.g., yourname@okhdfc">
-              </div>
-              <div class="form-actions"><button type="submit">Submit for Verification</button></div>
-          </form>
-      </div>
-  </div>
-
-
-  <!-- Order Submission Pending Modal -->
-  <div id="submission-pending-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="submission-pending-modal-title">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <div id="submission-pending-content">
-            <h2 id="submission-pending-modal-title">Payment Submitted for Verification</h2>
-            <p>Your order is now pending. You can check its status using the 'My Orders' button with your mobile number. A tracking ID will be available there once the order is confirmed.</p>
-            <div class="confirmation-summary"></div>
-        </div>
+      <div class="form-actions" style="justify-content: center; display: flex;"><button id="verify-payment-btn">Verify Payment</button></div>
     </div>
   </div>
 
-  <!-- Order Success Modal -->
+  <!-- Order Success Modal (for search results) -->
   <div id="order-success-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="order-success-modal-title">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
@@ -1856,6 +1856,32 @@
             <div class="order-details-summary"></div>
             <div class="tracking-id" style="margin-top:1.5rem;"></div>
         </div>
+    </div>
+  </div>
+  
+  <!-- NEW: Payment Processing Modal -->
+  <div id="payment-processing-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payment-processing-title">
+    <div class="modal-content" style="text-align: center;">
+      <h2 id="payment-processing-title">Processing Payment</h2>
+      <div class="spinner"></div>
+      <p id="payment-status-text" style="color: #ccc; transition: all 0.3s;">Connecting to your bank securely...</p>
+    </div>
+  </div>
+
+  <!-- NEW: Email Confirmation Modal -->
+  <div id="email-confirmation-modal" class="modal" role="dialog"aria-modal="true" aria-labelledby="email-confirmation-title">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div style="text-align:center;">
+          <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" style="width: 80px; height: 80px; margin: 0 auto 1.5rem;"><circle cx="26" cy="26" r="25" fill="#28a745" /><path fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M14 27l5 5 16-16"/></svg>
+          <h2 id="email-confirmation-title">Order Confirmed!</h2>
+      </div>
+      <p style="text-align:center;">Your order has been successfully placed. A confirmation email has been sent to you.</p>
+      <div class="email-preview">
+          <h4>Email Preview:</h4>
+          <div id="email-subject"></div>
+          <div id="email-body"></div>
+      </div>
     </div>
   </div>
 
@@ -1890,7 +1916,7 @@
         <form id="order-search-form">
             <div class="form-group">
                 <label for="order-search-input">Tracking ID or Mobile</label>
-                <input type="search" id="order-search-input" placeholder="e.g., SPARKX-IN1001 or 9120...">
+                <input type="search" id="order-search-input" placeholder="e.g., ORD-1001 or 9120...">
             </div>
             <div class="form-actions" style="justify-content:flex-end; display:flex;">
                 <button type="submit">Search</button>
@@ -2612,7 +2638,8 @@
         }
         
         allModals.forEach(modal => {
-            modal.querySelector('.close-btn').onclick = () => closeModal(modal);
+            const closeBtn = modal.querySelector('.close-btn');
+            if (closeBtn) closeBtn.onclick = () => closeModal(modal);
         });
         
         window.onclick = (event) => {
@@ -2623,7 +2650,6 @@
 
         const deliveryModal = document.getElementById('delivery-modal');
         const paymentModal = document.getElementById('payment-modal');
-        const submissionPendingModal = document.getElementById('submission-pending-modal');
         const quickViewModal = document.getElementById('quick-view-modal');
         const deliveryForm = document.getElementById('delivery-form');
         const upiId = '9120795494@ybl';
@@ -2678,9 +2704,10 @@
             const name = document.getElementById('customer-name').value;
             const mobile = document.getElementById('customer-mobile').value;
             const address = document.getElementById('customer-address').value;
+            const email = document.getElementById('customer-email').value;
 
-            if (name && mobile && address) {
-                currentCustomerDetails = { name, mobile, address };
+            if (name && mobile && address && email) {
+                currentCustomerDetails = { name, mobile, address, email };
                 closeModal(deliveryModal);
                 deliveryForm.reset();
                 
@@ -2699,76 +2726,67 @@
             }
         });
         
-        const paymentVerificationModal = document.getElementById('payment-verification-modal');
-        const paymentVerificationForm = document.getElementById('payment-verification-form');
-
-        document.getElementById('confirm-payment-btn').addEventListener('click', () => {
+        document.getElementById('verify-payment-btn').addEventListener('click', () => {
             closeModal(paymentModal);
-            openModal(paymentVerificationModal);
-        });
+            const processingModal = document.getElementById('payment-processing-modal');
+            const statusText = document.getElementById('payment-status-text');
+            
+            // Reset status text
+            statusText.textContent = 'Connecting to your bank securely...';
+            openModal(processingModal);
+            
+            setTimeout(() => {
+                statusText.textContent = 'Verifying transaction...';
+            }, 1500);
 
-        document.getElementById('payment-screenshot').addEventListener('change', function() {
-            const preview = document.getElementById('screenshot-preview');
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-        
-        paymentVerificationForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const screenshotFile = document.getElementById('payment-screenshot').files[0];
-            const bankingName = document.getElementById('banking-name').value;
-            const contactNo = document.getElementById('contact-no').value;
-            const upiId = document.getElementById('upi-id').value;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const screenshotDataUrl = event.target.result;
-
+            setTimeout(() => {
+                statusText.textContent = 'Payment confirmed! Generating order...';
+            }, 3000);
+            
+            setTimeout(() => {
+                // Generate new tracking ID
+                let ordCounter = parseInt(localStorage.getItem('sparkxOrdCounter') || '1000');
+                ordCounter++;
+                const newTrackingId = `ORD-${ordCounter}`;
+                localStorage.setItem('sparkxOrdCounter', ordCounter);
+                
+                // Create and save the order
                 const order = {
                     orderId: Date.now() + '-' + currentCustomerDetails.mobile,
                     product: currentProductForPurchase,
                     customer: currentCustomerDetails,
-                    paymentProof: {
-                        screenshotDataUrl,
-                        bankingName,
-                        contactNo,
-                        upiId
-                    },
-                    status: 'pending', // pending, confirmed, rejected
+                    status: 'confirmed',
+                    trackingId: newTrackingId,
                     date: new Date().toLocaleString()
                 };
-
                 const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
                 orders.push(order);
                 localStorage.setItem('sparkxOrders', JSON.stringify(orders));
 
-                closeModal(paymentVerificationModal);
-                paymentVerificationForm.reset();
-                document.getElementById('screenshot-preview').style.display = 'none';
+                // Close processing modal and show email confirmation
+                closeModal(processingModal);
                 
-                showSubmissionPending(order);
-            };
-            reader.readAsDataURL(screenshotFile);
+                const emailModal = document.getElementById('email-confirmation-modal');
+                const emailSubject = document.getElementById('email-subject');
+                const emailBody = document.getElementById('email-body');
+
+                emailSubject.textContent = `Subject: Order Confirmation – ${order.trackingId}`;
+                emailBody.textContent = 
+        `Hello ${order.customer.name},
+
+        Thank you for your payment. Your order has been successfully received.
+        Tracking Number: ${order.trackingId}
+
+        We will update you once your order is shipped.
+
+        Best Regards,
+        SparkX Electronics`;
+
+                openModal(emailModal);
+
+            }, 4000);
         });
         
-        function showSubmissionPending(order) {
-            const content = document.getElementById('submission-pending-content');
-            const summaryContainer = content.querySelector('.confirmation-summary');
-
-            summaryContainer.innerHTML = `
-                <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${order.product.name}</span></div>
-                <div class="summary-item"><span class="summary-label">Amount Paid:</span><span class="summary-value">${order.product.price}</span></div>
-                <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>`;
-            
-            openModal(submissionPendingModal);
-        }
-
         const renderPendingVerifications = () => {
             const listContainer = document.getElementById('pending-verifications-list');
             const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
@@ -2858,7 +2876,7 @@
 
             // Show a success modal for the first confirmed order found
             const confirmedOrder = foundOrders.find(o => o.status === 'confirmed');
-            if (confirmedOrder) {
+            if (foundOrders.length === 1 && confirmedOrder) {
                 const successContent = document.getElementById('order-success-content');
                 const summaryContainer = successContent.querySelector('.order-details-summary');
                 const trackingIdContainer = successContent.querySelector('.tracking-id');
