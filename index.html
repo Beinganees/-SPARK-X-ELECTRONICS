@@ -589,6 +589,52 @@
         color: black;
     }
 
+    /* Social Share */
+    .social-share-container {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--glass-border);
+        text-align: center;
+    }
+    .social-share-container h4 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        color: #ccc;
+    }
+    .social-share-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+    .share-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ccc;
+        text-decoration: none;
+        transition: 0.3s;
+        border: 1px solid var(--glass-border);
+    }
+    .share-icon:hover {
+        color: var(--cyan);
+        background: rgba(0, 255, 255, 0.1);
+        transform: scale(1.1);
+        box-shadow: 0 0 10px var(--cyan);
+    }
+    .share-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+    .copy-link {
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+
     /* Testimonials Section */
     .testimonials {
       padding: 4rem 3rem;
@@ -1536,7 +1582,7 @@
   <section class="products" id="products-section">
     <h2>Featured Products</h2>
     <div class="product-grid">
-      <div class="product-card" data-id="1">
+      <div class="product-card" data-id="1" id="product-1">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
@@ -1551,7 +1597,7 @@
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="2">
+      <div class="product-card" data-id="2" id="product-2">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
@@ -1566,7 +1612,7 @@
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="3">
+      <div class="product-card" data-id="3" id="product-3">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
@@ -1581,7 +1627,7 @@
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="4">
+      <div class="product-card" data-id="4" id="product-4">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
@@ -1596,7 +1642,7 @@
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="5">
+      <div class="product-card" data-id="5" id="product-5">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
@@ -1611,7 +1657,7 @@
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="6">
+      <div class="product-card" data-id="6" id="product-6">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container">No Image</div>
         <div class="product-details">
@@ -1916,6 +1962,15 @@
               <span class="star" data-value="5">☆</span>
           </div>
           <button id="submit-rating-btn" style="display: none;">Submit Rating</button>
+      </div>
+      <div class="social-share-container">
+          <h4>Share this product:</h4>
+          <div class="social-share-icons">
+              <a href="#" class="share-icon twitter" target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+              <a href="#" class="share-icon facebook" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
+              <a href="#" class="share-icon whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zM9.53 8.5c.21-.24.46-.38.72-.38.29 0 .57.17.79.49.23.31.78 1.18.88 1.36.1.18.17.31.02.49-.15.18-.34.35-.49.49-.18.18-.31.28-.43.43-.12.15-.24.31-.07.59.23.38.68.91 1.22 1.41.74.69 1.41 1.03 1.66 1.13.25.1.41.07.56-.07.2-.23.69-.81.88-1.08.18-.28.36-.23.59-.13.23.1.98.46 1.15.53.17.07.28.1.31.15.04.05.04.53-.18 1.13-.23.6-.53.93-1.01 1.21-.48.28-1.13.43-1.73.28-.6-.15-1.46-.5-2.6-1.56-1.39-1.28-2.3-2.73-2.38-2.88-.08-.15-.68-1.02-.68-1.89 0-.8.43-1.21.61-1.41z"/></svg></a>
+              <button class="share-icon copy-link" aria-label="Copy product link"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
+          </div>
       </div>
     </div>
   </div>
@@ -2374,6 +2429,7 @@
                     const newCard = document.createElement('div');
                     newCard.className = 'product-card';
                     newCard.dataset.id = newId;
+                    newCard.id = `product-${newId}`;
                     if (salePrice) newCard.dataset.salePrice = salePrice;
                     newCard.dataset.variants = JSON.stringify(currentEditingVariants);
                     newCard.innerHTML = `
@@ -2709,6 +2765,34 @@
                 ratingInput.dataset.productId = productId;
                 resetRatingInput();
                 openModal(quickViewModal);
+
+                // Social Share Logic
+                const productUrl = `${window.location.origin}${window.location.pathname}#product-${productId}`;
+                const shareText = `Check out this product from SparkX Electronics: ${baseName}`;
+                const encodedUrl = encodeURIComponent(productUrl);
+                const encodedText = encodeURIComponent(shareText);
+
+                const twitterLink = quickViewModal.querySelector('.share-icon.twitter');
+                const facebookLink = quickViewModal.querySelector('.share-icon.facebook');
+                const whatsappLink = quickViewModal.querySelector('.share-icon.whatsapp');
+                const copyLinkBtn = quickViewModal.querySelector('.share-icon.copy-link');
+                
+                twitterLink.href = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}&hashtags=SparkXElectronics`;
+                facebookLink.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+                whatsappLink.href = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
+                
+                const originalCopyBtnContent = copyLinkBtn.innerHTML;
+                copyLinkBtn.onclick = () => {
+                    navigator.clipboard.writeText(productUrl).then(() => {
+                        copyLinkBtn.innerHTML = `✓`; // Simple checkmark for feedback
+                        setTimeout(() => {
+                            copyLinkBtn.innerHTML = originalCopyBtnContent;
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                        alert('Failed to copy link.');
+                    });
+                };
             }
         });
         
