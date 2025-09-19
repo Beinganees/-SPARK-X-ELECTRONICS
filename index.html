@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
     :root {
       --cyan: #00ffff;
@@ -769,10 +769,28 @@
       width: 100%;
       height: 100%;
     }
+    #lightbox-figure {
+        margin: 0;
+        text-align: center;
+        max-width: 90vw;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
     #lightbox-img {
-      max-width: 90vw;
-      max-height: 85vh;
+      max-width: 100%;
+      max-height: 85vh; /* Reserve space for caption */
+      object-fit: contain;
       animation: subtle-zoom 0.4s;
+    }
+    #lightbox-caption {
+        color: #ccc;
+        padding-top: 15px;
+        font-size: 1rem;
+        line-height: 1.5;
+        opacity: 0;
+        animation: fadeIn 0.5s 0.2s forwards;
     }
     .lightbox-close {
       position: absolute;
@@ -1073,7 +1091,7 @@
       font-size: 0.9rem;
       color: #ccc;
     }
-    input[type="text"], input[type="tel"], input[type="password"], textarea, input[type="search"], input[type="file"], input[type="email"] {
+    input[type="text"], input[type="tel"], input[type="password"], textarea, input[type="search"], input[type="file"], input[type="email"], input[type="password"] {
         width: 100%;
         padding: 0.7rem;
         border-radius: 5px;
@@ -1230,72 +1248,32 @@
       font-size: 0.8rem;
       font-weight: bold;
       color: white;
+      text-transform: capitalize;
     }
-    .status-pending { background-color: #ffc107; color: black; }
+    .status-pending_razorpay { background-color: #ffc107; color: black; }
     .status-confirmed { background-color: #28a745; }
     .status-rejected { background-color: #dc3545; }
 
-    /* Verification Admin Tab */
-    #pending-verifications-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    .pending-order-card {
-        background: rgba(0,0,0,0.3);
-        border: 1px solid var(--glass-border);
-        border-radius: 10px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-        padding: 1.5rem;
-    }
-    .pending-order-card h4 {
-        color: var(--cyan);
-        margin-top: 0;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid var(--glass-border);
-        padding-bottom: 0.5rem;
-        text-align: left;
-    }
-    .pending-order-card p {
-        margin: 0.4rem 0;
-        font-size: 0.9rem;
-    }
-    .payment-proof img {
-        max-width: 100px;
+    /* Webhook Simulation Styles */
+    #webhook-event-log {
+        margin-top: 1.5rem;
+        background: rgba(0,0,0,0.5);
         border-radius: 5px;
-        cursor: pointer;
-        transition: transform 0.3s;
+        padding: 1rem;
+        height: 200px;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
     }
-    .payment-proof img:hover {
-        transform: scale(1.1);
+    #webhook-event-log .log-entry {
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid var(--glass-border);
     }
-    .verification-actions {
-        grid-column: 1 / -1;
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--glass-border);
-    }
-    .verification-actions button {
-        padding: 0.6rem 1.2rem;
-        border-radius: 50px;
-        font-weight: bold;
-    }
-    .approve-btn {
-        background: #28a745;
-        border: 1px solid #28a745;
-        color: white;
-    }
-     .reject-btn {
-        background: #dc3545;
-        border: 1px solid #dc3545;
-        color: white;
-    }
-    
+    #webhook-event-log .log-entry.success { color: #28a745; }
+    #webhook-event-log .log-entry.error { color: #dc3545; }
+
     /* Order Success & Confirmation Modals */
     .success-icon circle {
         animation: success-circle-anim 0.6s ease-in-out;
@@ -1414,7 +1392,6 @@
       .hero h1 { font-size: 2.5rem; }
       .about-item { grid-template-columns: 1fr; }
       .about-item:nth-child(even) .about-image { order: 0; }
-      .pending-order-card { grid-template-columns: 1fr; }
       .form-row { flex-direction: column; gap: 0; }
       
       /* Responsive Admin Table */
@@ -1722,14 +1699,14 @@
   <section class="gallery" id="gallery-section">
       <h2>Our Gallery</h2>
       <div class="gallery-grid">
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=High-Speed+Fan" alt="A sleek, modern high-speed ceiling fan from SparkX." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Portable+Fan" alt="A compact and powerful portable table fan." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Air+Cooler" alt="An efficient personal air cooler with advanced cooling technology." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=LED+Bulbs" alt="A pack of bright, energy-saving 9W LED bulbs." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Copper+Wire" alt="A 90-meter coil of high-quality 1.5mm insulated copper wire." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Multimeter" alt="A precise digital multimeter, an essential tool for electronics work." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Expert+Repair" alt="A technician skillfully servicing electronic equipment in the workshop." loading="lazy"></div>
-          <div class="gallery-item"><img src="https://placehold.co/400x400/020b1c/00ffff?text=Wiring+Solutions" alt="A neatly organized electrical panel showcasing our complete wiring solutions." loading="lazy"></div>
+          <div class="gallery-item" data-caption="High-Speed Ceiling Fan for maximum airflow."><img src="https://placehold.co/400x400/020b1c/00ffff?text=High-Speed+Fan" alt="A sleek, modern high-speed ceiling fan from SparkX." loading="lazy"></div>
+          <div class="gallery-item" data-caption="Compact and powerful portable table fan."><img src="https://placehold.co/400x400/020b1c/00ffff?text=Portable+Fan" alt="A compact and powerful portable table fan." loading="lazy"></div>
+          <div class="gallery-item" data-caption="Efficient personal air cooler with advanced cooling."><img src="https://placehold.co/400x400/020b1c/00ffff?text=Air+Cooler" alt="An efficient personal air cooler with advanced cooling technology." loading="lazy"></div>
+          <div class="gallery-item" data-caption="Pack of 4 energy-saving 9W LED bulbs."><img src="https://placehold.co/400x400/020b1c/00ffff?text=LED+Bulbs" alt="A pack of bright, energy-saving 9W LED bulbs." loading="lazy"></div>
+          <div class="gallery-item" data-caption="High-quality 1.5mm insulated copper wire (90m coil)."><img src="https://placehold.co/400x400/020b1c/00ffff?text=Copper+Wire" alt="A 90-meter coil of high-quality 1.5mm insulated copper wire." loading="lazy"></div>
+          <div class="gallery-item" data-caption="Precise digital multimeter for professionals and hobbyists."><img src="https://placehold.co/400x400/020b1c/00ffff?text=Multimeter" alt="A precise digital multimeter, an essential tool for electronics work." loading="lazy"></div>
+          <div class="gallery-item" data-caption="Technician skillfully servicing electronic equipment."><img src="https://placehold.co/400x400/020b1c/00ffff?text=Expert+Repair" alt="A technician skillfully servicing electronic equipment in the workshop." loading="lazy"></div>
+          <div class="gallery-item" data-caption="Neatly organized electrical panel showcasing wiring solutions."><img src="https://placehold.co/400x400/020b1c/00ffff?text=Wiring+Solutions" alt="A neatly organized electrical panel showcasing our complete wiring solutions." loading="lazy"></div>
       </div>
   </section>
 
@@ -1787,6 +1764,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm10.5 4.5a.5.5 0 0 0-1 0v3a.5.5 0 0 0 1 0v-3ZM10 10a.5.5 0 0 0-1 0v1a.5.5 0 0 0 1 0v-1Zm-2.5 1.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2Z" clip-rule="evenodd" /></svg>
                     <span>Orders</span>
                 </button>
+                <button class="admin-nav-btn" data-tab="webhooks">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a1.5 1.5 0 0 1 3 0V5h-3V3.5ZM10 5H4.062a.5.5 0 0 0-.5.5v1.25a.75.75 0 0 0 1.5 0V6.5h3.188a2 2 0 0 1 1.99 1.838l.333 3.332a2.5 2.5 0 0 1-2.485 2.83L8.5 14.5H8.25a.75.75 0 0 0 0 1.5h.25a4 4 0 0 0 3.976-4.525l-.333-3.332A.5.5 0 0 0 11.938 6.5H12v-.25a.75.75 0 0 0 1.5 0V5.5a.5.5 0 0 0-.5-.5H13V3.5a3 3 0 1 0-6 0V5H4.062a2 2 0 0 0-2 2V16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H10Z" /></svg>
+                    <span>Webhooks</span>
+                </button>
                 <button class="admin-nav-btn" data-tab="settings">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 0 1-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 0 1 .947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 0 1 2.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 0 1 2.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 0 1 .947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 0 1-.947-2.287c.836-1.372-.734-2.942-2.106-2.106A1.532 1.532 0 0 1 11.49 3.17ZM10 8a2 2 0 1 0 0 4a2 2 0 0 0 0-4Z" clip-rule="evenodd" /></svg>
                     <span>Settings</span>
@@ -1834,10 +1815,28 @@
 
                  <!-- Orders Section -->
                  <div id="admin-section-orders" class="admin-section">
-                    <h3>Pending Verifications</h3>
-                     <div id="pending-verifications-list">
-                        <p style="text-align:center; color: #aaa;">No pending verifications.</p>
-                     </div>
+                    <h3>All Orders</h3>
+                    <table class="admin-table">
+                        <thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Price</th><th>Date</th><th>Status</th></tr></thead>
+                        <tbody id="admin-order-list"></tbody>
+                    </table>
+                 </div>
+
+                 <!-- Webhooks Section -->
+                 <div id="admin-section-webhooks" class="admin-section">
+                    <div class="admin-card">
+                        <h3>Razorpay Webhook Simulation</h3>
+                        <p style="color: #ccc; line-height: 1.6;">This tool simulates your backend server's webhook endpoint. In production, Razorpay sends a notification to this endpoint to reliably confirm payments. This is crucial if a customer closes their browser after paying but before returning to your site.</p>
+                        <div class="form-group">
+                            <label for="webhook-secret">Your Webhook Secret (Keep this on your server)</label>
+                            <input type="password" id="webhook-secret" readonly>
+                        </div>
+                        <div class="form-actions" style="justify-content: flex-start; display:flex;">
+                             <button type="button" id="simulate-webhook-btn">Simulate Webhook Event</button>
+                        </div>
+                        <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Webhook Event Log</h4>
+                        <div id="webhook-event-log"><p style="color:#888;">No events yet. Start a payment and use the simulation button.</p></div>
+                    </div>
                  </div>
                  
                  <!-- Settings Section -->
@@ -1893,17 +1892,6 @@
     </div>
   </div>
 
-  <!-- Payment QR Code Modal -->
-  <div id="payment-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h2 id="payment-modal-title">Scan to Pay</h2>
-      <div id="qr-code-container"></div>
-      <div id="payment-details"></div>
-      <div class="form-actions" style="justify-content: center; display: flex;"><button id="verify-payment-btn">Verify Payment</button></div>
-    </div>
-  </div>
-
   <!-- Order Success Modal (for search results) -->
   <div id="order-success-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="order-success-modal-title">
     <div class="modal-content">
@@ -1918,7 +1906,7 @@
     </div>
   </div>
   
-  <!-- NEW: Payment Processing Modal -->
+  <!-- Payment Processing Modal -->
   <div id="payment-processing-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payment-processing-title">
     <div class="modal-content" style="text-align: center;">
       <h2 id="payment-processing-title">Processing Payment</h2>
@@ -1927,7 +1915,7 @@
     </div>
   </div>
 
-  <!-- NEW: Email Confirmation Modal -->
+  <!-- Email Confirmation Modal -->
   <div id="email-confirmation-modal" class="modal" role="dialog"aria-modal="true" aria-labelledby="email-confirmation-title">
     <div class="modal-content">
       <span class="close-btn">&times;</span>
@@ -2028,7 +2016,10 @@
     <a class="lightbox-next" aria-label="Next image">&#10095;</a>
     <div class="lightbox-content">
       <div class="lightbox-counter"></div>
-      <img id="lightbox-img" src="" alt="Gallery image">
+      <figure id="lightbox-figure">
+        <img id="lightbox-img" src="" alt="Gallery image">
+        <figcaption id="lightbox-caption"></figcaption>
+      </figure>
     </div>
   </div>
 
@@ -2075,6 +2066,7 @@
         let currentCustomerDetails = {};
         let activeDiscountPercent = 0;
         let currentEditingVariants = [];
+        let WEBHOOK_SECRET = '';
         
         // --- Hamburger Menu Logic ---
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -2303,8 +2295,9 @@
                 loginError.style.display = 'none';
                 openModal(adminModal);
                 renderAdminProducts();
-                renderPendingVerifications();
+                renderAdminOrders();
                 loadPromotionDataIntoForm();
+                setupWebhookTab();
                 resetAdminForm();
             } else {
                 loginError.textContent = 'Invalid User ID or Password.';
@@ -2341,6 +2334,7 @@
                 const activeContent = document.getElementById(`admin-section-${tabId}`);
                 if (activeContent) {
                    activeContent.classList.add('active');
+                   if (tabId === 'orders') renderAdminOrders();
                 }
             }
         });
@@ -2393,6 +2387,37 @@
                     </td>
                 `;
                 adminProductList.appendChild(row);
+            });
+        };
+        
+        const renderAdminOrders = () => {
+            const orderList = document.getElementById('admin-order-list');
+            const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+            orderList.innerHTML = '';
+            
+             const getStatusBadge = (status) => {
+                const statusClass = `status-${status.toLowerCase().replace(' ', '_')}`;
+                return `<span class="status-badge ${statusClass}">${status.replace('_', ' ')}</span>`;
+             };
+
+            if (allOrders.length === 0) {
+                orderList.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #aaa;">No orders have been placed yet.</td></tr>`;
+                return;
+            }
+
+            allOrders.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by most recent
+
+            allOrders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td data-label="Order ID">${order.orderId.replace('order_mock_', '')}</td>
+                    <td data-label="Customer">${order.customer.name}</td>
+                    <td data-label="Product">${order.product.name}</td>
+                    <td data-label="Price">${order.product.price}</td>
+                    <td data-label="Date">${order.date}</td>
+                    <td data-label="Status">${getStatusBadge(order.status)}</td>
+                `;
+                orderList.appendChild(row);
             });
         };
 
@@ -2718,10 +2743,8 @@
         };
 
         const deliveryModal = document.getElementById('delivery-modal');
-        const paymentModal = document.getElementById('payment-modal');
         const quickViewModal = document.getElementById('quick-view-modal');
         const deliveryForm = document.getElementById('delivery-form');
-        const upiId = '9120795494@ybl';
         
         productGrid.addEventListener('click', (e) => {
             const card = e.target.closest('.product-card');
@@ -2796,6 +2819,161 @@
             }
         });
         
+        // --- Payment & Webhook Integration Logic (Simulated Backend) ---
+
+        const createOrderOnServer = (amount, currency) => {
+            console.log("Simulating: Creating order on server...");
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const mockOrder = {
+                        order_id: `order_mock_${Date.now()}`,
+                        key_id: 'rzp_test_ILzaVlvl3T4d3p' 
+                    };
+                    console.log("Simulating: Order created on server", mockOrder);
+                    resolve(mockOrder);
+                }, 1000);
+            });
+        };
+
+        const verifyPaymentOnServer = (paymentData) => {
+            console.log("Simulating: Verifying payment on server...", paymentData);
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const isAuthentic = true;
+                    console.log("Simulating: Payment verification result:", isAuthentic);
+                    resolve({ status: isAuthentic ? 'success' : 'failure' });
+                }, 1500);
+            });
+        };
+
+        const finalizeOrder = (orderId, paymentId) => {
+            const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+            const orderIndex = allOrders.findIndex(o => o.orderId === orderId);
+
+            if (orderIndex === -1) {
+                console.error("Could not find order to finalize:", orderId);
+                return;
+            }
+            
+            const order = allOrders[orderIndex];
+            
+            // Prevent re-finalizing an already confirmed order
+            if(order.status === 'confirmed') return; 
+
+            order.paymentId = paymentId;
+            order.status = 'confirmed';
+
+            let ordCounter = parseInt(localStorage.getItem('sparkxOrdCounter') || '1000');
+            ordCounter++;
+            order.trackingId = `ORD-${ordCounter}`;
+            localStorage.setItem('sparkxOrdCounter', ordCounter);
+
+            allOrders[orderIndex] = order;
+            localStorage.setItem('sparkxOrders', JSON.stringify(allOrders));
+
+            return order; // Return the finalized order
+        };
+        
+        const handlePaymentFlow = async () => {
+            const processingModal = document.getElementById('payment-processing-modal');
+            const statusText = document.getElementById('payment-status-text');
+
+            try {
+                // Step 1: Show processing modal and create order on server
+                statusText.textContent = 'Initiating secure payment...';
+                openModal(processingModal);
+                const amountInPaise = parseFloat(currentProductForPurchase.price.replace(/[^0-9.]/g, '')) * 100;
+                const { order_id, key_id } = await createOrderOnServer(amountInPaise, 'INR');
+
+                // Step 2: Create a PENDING order in our system BEFORE opening Razorpay
+                const pendingOrder = {
+                    orderId: order_id,
+                    paymentId: null, // Not yet available
+                    product: currentProductForPurchase,
+                    customer: currentCustomerDetails,
+                    status: 'pending_razorpay',
+                    trackingId: null,
+                    date: new Date().toLocaleString()
+                };
+                const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+                orders.push(pendingOrder);
+                localStorage.setItem('sparkxOrders', JSON.stringify(orders));
+
+
+                // Step 3: Configure and open Razorpay Checkout
+                const options = {
+                    key: key_id,
+                    amount: amountInPaise,
+                    currency: 'INR',
+                    name: 'SparkX Electronics',
+                    description: `Purchase of ${currentProductForPurchase.name}`,
+                    order_id: order_id,
+                    handler: async function (response) {
+                        // Step 4: Handle successful payment and verify on server
+                        statusText.textContent = 'Verifying payment...';
+                        openModal(processingModal);
+                        
+                        try {
+                            const verificationResponse = await verifyPaymentOnServer({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                            });
+
+                            if (verificationResponse.status === 'success') {
+                                // Step 5: Finalize the order (update status to 'confirmed')
+                                const finalizedOrder = finalizeOrder(response.razorpay_order_id, response.razorpay_payment_id);
+                                closeModal(processingModal);
+                                
+                                // Step 6: Show confirmation
+                                const emailModal = document.getElementById('email-confirmation-modal');
+                                const emailSubject = document.getElementById('email-subject');
+                                const emailBody = document.getElementById('email-body');
+
+                                emailSubject.textContent = `Subject: Order Confirmation – ${finalizedOrder.trackingId}`;
+                                emailBody.textContent = 
+`Hello ${finalizedOrder.customer.name},
+
+Thank you for your payment. Your order has been successfully received.
+Payment ID: ${finalizedOrder.paymentId}
+Tracking Number: ${finalizedOrder.trackingId}
+
+We will update you once your order is shipped.
+
+Best Regards,
+SparkX Electronics`;
+                                openModal(emailModal);
+                            } else {
+                                throw new Error('Payment verification failed.');
+                            }
+                        } catch (error) {
+                            console.error("Verification failed:", error);
+                            alert('Payment verification failed. Please contact support.');
+                            closeModal(processingModal);
+                        }
+                    },
+                    prefill: { name: currentCustomerDetails.name, email: currentCustomerDetails.email, contact: currentCustomerDetails.mobile },
+                    notes: { address: currentCustomerDetails.address },
+                    theme: { color: '#00FFFF' },
+                };
+
+                closeModal(processingModal);
+                
+                const paymentObject = new window.Razorpay(options);
+                paymentObject.on('payment.failed', function (response) {
+                    alert(`Payment failed: ${response.error.description}`);
+                    console.error('Payment Failed:', response.error);
+                    closeModal(processingModal);
+                });
+                paymentObject.open();
+
+            } catch (error) {
+                console.error("Payment flow error:", error);
+                alert('An error occurred while initiating the payment. Please try again.');
+                closeModal(processingModal);
+            }
+        };
+        
         deliveryForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('customer-name').value;
@@ -2807,144 +2985,10 @@
                 currentCustomerDetails = { name, mobile, address, email };
                 closeModal(deliveryModal);
                 deliveryForm.reset();
-                
-                const amount = currentProductForPurchase.price.replace('₹', '').trim();
-                const productName = encodeURIComponent(currentProductForPurchase.name);
-                const upiUrl = `upi://pay?pa=${upiId}&pn=SparkX%20Electronics&am=${amount}&cu=INR&tn=Purchase%20of%20${productName}`;
-
-                const qrContainer = document.getElementById('qr-code-container');
-                qrContainer.innerHTML = '';
-                new QRCode(qrContainer, { text: upiUrl, width: 200, height: 200 });
-                
-                document.getElementById('payment-details').innerHTML = `<p>Please Pay:</p><p class="price">${currentProductForPurchase.price}</p><p>Scan with any UPI app.</p><p class="upi-id">UPI ID: ${upiId}</p>`;
-                openModal(paymentModal);
+                handlePaymentFlow();
             } else {
                 alert('Please fill in all delivery details.');
             }
-        });
-        
-        document.getElementById('verify-payment-btn').addEventListener('click', () => {
-            closeModal(paymentModal);
-            const processingModal = document.getElementById('payment-processing-modal');
-            const statusText = document.getElementById('payment-status-text');
-            
-            // Reset status text
-            statusText.textContent = 'Connecting to your bank securely...';
-            openModal(processingModal);
-            
-            setTimeout(() => {
-                statusText.textContent = 'Verifying transaction...';
-            }, 1500);
-
-            setTimeout(() => {
-                statusText.textContent = 'Payment confirmed! Generating order...';
-            }, 3000);
-            
-            setTimeout(() => {
-                // Generate new tracking ID
-                let ordCounter = parseInt(localStorage.getItem('sparkxOrdCounter') || '1000');
-                ordCounter++;
-                const newTrackingId = `ORD-${ordCounter}`;
-                localStorage.setItem('sparkxOrdCounter', ordCounter);
-                
-                // Create and save the order
-                const order = {
-                    orderId: Date.now() + '-' + currentCustomerDetails.mobile,
-                    product: currentProductForPurchase,
-                    customer: currentCustomerDetails,
-                    status: 'confirmed',
-                    trackingId: newTrackingId,
-                    date: new Date().toLocaleString()
-                };
-                const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
-                orders.push(order);
-                localStorage.setItem('sparkxOrders', JSON.stringify(orders));
-
-                // Close processing modal and show email confirmation
-                closeModal(processingModal);
-                
-                const emailModal = document.getElementById('email-confirmation-modal');
-                const emailSubject = document.getElementById('email-subject');
-                const emailBody = document.getElementById('email-body');
-
-                emailSubject.textContent = `Subject: Order Confirmation – ${order.trackingId}`;
-                emailBody.textContent = 
-        `Hello ${order.customer.name},
-
-        Thank you for your payment. Your order has been successfully received.
-        Tracking Number: ${order.trackingId}
-
-        We will update you once your order is shipped.
-
-        Best Regards,
-        SparkX Electronics`;
-
-                openModal(emailModal);
-
-            }, 4000);
-        });
-        
-        const renderPendingVerifications = () => {
-            const listContainer = document.getElementById('pending-verifications-list');
-            const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
-            const pendingOrders = allOrders.filter(o => o.status === 'pending');
-
-            if (pendingOrders.length === 0) {
-                listContainer.innerHTML = '<p style="text-align:center; color: #aaa;">No pending verifications.</p>';
-                return;
-            }
-
-            listContainer.innerHTML = pendingOrders.map(order => `
-                <div class="pending-order-card">
-                    <div class="order-info">
-                        <h4>Order Details</h4>
-                        <p><strong>Product:</strong> ${order.product.name}</p>
-                        <p><strong>Price:</strong> ${order.product.price}</p>
-                        <p><strong>Customer:</strong> ${order.customer.name}</p>
-                        <p><strong>Mobile:</strong> ${order.customer.mobile}</p>
-                        <p><strong>Address:</strong> ${order.customer.address}</p>
-                        <p><strong>Date:</strong> ${order.date}</p>
-                    </div>
-                    <div class="payment-proof">
-                        <h4>Payment Proof</h4>
-                        <a href="${order.paymentProof.screenshotDataUrl}" target="_blank" rel="noopener noreferrer">
-                            <img src="${order.paymentProof.screenshotDataUrl}" alt="Screenshot">
-                        </a>
-                        ${order.paymentProof.bankingName ? `<p><strong>Bank Name:</strong> ${order.paymentProof.bankingName}</p>` : ''}
-                        ${order.paymentProof.contactNo ? `<p><strong>Contact:</strong> ${order.paymentProof.contactNo}</p>` : ''}
-                        ${order.paymentProof.upiId ? `<p><strong>UPI ID:</strong> ${order.paymentProof.upiId}</p>` : ''}
-                    </div>
-                    <div class="verification-actions">
-                        <button class="approve-btn" data-order-id="${order.orderId}">Approve</button>
-                        <button class="reject-btn" data-order-id="${order.orderId}">Reject</button>
-                    </div>
-                </div>
-            `).join('');
-        };
-
-        document.getElementById('pending-verifications-list').addEventListener('click', (e) => {
-            const orderId = e.target.dataset.orderId;
-            if (!orderId) return;
-
-            let allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
-            const orderIndex = allOrders.findIndex(o => o.orderId === orderId);
-
-            if (orderIndex === -1) return;
-
-            if (e.target.classList.contains('approve-btn')) {
-                let counter = parseInt(localStorage.getItem('sparkxTrackingCounter') || '1000');
-                counter++;
-                allOrders[orderIndex].status = 'confirmed';
-                allOrders[orderIndex].trackingId = `SPARKX-IN${counter}`;
-                localStorage.setItem('sparkxTrackingCounter', counter);
-                alert(`Order approved. Tracking ID: ${allOrders[orderIndex].trackingId}`);
-            } else if (e.target.classList.contains('reject-btn')) {
-                allOrders[orderIndex].status = 'rejected';
-                alert('Order rejected.');
-            }
-            
-            localStorage.setItem('sparkxOrders', JSON.stringify(allOrders));
-            renderPendingVerifications();
         });
         
         const myOrdersModal = document.getElementById('my-orders-modal');
@@ -2971,27 +3015,10 @@
             
             resultsContainer.innerHTML = ''; // Clear previous results
 
-            // Show a success modal for the first confirmed order found
-            const confirmedOrder = foundOrders.find(o => o.status === 'confirmed');
-            if (foundOrders.length === 1 && confirmedOrder) {
-                const successContent = document.getElementById('order-success-content');
-                const summaryContainer = successContent.querySelector('.order-details-summary');
-                const trackingIdContainer = successContent.querySelector('.tracking-id');
-                
-                summaryContainer.innerHTML = `
-                    <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${confirmedOrder.product.name}</span></div>
-                    <div class="summary-item"><span class="summary-label">Price:</span><span class="summary-value">${confirmedOrder.product.price}</span></div>
-                    <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${confirmedOrder.customer.name}</span></div>
-                `;
-                trackingIdContainer.innerHTML = `<strong>Tracking ID: ${confirmedOrder.trackingId}</strong>`;
-                openModal(orderSuccessModal);
-                return; 
-            }
-
             const getStatusBadge = (status) => {
                 if (status === 'confirmed') return `<span class="status-badge status-confirmed">Confirmed</span>`;
                 if (status === 'rejected') return `<span class="status-badge status-rejected">Rejected</span>`;
-                return `<span class="status-badge status-pending">Pending</span>`;
+                return `<span class="status-badge status-pending_razorpay">Pending Razorpay</span>`;
             };
 
             if (foundOrders.length > 0) {
@@ -3097,47 +3124,157 @@
         
         // --- Gallery Lightbox Logic ---
         const lightbox = document.getElementById('gallery-lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        const galleryImageSrcs = Array.from(galleryItems).map(item => item.querySelector('img').src);
-        let currentImageIndex = 0;
+        if (lightbox) {
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const galleryData = Array.from(galleryItems).map(item => ({
+                src: item.querySelector('img').src,
+                caption: item.dataset.caption || ''
+            }));
+            let currentImageIndex = 0;
 
-        const showImage = (index) => {
-            currentImageIndex = (index + galleryImageSrcs.length) % galleryImageSrcs.length;
-            lightboxImg.src = galleryImageSrcs[currentImageIndex];
-            lightbox.querySelector('.lightbox-counter').textContent = `${currentImageIndex + 1} / ${galleryImageSrcs.length}`;
-        };
+            const showImage = (index) => {
+                currentImageIndex = (index + galleryData.length) % galleryData.length;
+                const currentItem = galleryData[currentImageIndex];
+                lightboxImg.src = currentItem.src;
+                lightboxCaption.textContent = currentItem.caption;
+                
+                lightboxCaption.style.animation = 'none';
+                lightboxCaption.offsetHeight; /* trigger reflow */
+                lightboxCaption.style.animation = '';
 
-        galleryItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                lightbox.style.display = 'flex';
-                document.body.classList.add('modal-open');
-                showImage(index);
+                lightbox.querySelector('.lightbox-counter').textContent = `${currentImageIndex + 1} / ${galleryData.length}`;
+            };
+
+            galleryItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    lightbox.style.display = 'flex';
+                    document.body.classList.add('modal-open');
+                    showImage(index);
+                });
             });
-        });
 
-        const closeLightbox = () => {
-            lightbox.style.display = 'none';
-            document.body.classList.remove('modal-open');
+            const closeLightbox = () => {
+                lightbox.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            };
+
+            lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+            lightbox.querySelector('.lightbox-prev').addEventListener('click', () => showImage(currentImageIndex - 1));
+            lightbox.querySelector('.lightbox-next').addEventListener('click', () => showImage(currentImageIndex + 1));
+            
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target.id === 'lightbox-figure') {
+                     closeLightbox();
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (lightbox.style.display === 'flex') {
+                    if (e.key === 'ArrowRight') showImage(currentImageIndex + 1);
+                    else if (e.key === 'ArrowLeft') showImage(currentImageIndex - 1);
+                    else if (e.key === 'Escape') closeLightbox();
+                }
+            });
+        }
+        
+        // --- Webhook Simulation Logic ---
+        const webhookLog = document.getElementById('webhook-event-log');
+        
+        const setupWebhookTab = () => {
+            let secret = localStorage.getItem('webhookSecret');
+            if (!secret) {
+                secret = `whsec_mock_${Date.now()}${Math.random().toString(36).substring(2)}`;
+                localStorage.setItem('webhookSecret', secret);
+            }
+            WEBHOOK_SECRET = secret;
+            document.getElementById('webhook-secret').value = WEBHOOK_SECRET;
+        };
+        
+        // This is a simplified, insecure HASH just for simulation.
+        // A real backend MUST use crypto.createHmac('sha256', secret).
+        const generateMockWebhookSignature = (payload, secret) => {
+            const payloadString = JSON.stringify(payload);
+            let hash = 0;
+            const combined = payloadString + secret;
+            for (let i = 0; i < combined.length; i++) {
+                const char = combined.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; 
+            }
+            return `sha256=${Math.abs(hash).toString(16)}`;
+        };
+        
+        const logToWebhookConsole = (message, type = 'info') => {
+             if (webhookLog.innerHTML.includes('No events yet')) {
+                 webhookLog.innerHTML = '';
+             }
+             const entry = document.createElement('div');
+             entry.className = `log-entry ${type}`;
+             entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+             webhookLog.prepend(entry);
         };
 
-        lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-        lightbox.querySelector('.lightbox-prev').addEventListener('click', () => showImage(currentImageIndex - 1));
-        lightbox.querySelector('.lightbox-next').addEventListener('click', () => showImage(currentImageIndex + 1));
-        
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                 closeLightbox();
+        // This function simulates the server-side webhook endpoint.
+        const handleWebhookEvent = (payload, signature) => {
+            logToWebhookConsole(`Received webhook for event: ${payload.event}`);
+            
+            const expectedSignature = generateMockWebhookSignature(payload, WEBHOOK_SECRET);
+            
+            if (signature !== expectedSignature) {
+                logToWebhookConsole('Signature verification FAILED. Discarding event.', 'error');
+                return;
             }
-        });
-        
-        document.addEventListener('keydown', (e) => {
-            if (lightbox.style.display === 'flex') {
-                if (e.key === 'ArrowRight') showImage(currentImageIndex + 1);
-                else if (e.key === 'ArrowLeft') showImage(currentImageIndex - 1);
-                else if (e.key === 'Escape') closeLightbox();
+
+            logToWebhookConsole('Signature verified successfully.', 'success');
+            
+            if (payload.event === 'payment.captured') {
+                const orderId = payload.payload.payment.entity.order_id;
+                const paymentId = payload.payload.payment.entity.id;
+                logToWebhookConsole(`Payment captured for order ${orderId}.`);
+                
+                const finalizedOrder = finalizeOrder(orderId, paymentId);
+                if (finalizedOrder) {
+                    logToWebhookConsole(`Order ${orderId} status updated to 'confirmed'. Tracking ID: ${finalizedOrder.trackingId}`, 'success');
+                    alert(`Webhook Success: Order ${finalizedOrder.trackingId} has been confirmed.`);
+                    renderAdminOrders(); // Refresh the orders view if it's open
+                } else {
+                    logToWebhookConsole(`Could not find order ${orderId} to update.`, 'error');
+                }
             }
+        };
+        
+        document.getElementById('simulate-webhook-btn').addEventListener('click', () => {
+            const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+            const pendingOrder = allOrders.find(o => o.status === 'pending_razorpay');
+            
+            if (!pendingOrder) {
+                alert('No pending Razorpay orders found to simulate an event for. Please start a new payment and close the Razorpay modal to create one.');
+                return;
+            }
+            
+            logToWebhookConsole(`Simulating 'payment.captured' event for order: ${pendingOrder.orderId}`);
+            
+            const mockPayload = {
+                event: 'payment.captured',
+                payload: {
+                    payment: {
+                        entity: {
+                            id: `pay_mock_${Date.now()}`,
+                            order_id: pendingOrder.orderId,
+                            amount: parseFloat(pendingOrder.product.price.replace(/[^0-9.]/g, '')) * 100,
+                            currency: 'INR'
+                        }
+                    }
+                }
+            };
+            
+            const mockSignature = generateMockWebhookSignature(mockPayload, WEBHOOK_SECRET);
+            
+            handleWebhookEvent(mockPayload, mockSignature);
         });
+
 
         // --- Initial Page Load Actions ---
         updatePromotionBanner(); // This will apply discounts & variants on page load
