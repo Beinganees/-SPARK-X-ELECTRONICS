@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
     :root {
       --cyan: #00ffff;
@@ -1257,23 +1256,102 @@
         line-height: 1.6;
     }
 
+    /* New Payment Options Modal Styles */
+    #payment-options-modal .modal-content {
+        max-width: 750px;
+    }
+    .payment-options-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+    .payment-option {
+        text-align: center;
+        padding: 1.5rem;
+        border-radius: 10px;
+        background: rgba(0,0,0,0.2);
+    }
+    .payment-option:first-child {
+        border-right: 1px solid var(--glass-border);
+    }
+    .payment-option h3 {
+        margin-top: 0;
+        color: #fff;
+        font-weight: 500;
+    }
     #qr-code-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 2rem 0;
+        margin: 1rem 0;
         background: white;
         padding: 1rem;
         border-radius: 10px;
+        min-height: 200px;
+        position: relative;
     }
-
-    #payment-details {
+    #qr-code-img {
+        width: 180px;
+        height: 180px;
+        transition: filter 0.3s;
+    }
+    #qr-code-img.expired {
+        filter: grayscale(1);
+    }
+    #qr-expiry-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: bold;
+    }
+    #payment-qr-amount, #payment-link-amount {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--cyan);
+        margin: 0.5rem 0;
+    }
+    #payment-qr-timer {
+        font-size: 1rem;
+        color: #ccc;
+    }
+    #razorpay-me-link-container {
+        margin-top: 2.5rem;
+    }
+    #razorpay-me-link-btn {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    #copy-razorpay-link-btn {
+        background: transparent;
+        border: 1px solid var(--glass-border);
+        color: #ccc;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.2s;
+        margin-left: 0.5rem;
+    }
+    #copy-razorpay-link-btn:hover {
+        background: var(--glass-bg);
+    }
+    .payment-modal-actions {
+        margin-top: 2rem;
         text-align: center;
     }
-    #payment-details p { margin: 0.5rem 0; }
-    #payment-details .price { font-size: 1.5rem; color: var(--cyan); }
-    #payment-details .upi-id { font-size: 0.9rem; color: #ccc; }
+    .payment-modal-actions button {
+        width: 100%;
+        max-width: 300px;
+    }
     
+
     .summary-item {
         display: flex;
         justify-content: space-between;
@@ -1334,7 +1412,7 @@
       color: white;
       text-transform: capitalize;
     }
-    .status-pending_razorpay { background-color: #ffc107; color: black; }
+    .status-pending_payment { background-color: #ffc107; color: black; }
     .status-confirmed { background-color: #28a745; }
     .status-rejected { background-color: #dc3545; }
 
@@ -1482,6 +1560,8 @@
       #offer-countdown-timer-top { font-size: 0.9rem; }
       body.banner-visible { padding-top: 60px; }
       body.banner-visible nav { top: 60px; }
+      .payment-options-layout { grid-template-columns: 1fr; }
+      .payment-option:first-child { border-right: none; border-bottom: 1px solid var(--glass-border); }
       
       /* Responsive Admin Table */
       .admin-table {
@@ -1928,7 +2008,7 @@
                  <div id="admin-section-webhooks" class="admin-section">
                     <div class="admin-card">
                         <h3>Razorpay Webhook Simulation</h3>
-                        <p style="color: #ccc; line-height: 1.6;">This tool simulates your backend server's webhook endpoint. In production, Razorpay sends a notification to this endpoint to reliably confirm payments. This is crucial if a customer closes their browser after paying but before returning to your site.</p>
+                        <p style="color: #ccc; line-height: 1.6;">This tool simulates your backend server's webhook endpoint. In a real scenario, after a customer pays via QR or payment link, Razorpay sends a notification to this endpoint to confirm the payment automatically. This is crucial for updating order status without manual intervention.</p>
                         <div class="form-group">
                             <label for="webhook-secret">Your Webhook Secret (Keep this on your server)</label>
                             <input type="password" id="webhook-secret" readonly>
@@ -1937,7 +2017,7 @@
                              <button type="button" id="simulate-webhook-btn">Simulate Webhook Event</button>
                         </div>
                         <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Webhook Event Log</h4>
-                        <div id="webhook-event-log"><p style="color:#888;">No events yet. Start a payment and use the simulation button.</p></div>
+                        <div id="webhook-event-log"><p style="color:#888;">No events yet. Create a pending order and use the simulation button.</p></div>
                     </div>
                  </div>
                  
@@ -1993,6 +2073,38 @@
       </form>
     </div>
   </div>
+  
+  <!-- Payment Options Modal -->
+  <div id="payment-options-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payment-options-modal-title">
+      <div class="modal-content">
+          <span class="close-btn">&times;</span>
+          <h2 id="payment-options-modal-title">Complete Your Payment</h2>
+          <div class="payment-options-layout">
+              <div class="payment-option">
+                  <h3>Scan & Pay with UPI</h3>
+                  <div id="qr-code-container">
+                      <img id="qr-code-img" src="" alt="UPI QR Code">
+                      <div id="qr-expiry-overlay">QR Expired<br>Please try again</div>
+                  </div>
+                  <p>Amount: <span id="payment-qr-amount"></span></p>
+                  <p id="payment-qr-timer">Expires in: 10:00</p>
+              </div>
+              <div class="payment-option">
+                  <h3>Or Pay via Link</h3>
+                  <div id="razorpay-me-link-container">
+                    <a href="#" id="razorpay-me-link-btn" target="_blank" rel="noopener noreferrer" class="hero button">Pay with Razorpay.me</a>
+                    <p>Amount: <span id="payment-link-amount"></span></p>
+                    <input type="text" id="razorpay-me-link-text" readonly style="background: #000; text-align: center; font-size: 0.8rem; margin-top: 1rem;">
+                    <button id="copy-razorpay-link-btn">Copy</button>
+                  </div>
+              </div>
+          </div>
+          <div class="payment-modal-actions">
+              <button id="verify-payment-btn">I have paid, Verify Payment</button>
+          </div>
+      </div>
+  </div>
+
 
   <!-- Order Success Modal (for search results) -->
   <div id="order-success-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="order-success-modal-title">
@@ -2027,7 +2139,7 @@
       </div>
       <p style="text-align:center;">Your order has been successfully placed. A confirmation email has been sent to you.</p>
       <div class="email-preview">
-          <h4>Email Preview:</h4>
+          <h4>Email Preview (Simulated):</h4>
           <div id="email-subject"></div>
           <div id="email-body"></div>
       </div>
@@ -2127,15 +2239,13 @@
 
 
   <script type="module">
-    import { GoogleGenAI, Type } from "https://cdn.jsdelivr.net/npm/@google/genai/+esm";
-
     // --- Common elements & State ---
     const productGrid = document.querySelector('.product-grid');
-    let currentProductForPurchase = {};
-    let currentCustomerDetails = {};
+    let currentTransaction = {};
     let activeDiscountPercent = 0;
     let currentEditingVariants = [];
     let WEBHOOK_SECRET = '';
+    let qrTimerInterval;
     
     // --- Hamburger Menu Logic ---
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -2571,10 +2681,10 @@
         allOrders.forEach(order => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td data-label="Order ID">${order.orderId.replace('order_mock_', '')}</td>
+                <td data-label="Order ID">${order.orderId}</td>
                 <td data-label="Customer">${order.customer.name}</td>
                 <td data-label="Product">${order.product.name}</td>
-                <td data-label="Price">${order.product.price}</td>
+                <td data-label="Price">₹${order.product.price}</td>
                 <td data-label="Date">${order.date}</td>
                 <td data-label="Status">${getStatusBadge(order.status)}</td>
             `;
@@ -2902,6 +3012,7 @@
         const baseName = card.querySelector('h3').textContent;
         const priceEl = card.querySelector('.product-price');
         const finalPriceText = priceEl.querySelector('ins')?.textContent || priceEl.textContent;
+        const finalPriceNumber = parseFloat(finalPriceText.replace(/[^0-9.]/g, ''));
         const description = card.querySelector('.product-description').textContent;
         const imageSrc = card.querySelector('.img-container img')?.src;
         
@@ -2912,8 +3023,12 @@
         }
 
         if (e.target.classList.contains('buy-now-btn')) {
-            currentProductForPurchase = { name: finalName, price: finalPriceText, description, imageSrc };
-            document.getElementById('product-to-buy-info').innerHTML = `<h3>${finalName}</h3><p class="price">${finalPriceText}</p>`;
+            currentTransaction = { 
+                product: { name: finalName, price: finalPriceNumber, description, imageSrc },
+                customer: {},
+                orderId: null,
+            };
+            document.getElementById('product-to-buy-info').innerHTML = `<h3>${finalName}</h3><p class="price">₹${finalPriceNumber}</p>`;
             openModal(deliveryModal);
         }
         if (e.target.classList.contains('quick-view-btn')) {
@@ -2968,31 +3083,109 @@
         }
     });
     
-    // --- Payment & Webhook Integration Logic (Simulated Backend) ---
+    // --- NEW PAYMENT FLOW & SIMULATION ---
+    const paymentOptionsModal = document.getElementById('payment-options-modal');
 
-    const createOrderOnServer = (amount, currency) => {
-        console.log("Simulating: Creating order on server...");
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const mockOrder = {
-                    order_id: `order_mock_${Date.now()}`,
-                    key_id: 'rzp_test_ILzaVlvl3T4d3p' 
-                };
-                console.log("Simulating: Order created on server", mockOrder);
-                resolve(mockOrder);
-            }, 1000);
-        });
+    const startQrTimer = () => {
+        if (qrTimerInterval) clearInterval(qrTimerInterval);
+        
+        const timerEl = document.getElementById('payment-qr-timer');
+        const qrImg = document.getElementById('qr-code-img');
+        const qrOverlay = document.getElementById('qr-expiry-overlay');
+
+        qrImg.classList.remove('expired');
+        qrOverlay.style.display = 'none';
+
+        let duration = 600; // 10 minutes
+        qrTimerInterval = setInterval(() => {
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration % 60;
+            timerEl.textContent = `Expires in: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            if (--duration < 0) {
+                clearInterval(qrTimerInterval);
+                timerEl.textContent = "QR Code Expired";
+                qrImg.classList.add('expired');
+                qrOverlay.style.display = 'flex';
+            }
+        }, 1000);
+    };
+    
+    const openPaymentOptionsModal = () => {
+        const orderId = `SPARKX-${Date.now()}`;
+        currentTransaction.orderId = orderId;
+        const amount = currentTransaction.product.price;
+
+        // Create a PENDING order in our system
+        const pendingOrder = {
+            ...currentTransaction,
+            paymentId: null,
+            status: 'pending_payment',
+            trackingId: null,
+            date: new Date().toLocaleString()
+        };
+        const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
+        orders.push(pendingOrder);
+        localStorage.setItem('sparkxOrders', JSON.stringify(orders));
+
+        // 1. Setup QR Code
+        const upiId = 'mohdanees5795@ybl';
+        const upiString = `upi://pay?pa=${upiId}&pn=SparkX%20Electronics&am=${amount}&cu=INR&tn=${orderId}`;
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+        document.getElementById('qr-code-img').src = qrCodeUrl;
+        document.getElementById('payment-qr-amount').textContent = `₹${amount}`;
+
+        // 2. Setup Razorpay.me Link
+        const razorpayMeLink = `https://razorpay.me/mohdanees5795/${amount*100}`; // amount in paise
+        document.getElementById('razorpay-me-link-btn').href = razorpayMeLink;
+        document.getElementById('payment-link-amount').textContent = `₹${amount}`;
+        const linkTextInput = document.getElementById('razorpay-me-link-text');
+        linkTextInput.value = razorpayMeLink;
+        
+        document.getElementById('copy-razorpay-link-btn').onclick = () => {
+            linkTextInput.select();
+            document.execCommand('copy');
+            alert('Link copied to clipboard!');
+        };
+        
+        // 3. Open Modal and Start Timer
+        openModal(paymentOptionsModal);
+        startQrTimer();
     };
 
-    const verifyPaymentOnServer = (paymentData) => {
-        console.log("Simulating: Verifying payment on server...", paymentData);
-        return new Promise((resolve) => {
+    deliveryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        currentTransaction.customer = {
+            name: document.getElementById('customer-name').value,
+            mobile: document.getElementById('customer-mobile').value,
+            address: document.getElementById('customer-address').value,
+            email: document.getElementById('customer-email').value,
+        };
+        closeModal(deliveryModal);
+        deliveryForm.reset();
+        openPaymentOptionsModal();
+    });
+
+    document.getElementById('verify-payment-btn').onclick = () => {
+        closeModal(paymentOptionsModal);
+        if (qrTimerInterval) clearInterval(qrTimerInterval);
+
+        const processingModal = document.getElementById('payment-processing-modal');
+        const statusText = document.getElementById('payment-status-text');
+        openModal(processingModal);
+
+        // Simulate backend verification
+        statusText.textContent = 'Verifying payment status with server...';
+        setTimeout(() => {
+            statusText.textContent = 'Verification successful. Finalizing order...';
+            const finalizedOrder = finalizeOrder(currentTransaction.orderId, `pay_mock_${Date.now()}`);
+
             setTimeout(() => {
-                const isAuthentic = true;
-                console.log("Simulating: Payment verification result:", isAuthentic);
-                resolve({ status: isAuthentic ? 'success' : 'failure' });
+                closeModal(processingModal);
+                if(finalizedOrder) showConfirmation(finalizedOrder);
+                else alert("Error: Could not find order to finalize.");
             }, 1500);
-        });
+        }, 2000);
     };
 
     const finalizeOrder = (orderId, paymentId) => {
@@ -3001,20 +3194,19 @@
 
         if (orderIndex === -1) {
             console.error("Could not find order to finalize:", orderId);
-            return;
+            return null;
         }
         
         const order = allOrders[orderIndex];
         
-        // Prevent re-finalizing an already confirmed order
-        if(order.status === 'confirmed') return; 
+        if(order.status === 'confirmed') return order; // Already confirmed
 
         order.paymentId = paymentId;
         order.status = 'confirmed';
 
         let ordCounter = parseInt(localStorage.getItem('sparkxOrdCounter') || '1000');
         ordCounter++;
-        order.trackingId = `ORD-${ordCounter}`;
+        order.trackingId = `INV-${ordCounter}`;
         localStorage.setItem('sparkxOrdCounter', ordCounter);
 
         allOrders[orderIndex] = order;
@@ -3022,124 +3214,29 @@
 
         return order; // Return the finalized order
     };
-    
-    const handlePaymentFlow = async () => {
-        const processingModal = document.getElementById('payment-processing-modal');
-        const statusText = document.getElementById('payment-status-text');
 
-        try {
-            // Step 1: Show processing modal and create order on server
-            statusText.textContent = 'Initiating secure payment...';
-            openModal(processingModal);
-            const amountInPaise = parseFloat(currentProductForPurchase.price.replace(/[^0-9.]/g, '')) * 100;
-            const { order_id, key_id } = await createOrderOnServer(amountInPaise, 'INR');
+    const showConfirmation = (finalizedOrder) => {
+        const emailModal = document.getElementById('email-confirmation-modal');
+        const emailSubject = document.getElementById('email-subject');
+        const emailBody = document.getElementById('email-body');
 
-            // Step 2: Create a PENDING order in our system BEFORE opening Razorpay
-            const pendingOrder = {
-                orderId: order_id,
-                paymentId: null, // Not yet available
-                product: currentProductForPurchase,
-                customer: currentCustomerDetails,
-                status: 'pending_razorpay',
-                trackingId: null,
-                date: new Date().toLocaleString()
-            };
-            const orders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
-            orders.push(pendingOrder);
-            localStorage.setItem('sparkxOrders', JSON.stringify(orders));
-
-
-            // Step 3: Configure and open Razorpay Checkout
-            const options = {
-                key: key_id,
-                amount: amountInPaise,
-                currency: 'INR',
-                name: 'SparkX Electronics',
-                description: `Purchase of ${currentProductForPurchase.name}`,
-                order_id: order_id,
-                handler: async function (response) {
-                    // Step 4: Handle successful payment and verify on server
-                    statusText.textContent = 'Verifying payment...';
-                    openModal(processingModal);
-                    
-                    try {
-                        const verificationResponse = await verifyPaymentOnServer({
-                            razorpay_order_id: response.razorpay_order_id,
-                            razorpay_payment_id: response.razorpay_payment_id,
-                            razorpay_signature: response.razorpay_signature,
-                        });
-
-                        if (verificationResponse.status === 'success') {
-                            // Step 5: Finalize the order (update status to 'confirmed')
-                            const finalizedOrder = finalizeOrder(response.razorpay_order_id, response.razorpay_payment_id);
-                            closeModal(processingModal);
-                            
-                            // Step 6: Show confirmation
-                            const emailModal = document.getElementById('email-confirmation-modal');
-                            const emailSubject = document.getElementById('email-subject');
-                            const emailBody = document.getElementById('email-body');
-
-                            emailSubject.textContent = `Subject: Order Confirmation – ${finalizedOrder.trackingId}`;
-                            emailBody.textContent = 
+        emailSubject.textContent = `Subject: Invoice for SparkX Order #${finalizedOrder.trackingId}`;
+        emailBody.textContent = 
 `Hello ${finalizedOrder.customer.name},
 
-Thank you for your payment. Your order has been successfully received.
+Thank you for your payment of ₹${finalizedOrder.product.price}. Your order is confirmed.
+Invoice/Tracking Number: ${finalizedOrder.trackingId}
 Payment ID: ${finalizedOrder.paymentId}
-Tracking Number: ${finalizedOrder.trackingId}
 
+A PDF of your invoice is attached to the real email.
 We will update you once your order is shipped.
 
 Best Regards,
 SparkX Electronics`;
-                            openModal(emailModal);
-                        } else {
-                            throw new Error('Payment verification failed.');
-                        }
-                    } catch (error) {
-                        console.error("Verification failed:", error);
-                        alert('Payment verification failed. Please contact support.');
-                        closeModal(processingModal);
-                    }
-                },
-                prefill: { name: currentCustomerDetails.name, email: currentCustomerDetails.email, contact: currentCustomerDetails.mobile },
-                notes: { address: currentCustomerDetails.address },
-                theme: { color: '#00FFFF' },
-            };
-
-            closeModal(processingModal);
-            
-            const paymentObject = new window.Razorpay(options);
-            paymentObject.on('payment.failed', function (response) {
-                alert(`Payment failed: ${response.error.description}`);
-                console.error('Payment Failed:', response.error);
-                closeModal(processingModal);
-            });
-            paymentObject.open();
-
-        } catch (error) {
-            console.error("Payment flow error:", error);
-            alert('An error occurred while initiating the payment. Please try again.');
-            closeModal(processingModal);
-        }
+        openModal(emailModal);
     };
-    
-    deliveryForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('customer-name').value;
-        const mobile = document.getElementById('customer-mobile').value;
-        const address = document.getElementById('customer-address').value;
-        const email = document.getElementById('customer-email').value;
 
-        if (name && mobile && address && email) {
-            currentCustomerDetails = { name, mobile, address, email };
-            closeModal(deliveryModal);
-            deliveryForm.reset();
-            handlePaymentFlow();
-        } else {
-            alert('Please fill in all delivery details.');
-        }
-    });
-    
+    // --- My Orders & Quick View Logic (largely unchanged) ---
     const myOrdersModal = document.getElementById('my-orders-modal');
     const orderSuccessModal = document.getElementById('order-success-modal');
 
@@ -3165,9 +3262,8 @@ SparkX Electronics`;
         resultsContainer.innerHTML = ''; // Clear previous results
 
         const getStatusBadge = (status) => {
-            if (status === 'confirmed') return `<span class="status-badge status-confirmed">Confirmed</span>`;
-            if (status === 'rejected') return `<span class="status-badge status-rejected">Rejected</span>`;
-            return `<span class="status-badge status-pending_razorpay">Pending Razorpay</span>`;
+            const statusClass = `status-${status.toLowerCase().replace(' ', '_')}`;
+            return `<span class="status-badge ${statusClass}">${status.replace('_', ' ')}</span>`;
         };
 
         if (foundOrders.length > 0) {
@@ -3179,9 +3275,10 @@ SparkX Electronics`;
                     </div>
                     <div class="order-result-body">
                        <div class="summary-item"><span class="summary-label">Product:</span><span class="summary-value">${order.product.name}</span></div>
-                       <div class="summary-item"><span class="summary-label">Price:</span><span class="summary-value">${order.product.price}</span></div>
+                       <div class="summary-item"><span class="summary-label">Price:</span><span class="summary-value">₹${order.product.price}</span></div>
                        <div class="summary-item"><span class="summary-label">Deliver To:</span><span class="summary-value">${order.customer.name}</span></div>
                        ${order.status === 'confirmed' ? `<div class="summary-item"><span class="summary-label">Tracking ID:</span><span class="summary-value">${order.trackingId}</span></div>` : ''}
+                       ${order.status === 'pending_payment' ? `<div class="summary-item"><span class="summary-label">Order ID:</span><span class="summary-value">${order.orderId}</span></div>` : ''}
                     </div>
                 </div>`).join('');
         } else {
@@ -3189,6 +3286,7 @@ SparkX Electronics`;
         }
     });
     
+    // --- Star Rating Logic ---
     const getRatings = () => JSON.parse(localStorage.getItem('productRatings')) || {};
     const saveRatings = (ratings) => localStorage.setItem('productRatings', JSON.stringify(ratings));
 
@@ -3341,8 +3439,6 @@ SparkX Electronics`;
         document.getElementById('webhook-secret').value = WEBHOOK_SECRET;
     };
     
-    // This is a simplified, insecure HASH just for simulation.
-    // A real backend MUST use crypto.createHmac('sha256', secret).
     const generateMockWebhookSignature = (payload, secret) => {
         const payloadString = JSON.stringify(payload);
         let hash = 0;
@@ -3365,10 +3461,8 @@ SparkX Electronics`;
          webhookLog.prepend(entry);
     };
 
-    // This function simulates the server-side webhook endpoint.
     const handleWebhookEvent = (payload, signature) => {
         logToWebhookConsole(`Received webhook for event: ${payload.event}`);
-        
         const expectedSignature = generateMockWebhookSignature(payload, WEBHOOK_SECRET);
         
         if (signature !== expectedSignature) {
@@ -3379,13 +3473,13 @@ SparkX Electronics`;
         logToWebhookConsole('Signature verified successfully.', 'success');
         
         if (payload.event === 'payment.captured') {
-            const orderId = payload.payload.payment.entity.order_id;
+            const orderId = payload.payload.payment.entity.notes.order_id;
             const paymentId = payload.payload.payment.entity.id;
             logToWebhookConsole(`Payment captured for order ${orderId}.`);
             
             const finalizedOrder = finalizeOrder(orderId, paymentId);
             if (finalizedOrder) {
-                logToWebhookConsole(`Order ${orderId} status updated to 'confirmed'. Tracking ID: ${finalizedOrder.trackingId}`, 'success');
+                logToWebhookConsole(`Order ${orderId} status updated to 'confirmed'. Invoice ID: ${finalizedOrder.trackingId}`, 'success');
                 alert(`Webhook Success: Order ${finalizedOrder.trackingId} has been confirmed.`);
                 renderAdminOrders(); // Refresh the orders view if it's open
             } else {
@@ -3396,10 +3490,10 @@ SparkX Electronics`;
     
     document.getElementById('simulate-webhook-btn').addEventListener('click', () => {
         const allOrders = JSON.parse(localStorage.getItem('sparkxOrders')) || [];
-        const pendingOrder = allOrders.find(o => o.status === 'pending_razorpay');
+        const pendingOrder = allOrders.find(o => o.status === 'pending_payment');
         
         if (!pendingOrder) {
-            alert('No pending Razorpay orders found to simulate an event for. Please start a new payment and close the Razorpay modal to create one.');
+            alert('No pending orders found to simulate an event for. Please start a new purchase to create one.');
             return;
         }
         
@@ -3411,8 +3505,8 @@ SparkX Electronics`;
                 payment: {
                     entity: {
                         id: `pay_mock_${Date.now()}`,
-                        order_id: pendingOrder.orderId,
-                        amount: parseFloat(pendingOrder.product.price.replace(/[^0-9.]/g, '')) * 100,
+                        notes: { order_id: pendingOrder.orderId },
+                        amount: pendingOrder.product.price * 100,
                         currency: 'INR'
                     }
                 }
