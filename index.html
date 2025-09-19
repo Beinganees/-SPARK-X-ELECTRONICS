@@ -51,16 +51,6 @@
        font-family: 'Poppins', sans-serif;
     }
     
-    /* Hero Canvas */
-    #matrix-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
     /* Top Offer Banner */
     #top-offer-banner {
         position: sticky;
@@ -208,20 +198,9 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: #000; /* Fallback background */
+      background: linear-gradient(135deg, #020b1c, #000000);
       position: relative;
-      overflow: hidden; /* Hide overflow */
-    }
-
-    #hero-loader {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-    }
-
-    #hero-loader-text {
-        margin-top: 1.5rem;
-        color: #ccc;
+      overflow: hidden;
     }
     
     .hero-content {
@@ -230,17 +209,34 @@
     }
 
     .hero h1 {
-      font-size: 3.5rem;
-      text-shadow: 0 0 15px var(--cyan), 0 0 25px var(--cyan);
+      font-size: 4.5rem;
       margin-bottom: 1rem;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, var(--cyan), #da70d6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 3s ease-in-out infinite;
+    }
+    
+    @keyframes glow {
+      0%, 100% {
+        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #da70d6, 0 0 70px #da70d6, 0 0 80px #da70d6, 0 0 100px #da70d6;
+        transform: scale(1);
+      }
+      50% {
+        text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px #da70d6, 0 0 80px #da70d6, 0 0 90px #da70d6, 0 0 120px #da70d6;
+        transform: scale(1.02);
+      }
     }
 
     .hero p {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       color: #aaa;
       max-width: 600px;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
+      letter-spacing: 4px;
+      font-weight: 500;
+      font-family: 'Poppins', sans-serif;
     }
 
     .hero button {
@@ -1489,7 +1485,8 @@
     }
     
     @media (max-width: 768px) {
-      .hero h1 { font-size: 2.5rem; }
+      .hero h1 { font-size: 3rem; }
+      .hero p { font-size: 1.1rem; letter-spacing: 3px; }
       .about-item { grid-template-columns: 1fr; }
       .about-item:nth-child(even) .about-image { order: 0; }
       .form-row { flex-direction: column; gap: 0; }
@@ -1577,19 +1574,9 @@
 
   <!-- Hero -->
   <section class="hero" id="hero-section">
-    <canvas id="matrix-canvas"></canvas>
-    <div id="hero-loader">
-        <div class="spinner"></div>
-        <p id="hero-loader-text">Generating dynamic theme...</p>
-    </div>
-    <div class="hero-content" style="display: none;">
-        <h1>SparkX Electronics</h1>
-        <p>Powering Innovation Worldwide</p>
-        <div class="contact-info" style="margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.8;">
-            <a href="mailto:mohdanees985@gmail.com">mohdanees985@gmail.com</a>
-            <br>
-            <a href="tel:+919120795494">+91 9120795494</a>
-        </div>
+    <div class="hero-content">
+        <h1>⚡ SparkX Electronics</h1>
+        <p>Smart • Reliable • Affordable</p>
         <button onclick="document.getElementById('products-section').scrollIntoView();">Shop Now</button>
     </div>
   </section>
@@ -2153,133 +2140,6 @@
 
   <script type="module">
     import { GoogleGenAI, Type } from "https://cdn.jsdelivr.net/npm/@google/genai/+esm";
-
-    // --- Digital Rain Canvas Animation ---
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-
-    const setupCanvas = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    };
-    
-    let animationInterval;
-
-    function startMatrixAnimation() {
-        setupCanvas();
-
-        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123.dat';
-        const alphabet = katakana + latin + nums;
-
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-
-        const rainDrops = [];
-        for (let x = 0; x < columns; x++) {
-            rainDrops[x] = 1;
-        }
-
-        const draw = () => {
-            ctx.fillStyle = 'rgba(2, 11, 28, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = 'var(--cyan)';
-            ctx.font = `${fontSize}px monospace`;
-
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
-                }
-                rainDrops[i]++;
-            }
-        };
-
-        if (animationInterval) clearInterval(animationInterval);
-        animationInterval = setInterval(draw, 33);
-    }
-    
-    startMatrixAnimation();
-    window.addEventListener('resize', () => {
-        setupCanvas();
-        startMatrixAnimation();
-    });
-
-    // --- AI Hero Section ---
-    const generateAndDisplayHeroTheme = async () => {
-        const heroEl = document.getElementById('hero-section');
-        const loaderEl = document.getElementById('hero-loader');
-        const loaderTextEl = document.getElementById('hero-loader-text');
-        const heroContentEl = document.querySelector('.hero-content');
-
-        const showFallbackContent = () => {
-            loaderEl.style.display = 'none';
-            heroContentEl.style.display = 'block';
-            heroEl.style.background = 'transparent'; // Let the canvas show through
-        };
-
-        if (!process.env.API_KEY) {
-            console.warn("API_KEY is not set. Skipping theme generation and showing fallback content.");
-            showFallbackContent();
-            return;
-        }
-
-        try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-            
-            loaderTextEl.textContent = 'Generating dynamic theme...';
-            
-            const prompt = `
-              Create a futuristic theme for an electronics company website called "SparkX Electronics".
-              Provide a short, powerful tagline.
-              Return the result as a JSON object with one key: "tagline".
-            `;
-
-            const schema = {
-                type: Type.OBJECT,
-                properties: {
-                    tagline: {
-                        type: Type.STRING,
-                        description: "A short, powerful tagline for the company."
-                    }
-                }
-            };
-
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: prompt,
-                config: {
-                    responseMimeType: "application/json",
-                    responseSchema: schema,
-                },
-            });
-
-            const jsonResponse = JSON.parse(response.text);
-            const { tagline } = jsonResponse;
-
-            heroEl.style.background = 'transparent';
-            heroContentEl.querySelector('p').textContent = tagline;
-            
-            loaderEl.style.display = 'none';
-            heroContentEl.style.display = 'block';
-
-        } catch (error) {
-            console.error('Failed to generate hero theme:', error);
-            if (error.message && error.message.includes("billing")) {
-                 alert('Could not generate hero theme due to model access restrictions. Displaying static content.');
-            } else {
-                 alert('Could not load the company hero theme. Displaying static content.');
-            }
-            showFallbackContent();
-        }
-    };
-    
-    generateAndDisplayHeroTheme();
-
 
     // --- Common elements & State ---
     const productGrid = document.querySelector('.product-grid');
