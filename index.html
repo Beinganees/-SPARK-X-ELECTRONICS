@@ -215,18 +215,7 @@
       background: linear-gradient(90deg, var(--cyan), #da70d6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: glow 3s ease-in-out infinite;
-    }
-    
-    @keyframes glow {
-      0%, 100% {
-        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #da70d6, 0 0 70px #da70d6, 0 0 80px #da70d6, 0 0 100px #da70d6;
-        transform: scale(1);
-      }
-      50% {
-        text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px #da70d6, 0 0 80px #da70d6, 0 0 90px #da70d6, 0 0 120px #da70d6;
-        transform: scale(1.02);
-      }
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(218, 112, 214, 0.5);
     }
 
     .hero p {
@@ -255,7 +244,6 @@
 
     .hero button:hover {
       box-shadow: 0 0 25px var(--cyan);
-      transform: scale(1.05);
       border-color: var(--cyan);
     }
     
