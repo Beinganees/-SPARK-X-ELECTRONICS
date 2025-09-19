@@ -61,6 +61,46 @@
       z-index: 1;
     }
 
+    /* Top Offer Banner */
+    #top-offer-banner {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        background: linear-gradient(90deg, var(--cyan), var(--blue));
+        color: black;
+        text-align: center;
+        padding: 0.6rem 1rem;
+        font-weight: bold;
+        z-index: 1001;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.9rem;
+        transition: transform 0.3s ease-in-out;
+    }
+    #top-offer-banner.hidden {
+      transform: translateY(-100%);
+    }
+    #offer-countdown-timer-top {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 1rem;
+    }
+    #close-top-banner {
+      background: transparent;
+      border: none;
+      color: black;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 0.5rem;
+    }
+    
+    body.banner-visible {
+      padding-top: 45px; /* Adjust based on banner height */
+    }
+
     /* Glass Navbar */
     nav {
       position: fixed;
@@ -75,9 +115,13 @@
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--glass-border);
       z-index: 1000;
-      transition: background-color 0.3s ease-in-out;
+      transition: background-color 0.3s ease-in-out, top 0.3s ease-in-out;
     }
     
+    body.banner-visible nav {
+      top: 45px; /* Adjust based on banner height */
+    }
+
     nav.nav-scrolled {
       background: rgba(15, 25, 45, 0.85);
     }
@@ -245,7 +289,16 @@
         font-size: 1.1rem;
         color: #eee;
         max-width: 700px;
-        margin: 0 auto;
+        margin: 0 auto 1.5rem;
+    }
+
+    #offer-countdown-timer-main {
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 0 10px var(--cyan);
+      margin-bottom: 1.5rem;
     }
 
     /* Services Accordion */
@@ -496,6 +549,13 @@
         color: #aaa;
         margin-top: 1rem;
         flex-grow: 1;
+    }
+    
+    .product-offer-highlight {
+      font-size: 0.8rem;
+      color: var(--cyan);
+      margin-top: 0.75rem;
+      min-height: 1.2em; /* Reserve space */
     }
 
     .product-actions {
@@ -1433,6 +1493,10 @@
       .about-item { grid-template-columns: 1fr; }
       .about-item:nth-child(even) .about-image { order: 0; }
       .form-row { flex-direction: column; gap: 0; }
+      #top-offer-banner { flex-direction: column; gap: 0.25rem; font-size: 0.8rem;}
+      #offer-countdown-timer-top { font-size: 0.9rem; }
+      body.banner-visible { padding-top: 60px; }
+      body.banner-visible nav { top: 60px; }
       
       /* Responsive Admin Table */
       .admin-table {
@@ -1481,6 +1545,14 @@
   </style>
 </head>
 <body>
+
+  <!-- Top Offer Banner -->
+  <div id="top-offer-banner" class="hidden" role="alert">
+    <span id="offer-text-top"></span>
+    <div id="offer-countdown-timer-top"></div>
+    <button id="close-top-banner" aria-label="Dismiss this offer">&times;</button>
+  </div>
+
   <!-- Navbar -->
   <nav>
     <div class="logo">SparkX</div>
@@ -1607,90 +1679,96 @@
   <section class="products" id="products-section">
     <h2>Featured Products</h2>
     <div class="product-grid">
-      <div class="product-card" data-id="1" id="product-1">
+      <div class="product-card" data-id="1" id="product-1" data-category="Fan">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container"><img src="https://images.pexels.com/photos/8581005/pexels-photo-8581005.jpeg?auto=compress&cs=tinysrgb&w=600" alt="A modern white high-speed ceiling fan installed in a room." loading="lazy"></div>
         <div class="product-details">
           <h3>High-Speed Ceiling Fan</h3>
-          <p class="product-price" data-original-price="₹1199">₹1199</p>
+          <p class="product-price" data-original-price="1199">₹1199</p>
           <div class="star-rating"></div>
           <div class="product-variants"></div>
           <p class="product-description">A high-performance ceiling fan for maximum airflow.</p>
+          <p class="product-offer-highlight"></p>
         </div>
         <div class="product-actions">
           <button class="quick-view-btn">Quick View</button>
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="2" id="product-2">
+      <div class="product-card" data-id="2" id="product-2" data-category="Fan">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container"><img src="https://images.pexels.com/photos/7772633/pexels-photo-7772633.jpeg?auto=compress&cs=tinysrgb&w=600" alt="A sleek portable table fan on a wooden surface." loading="lazy"></div>
         <div class="product-details">
           <h3>Portable Table Fan</h3>
-          <p class="product-price" data-original-price="₹799">₹799</p>
+          <p class="product-price" data-original-price="799">₹799</p>
           <div class="star-rating"></div>
           <div class="product-variants"></div>
            <p class="product-description">Compact and powerful fan, perfect for personal cooling.</p>
+           <p class="product-offer-highlight"></p>
         </div>
         <div class="product-actions">
           <button class="quick-view-btn">Quick View</button>
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="3" id="product-3">
+      <div class="product-card" data-id="3" id="product-3" data-category="Cooler">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container"><img src="https://images.pexels.com/photos/8472911/pexels-photo-8472911.jpeg?auto=compress&cs=tinysrgb&w=600" alt="A modern white personal air cooler in a home setting." loading="lazy"></div>
         <div class="product-details">
           <h3>Personal Air Cooler</h3>
-          <p class="product-price" data-original-price="₹3499">₹3499</p>
+          <p class="product-price" data-original-price="3499">₹3499</p>
           <div class="star-rating"></div>
           <div class="product-variants"></div>
           <p class="product-description">Efficient air cooler with honeycomb pads for quick cooling.</p>
+          <p class="product-offer-highlight"></p>
         </div>
         <div class="product-actions">
           <button class="quick-view-btn">Quick View</button>
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="4" id="product-4">
+      <div class="product-card" data-id="4" id="product-4" data-category="Lighting">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container"><img src="https://images.pexels.com/photos/4009402/pexels-photo-4009402.jpeg?auto=compress&cs=tinysrgb&w=600" alt="A hand holding a brightly glowing energy-efficient 9W LED bulb." loading="lazy"></div>
         <div class="product-details">
           <h3>9W LED Bulb (Pack of 4)</h3>
-          <p class="product-price" data-original-price="₹299">₹299</p>
+          <p class="product-price" data-original-price="299">₹299</p>
           <div class="star-rating"></div>
           <div class="product-variants"></div>
           <p class="product-description">Energy-saving bright white LED bulbs for your home.</p>
+          <p class="product-offer-highlight"></p>
         </div>
         <div class="product-actions">
           <button class="quick-view-btn">Quick View</button>
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="5" id="product-5">
+      <div class="product-card" data-id="5" id="product-5" data-category="Wiring">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container"><img src="https://images.pexels.com/photos/8346033/pexels-photo-8346033.jpeg?auto=compress&cs=tinysrgb&w=600" alt="A coil of 1.5mm high-quality insulated copper wire." loading="lazy"></div>
         <div class="product-details">
           <h3>1.5mm Copper Wire (90m)</h3>
-          <p class="product-price" data-original-price="₹1299">₹1299</p>
+          <p class="product-price" data-original-price="1299">₹1299</p>
           <div class="star-rating"></div>
           <div class="product-variants"></div>
           <p class="product-description">High-quality, insulated copper wire for safe electrical wiring.</p>
+          <p class="product-offer-highlight"></p>
         </div>
         <div class="product-actions">
           <button class="quick-view-btn">Quick View</button>
           <button class="buy-now-btn">Buy Now</button>
         </div>
       </div>
-      <div class="product-card" data-id="6" id="product-6">
+      <div class="product-card" data-id="6" id="product-6" data-category="Tools">
         <div class="sale-badge" style="display: none;">Sale</div>
         <div class="img-container"><img src="https://images.pexels.com/photos/5638153/pexels-photo-5638153.jpeg?auto=compress&cs=tinysrgb&w=600" alt="A professional digital multimeter being used to test electronics." loading="lazy"></div>
         <div class="product-details">
           <h3>Digital Multimeter</h3>
-          <p class="product-price" data-original-price="₹499">₹499</p>
+          <p class="product-price" data-original-price="499">₹499</p>
           <div class="star-rating"></div>
           <div class="product-variants"></div>
           <p class="product-description">A must-have tool for any electronics enthusiast or professional.</p>
+          <p class="product-offer-highlight"></p>
         </div>
         <div class="product-actions">
           <button class="quick-view-btn">Quick View</button>
@@ -1834,10 +1912,11 @@
                           <input type="hidden" id="product-id"><input type="hidden" id="remove-image-flag" value="false">
                           <div class="form-row">
                             <div class="form-group"><label for="product-name">Product Name</label><input type="text" id="product-name" required></div>
+                            <div class="form-group"><label for="product-category">Category</label><input type="text" id="product-category" placeholder="e.g., Fan, Cooler" required></div>
                           </div>
                           <div class="form-row">
-                              <div class="form-group"><label for="product-price">Original Price</label><input type="text" id="product-price" placeholder="e.g., ₹1199" required></div>
-                              <div class="form-group"><label for="product-sale-price">Sale Price (Optional)</label><input type="text" id="product-sale-price" placeholder="e.g., ₹999"></div>
+                              <div class="form-group"><label for="product-price">Original Price (Numbers only)</label><input type="text" id="product-price" placeholder="e.g., 1199" required></div>
+                              <div class="form-group"><label for="product-sale-price">Sale Price (Numbers only, Optional)</label><input type="text" id="product-sale-price" placeholder="e.g., 999"></div>
                           </div>
                           <div class="form-group"><label for="product-description-input">Description</label><textarea id="product-description-input" required></textarea></div>
                            <div class="admin-card" style="background: rgba(0,0,0,0.5);">
@@ -2091,7 +2170,7 @@
 
         const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
         const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const nums = '0123456789';
+        const nums = '0123.dat';
         const alphabet = katakana + latin + nums;
 
         const fontSize = 16;
@@ -2282,55 +2361,137 @@
         });
     });
 
+    // --- Promotion, Discount & Countdown Logic ---
+    const nextSunday = new Date();
+    nextSunday.setDate(nextSunday.getDate() + (7 - nextSunday.getDay()) % 7);
+    nextSunday.setHours(23, 59, 59, 999);
 
-    // --- Promotion & Discount Logic ---
-    const promotionBanner = document.getElementById('promotion-banner');
-    const promotionForm = document.getElementById('promotion-form');
-    const promotionHeadlineInput = document.getElementById('promotion-headline-input');
-    const promotionDescriptionInput = document.getElementById('promotion-description-input');
-    const promotionActiveCheckbox = document.getElementById('promotion-active-checkbox');
-    
-    const extractDiscount = (text) => {
-      const match = text.match(/\b(\d{1,3})\s*%/);
-      return match ? parseInt(match[1], 10) : 0;
-    };
-
-    const updatePromotionBanner = () => {
-        const promotionData = JSON.parse(localStorage.getItem('promotionData'));
-        if (promotionData && promotionData.isActive) {
-            promotionBanner.innerHTML = `
-                <h2>${promotionData.headline}</h2>
-                <p>${promotionData.description}</p>`;
-            promotionBanner.style.display = 'block';
-            activeDiscountPercent = extractDiscount(promotionData.description);
-        } else {
-            promotionBanner.style.display = 'none';
-            activeDiscountPercent = 0;
-        }
-        refreshAllProductsUI();
+    const promotionConfig = {
+      isActive: true,
+      endDate: nextSunday.toISOString(),
+      primaryOffer: {
+        text: "Limited Time Offer: 10% off all Fans this week!",
+        discountPercent: 10,
+        category: "Fan",
+      },
+      secondaryOffer: {
+        text: "Plus, get FREE Installation on orders above ₹2000!",
+        threshold: 2000,
+      }
     };
     
-    const loadPromotionDataIntoForm = () => {
-        const promotionData = JSON.parse(localStorage.getItem('promotionData'));
-        if(promotionData) {
-            promotionHeadlineInput.value = promotionData.headline || '';
-            promotionDescriptionInput.value = promotionData.description || '';
-            promotionActiveCheckbox.checked = promotionData.isActive || false;
-        }
-    };
+    let countdownInterval;
 
-    promotionForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const promotionData = {
-            headline: promotionHeadlineInput.value,
-            description: promotionDescriptionInput.value,
-            isActive: promotionActiveCheckbox.checked,
-        };
-        localStorage.setItem('promotionData', JSON.stringify(promotionData));
-        updatePromotionBanner();
-        alert('Promotion updated!');
+    function startCountdown() {
+      const countdownDate = new Date(promotionConfig.endDate).getTime();
+      const topTimerEl = document.getElementById('offer-countdown-timer-top');
+      const mainTimerEl = document.getElementById('offer-countdown-timer-main');
+
+      if (!topTimerEl || !mainTimerEl) return;
+      
+      if (countdownInterval) clearInterval(countdownInterval);
+
+      countdownInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+
+        if (distance < 0) {
+          clearInterval(countdownInterval);
+          topTimerEl.innerHTML = "<span>Offer Expired</span>";
+          mainTimerEl.innerHTML = "Offer Expired";
+          // Optionally hide banners
+          document.getElementById('top-offer-banner')?.classList.add('hidden');
+          document.getElementById('promotion-banner').style.display = 'none';
+          return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        const format = (num) => num.toString().padStart(2, '0');
+
+        const topTimerHTML = `
+          <span>${format(days)}d</span>:
+          <span>${format(hours)}h</span>:
+          <span>${format(minutes)}m</span>:
+          <span>${format(seconds)}s</span>
+        `;
+        const mainTimerHTML = `${format(days)}d : ${format(hours)}h : ${format(minutes)}m : ${format(seconds)}s`;
+
+        topTimerEl.innerHTML = topTimerHTML;
+        if(mainTimerEl) mainTimerEl.innerHTML = mainTimerHTML;
+      }, 1000);
+    }
+
+    function applyPromotions() {
+      if (!promotionConfig.isActive) return;
+
+      // Top Header Banner
+      const topBanner = document.getElementById('top-offer-banner');
+      if (topBanner && sessionStorage.getItem('topBannerDismissed') !== 'true') {
+        document.getElementById('offer-text-top').textContent = promotionConfig.primaryOffer.text;
+        topBanner.classList.remove('hidden');
+        document.body.classList.add('banner-visible');
+      }
+
+      // Main Promotion Banner Section
+      const mainBanner = document.getElementById('promotion-banner');
+      mainBanner.innerHTML = `
+          <h2>${promotionConfig.primaryOffer.text}</h2>
+          <div id="offer-countdown-timer-main"></div>
+          <p>${promotionConfig.secondaryOffer.text}</p>`;
+      mainBanner.style.display = 'block';
+
+      // Start the countdowns
+      startCountdown();
+      
+      // Apply discounts and highlights to product cards
+      document.querySelectorAll('.product-card').forEach(card => {
+          const priceEl = card.querySelector('.product-price');
+          const originalPrice = parseFloat(priceEl.dataset.originalPrice);
+          const saleBadge = card.querySelector('.sale-badge');
+          const offerHighlightEl = card.querySelector('.product-offer-highlight');
+          
+          let finalPrice = originalPrice;
+          let isDiscounted = false;
+
+          // Primary offer (e.g., category discount)
+          if (card.dataset.category === promotionConfig.primaryOffer.category) {
+              finalPrice = Math.round(originalPrice * (1 - promotionConfig.primaryOffer.discountPercent / 100));
+              isDiscounted = true;
+              
+              priceEl.innerHTML = `<del>₹${originalPrice}</del> <ins>₹${finalPrice}</ins>`;
+              if(saleBadge) {
+                  saleBadge.textContent = `${promotionConfig.primaryOffer.discountPercent}% OFF`;
+                  saleBadge.style.display = 'block';
+              }
+          } else {
+             // Reset to original price if no other discount applies
+             priceEl.innerHTML = `₹${originalPrice}`;
+             if(saleBadge) saleBadge.style.display = 'none';
+          }
+          
+          // Secondary offer (e.g., free shipping/installation)
+          if(offerHighlightEl) {
+              if (originalPrice > promotionConfig.secondaryOffer.threshold) {
+                  offerHighlightEl.textContent = '✓ Free Installation available!';
+              } else {
+                  offerHighlightEl.textContent = '';
+              }
+          }
+      });
+    }
+
+    const closeTopBannerBtn = document.getElementById('close-top-banner');
+    closeTopBannerBtn.addEventListener('click', () => {
+        const topBanner = document.getElementById('top-offer-banner');
+        topBanner.classList.add('hidden');
+        document.body.classList.remove('banner-visible');
+        sessionStorage.setItem('topBannerDismissed', 'true');
     });
-    
+
     // --- Product Variant & Price Rendering Logic ---
     const refreshAllProductsUI = () => {
         document.querySelectorAll('.product-card').forEach(card => {
@@ -2366,8 +2527,8 @@
         const priceEl = card.querySelector('.product-price');
         const saleBadge = card.querySelector('.sale-badge');
         
-        const baseOriginalPriceText = card.querySelector('.product-price').dataset.originalPrice;
-        const baseSalePriceText = card.dataset.salePrice;
+        const baseOriginalPrice = parseFloat(card.querySelector('.product-price').dataset.originalPrice);
+        const baseSalePrice = card.dataset.salePrice ? parseFloat(card.dataset.salePrice) : null;
         const variantsJson = card.dataset.variants;
         const variants = variantsJson ? JSON.parse(variantsJson) : [];
         
@@ -2380,32 +2541,32 @@
             });
         }
 
-        // Determine final prices
-        let originalPriceText = selectedVariant?.price || baseOriginalPriceText;
-        let salePriceText = selectedVariant?.salePrice || baseSalePriceText;
+        let originalPrice = selectedVariant?.price ? parseFloat(selectedVariant.price) : baseOriginalPrice;
+        let salePrice = selectedVariant?.salePrice ? parseFloat(selectedVariant.salePrice) : baseSalePrice;
 
-        const originalPriceNum = parseFloat(originalPriceText.replace('₹', ''));
-        const salePriceNum = salePriceText ? parseFloat(salePriceText.replace('₹', '')) : null;
-
-        let finalPrice = originalPriceNum;
-        let discountPercent = 0;
+        let finalPrice = originalPrice;
+        let discountApplied = false;
         
-        if (salePriceNum && salePriceNum < originalPriceNum) {
-            finalPrice = salePriceNum;
-            discountPercent = Math.round(((originalPriceNum - finalPrice) / originalPriceNum) * 100);
-        } else if (activeDiscountPercent > 0) {
-            finalPrice = Math.round(originalPriceNum * (1 - activeDiscountPercent / 100));
-            discountPercent = activeDiscountPercent;
+        // Priority 1: Specific sale price
+        if (salePrice && salePrice < originalPrice) {
+            finalPrice = salePrice;
+            discountApplied = true;
+        } 
+        // Priority 2: Active site-wide promotion
+        else if (promotionConfig.isActive && card.dataset.category === promotionConfig.primaryOffer.category) {
+            finalPrice = Math.round(originalPrice * (1 - promotionConfig.primaryOffer.discountPercent / 100));
+            discountApplied = true;
         }
 
-        if (discountPercent > 0 && finalPrice < originalPriceNum) {
-            priceEl.innerHTML = `<del>${originalPriceText}</del> <ins>₹${finalPrice}</ins>`;
+        if (discountApplied) {
+            priceEl.innerHTML = `<del>₹${originalPrice}</del> <ins>₹${finalPrice}</ins>`;
             if(saleBadge) {
+                const discountPercent = Math.round(((originalPrice - finalPrice) / originalPrice) * 100);
                 saleBadge.textContent = `${discountPercent}% OFF`;
                 saleBadge.style.display = 'block';
             }
         } else {
-            priceEl.innerHTML = originalPriceText;
+            priceEl.innerHTML = `₹${originalPrice}`;
             if(saleBadge) saleBadge.style.display = 'none';
         }
     };
@@ -2448,7 +2609,6 @@
             openModal(adminModal);
             renderAdminProducts();
             renderAdminOrders();
-            loadPromotionDataIntoForm();
             setupWebhookTab();
             resetAdminForm();
         } else {
@@ -2465,6 +2625,7 @@
     const formCancelBtn = document.getElementById('form-cancel-btn');
     const productIdInput = document.getElementById('product-id');
     const productNameInput = document.getElementById('product-name');
+    const productCategoryInput = document.getElementById('product-category');
     const productPriceInput = document.getElementById('product-price');
     const productSalePriceInput = document.getElementById('product-sale-price');
     const productDescriptionInput = document.getElementById('product-description-input');
@@ -2519,13 +2680,13 @@
             const id = card.dataset.id;
             const name = card.querySelector('h3').textContent;
             const priceEl = card.querySelector('.product-price');
-            const price = priceEl.dataset.originalPrice || priceEl.textContent;
+            const price = priceEl.dataset.originalPrice;
             const salePrice = card.dataset.salePrice;
             const description = card.querySelector('.product-description').textContent;
             const imageEl = card.querySelector('.img-container img');
             const imgSrc = imageEl ? imageEl.src : '';
             
-            const priceHTML = salePrice ? `<del>${price}</del> <ins>${salePrice}</ins>` : price;
+            const priceHTML = salePrice ? `<del>₹${price}</del> <ins>₹${salePrice}</ins>` : `₹${price}`;
             
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -2577,6 +2738,7 @@
         e.preventDefault();
         const id = productIdInput.value;
         const name = productNameInput.value;
+        const category = productCategoryInput.value;
         const price = productPriceInput.value;
         const salePrice = productSalePriceInput.value;
         const description = productDescriptionInput.value;
@@ -2588,8 +2750,8 @@
                 cardToUpdate = productGrid.querySelector(`.product-card[data-id="${id}"]`);
                 if (cardToUpdate) {
                     cardToUpdate.querySelector('h3').textContent = name;
+                    cardToUpdate.dataset.category = category;
                     const priceEl = cardToUpdate.querySelector('.product-price');
-                    priceEl.textContent = price;
                     priceEl.dataset.originalPrice = price;
                     if (salePrice) cardToUpdate.dataset.salePrice = salePrice;
                     else cardToUpdate.removeAttribute('data-sale-price');
@@ -2607,6 +2769,7 @@
                 newCard.className = 'product-card';
                 newCard.dataset.id = newId;
                 newCard.id = `product-${newId}`;
+                newCard.dataset.category = category;
                 if (salePrice) newCard.dataset.salePrice = salePrice;
                 newCard.dataset.variants = JSON.stringify(currentEditingVariants);
                 newCard.innerHTML = `
@@ -2614,10 +2777,11 @@
                     <div class="img-container">${imgSrc ? `<img src="${imgSrc}" alt="${name}" loading="lazy">` : 'No Image'}</div>
                     <div class="product-details">
                         <h3>${name}</h3>
-                        <p class="product-price" data-original-price="${price}">${price}</p>
+                        <p class="product-price" data-original-price="${price}">₹${price}</p>
                         <div class="star-rating"></div>
                         <div class="product-variants"></div>
                         <p class="product-description">${description}</p>
+                        <p class="product-offer-highlight"></p>
                     </div>
                     <div class="product-actions"><button class="quick-view-btn">Quick View</button><button class="buy-now-btn">Buy Now</button></div>`;
                 productGrid.appendChild(newCard);
@@ -2628,6 +2792,7 @@
             renderFrontendVariants(cardToUpdate);
             renderAdminProducts();
             resetAdminForm();
+            applyPromotions(); // Re-apply promotions to update all cards
         };
 
         if (imageFile) {
@@ -2654,8 +2819,9 @@
             if (card) {
                 productIdInput.value = id;
                 productNameInput.value = card.querySelector('h3').textContent;
+                productCategoryInput.value = card.dataset.category || '';
                 const priceEl = card.querySelector('.product-price');
-                productPriceInput.value = priceEl.dataset.originalPrice || priceEl.textContent;
+                productPriceInput.value = priceEl.dataset.originalPrice;
                 productSalePriceInput.value = card.dataset.salePrice || '';
                 productDescriptionInput.value = card.querySelector('.product-description').textContent;
                 
@@ -2914,6 +3080,7 @@
             const qvCard = quickViewContent.parentElement;
             qvCard.dataset.variants = card.dataset.variants;
             qvCard.dataset.salePrice = card.dataset.salePrice;
+            qvCard.dataset.category = card.dataset.category;
             qvCard.querySelector('.price').dataset.originalPrice = priceEl.dataset.originalPrice;
             
             renderFrontendVariants(qvCard);
@@ -3411,7 +3578,7 @@ SparkX Electronics`;
 
 
     // --- Initial Page Load Actions ---
-    updatePromotionBanner(); // This will apply discounts & variants on page load
+    applyPromotions(); // Applies discounts, banners, countdowns on page load
     
     // --- Scroll Animation Logic ---
     const scrollObserver = new IntersectionObserver((entries, observer) => {
