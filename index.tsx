@@ -66,12 +66,117 @@ const DB = {
 
 // --- INITIAL DATABASE STATE ---
 const DEFAULT_PRODUCTS: Product[] = [
-    { id: 1, name: "High-Speed Ceiling Fan", category: "Fan", price: 1199, description: "A high-performance ceiling fan for maximum airflow.", image: "https://images.pexels.com/photos/8581005/pexels-photo-8581005.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
-    { id: 2, name: "Portable Table Fan", category: "Fan", price: 799, description: "Compact and powerful fan, perfect for personal cooling.", image: "https://images.pexels.com/photos/7772633/pexels-photo-7772633.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
-    { id: 3, name: "Personal Air Cooler", category: "Cooler", price: 3499, description: "Efficient air cooler with honeycomb pads for quick cooling.", image: "https://images.pexels.com/photos/8472911/pexels-photo-8472911.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
-    { id: 4, name: "9W LED Bulb (Pack of 4)", category: "Lighting", price: 299, description: "Energy-saving bright white LED bulbs for your home.", image: "https://images.pexels.com/photos/4009402/pexels-photo-4009402.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
-    { id: 5, name: "1.5mm Copper Wire (90m)", category: "Wiring", price: 1299, description: "High-quality, insulated copper wire for safe electrical wiring.", image: "https://images.pexels.com/photos/8346033/pexels-photo-8346033.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
-    { id: 6, name: "Digital Multimeter", category: "Tools", price: 499, description: "A must-have tool for any electronics enthusiast or professional.", image: "https://images.pexels.com/photos/5638153/pexels-photo-5638153.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 1, name: "Aura High-Speed Ceiling Fan", category: "Fan", price: 1199, description: "A high-performance ceiling fan for maximum airflow.", image: "https://images.pexels.com/photos/8581005/pexels-photo-8581005.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 2, name: "Breeze Portable Table Fan", category: "Fan", price: 799, description: "Compact and powerful fan, perfect for personal cooling.", image: "https://images.pexels.com/photos/7772633/pexels-photo-7772633.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 3, name: "Frost Personal Air Cooler", category: "Cooler", price: 3499, description: "Efficient air cooler with honeycomb pads for quick cooling.", image: "https://images.pexels.com/photos/8472911/pexels-photo-8472911.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 4, name: "Lumina 9W LED Bulb (Pack of 4)", category: "Lighting", price: 299, description: "Energy-saving bright white LED bulbs for your home.", image: "https://images.pexels.com/photos/4009402/pexels-photo-4009402.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 5, name: "FlexiCore 1.5mm Copper Wire (90m)", category: "Wiring", price: 1299, description: "High-quality, insulated copper wire for safe electrical wiring.", image: "https://images.pexels.com/photos/8346033/pexels-photo-8346033.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 6, name: "VoltCheck Digital Multimeter", category: "Tools", price: 499, description: "A must-have tool for any electronics enthusiast or professional.", image: "https://images.pexels.com/photos/5638153/pexels-photo-5638153.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    // --- 101 NEW PRODUCTS START HERE ---
+    { id: 101, name: "Aero Series Ceiling Fan", category: "Fan", price: 2499, description: "Aerodynamic blades for silent operation and superior air delivery.", image: "https://images.pexels.com/photos/16694189/pexels-photo-16694189/free-photo-of-white-ceiling-fan-in-the-room.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 102, name: "CoolWave Desert Air Cooler", category: "Cooler", price: 8999, description: "Large capacity desert cooler for large spaces, with powerful air throw.", image: "https://images.pexels.com/photos/713297/pexels-photo-713297.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 103, name: "GlowTube 20W LED Batten", category: "Lighting", price: 450, description: "Sleek and bright LED batten light, perfect for kitchens and offices.", image: "https://images.pexels.com/photos/1125280/pexels-photo-1125280.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 104, name: "SafeGuard 4-Way Power Strip", category: "Wiring", price: 599, description: "Surge-protected power strip with 4 universal sockets and a long cord.", image: "https://images.pexels.com/photos/4012581/pexels-photo-4012581.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 105, name: "Cyclone Pedestal Fan", category: "Fan", price: 1999, description: "High-speed pedestal fan with adjustable height and oscillation.", image: "https://images.pexels.com/photos/1010519/pexels-photo-1010519.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 106, name: "AquaChill Tower Cooler", category: "Cooler", price: 6499, description: "Slim and stylish tower cooler with remote control and ice chamber.", image: "https://images.pexels.com/photos/8992923/pexels-photo-8992923.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 107, name: "Sparkle Decorative LED String Lights", category: "Lighting", price: 399, description: "10-meter warm white LED string lights for festive decoration.", image: "https://images.pexels.com/photos/3227984/pexels-photo-3227984.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 108, name: "DuraFlex 2.5mm Copper Wire (90m)", category: "Wiring", price: 1899, description: "Heavy-duty insulated copper wire for high-load applications.", image: "https://images.pexels.com/photos/824635/pexels-photo-824635.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 109, name: "Ventil-8 Exhaust Fan", category: "Fan", price: 999, description: "High-velocity exhaust fan for kitchens and bathrooms.", image: "https://images.pexels.com/photos/8354524/pexels-photo-8354524.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 110, name: "Pro-Grip Soldering Iron Kit", category: "Tools", price: 750, description: "25W soldering iron kit with stand, flux, and solder wire.", image: "https://images.pexels.com/photos/6157053/pexels-photo-6157053.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 111, name: "Radiant Panel LED Light", category: "Lighting", price: 1299, description: "2x2 ceiling-mounted LED panel light for uniform, glare-free lighting.", image: "https://images.pexels.com/photos/6625923/pexels-photo-6625923.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 112, name: "Modular Anchor Switch (Single)", category: "Wiring", price: 89, description: "Elegant and durable single modular switch for modern homes.", image: "https://images.pexels.com/photos/1797436/pexels-photo-1797436.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 113, name: "Mini-Breeze USB Desk Fan", category: "Fan", price: 499, description: "Quiet and portable USB-powered fan for your workspace.", image: "https://images.pexels.com/photos/403565/pexels-photo-403565.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 114, name: "ArcticBlast Window AC (1.5 Ton)", category: "Cooler", price: 28999, description: "Powerful 1.5 Ton window air conditioner with energy saving mode.", image: "https://images.pexels.com/photos/221027/pexels-photo-221027.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 115, name: "Outdoor Flood Light (50W)", category: "Lighting", price: 1499, description: "Waterproof high-power LED flood light for outdoor security.", image: "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 116, name: "PVC Insulation Tape (Pack of 5)", category: "Wiring", price: 150, description: "Multi-colored electrical insulation tape for various wiring tasks.", image: "https://images.pexels.com/photos/7845123/pexels-photo-7845123.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 117, name: "Classic Wall-Mounted Fan", category: "Fan", price: 1599, description: "3-speed wall fan with pull cords and oscillation feature.", image: "https://images.pexels.com/photos/690407/pexels-photo-690407.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 118, name: "Precision Wire Stripper", category: "Tools", price: 350, description: "Self-adjusting wire stripper and cutter for clean and easy work.", image: "https://images.pexels.com/photos/843226/pexels-photo-843226.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 119, name: "Smart LED Bulb (Wi-Fi)", category: "Lighting", price: 699, description: "Color-changing smart bulb, controllable via app and voice assistants.", image: "https://images.pexels.com/photos/8099344/pexels-photo-8099344.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 120, name: "Heavy Duty MCB (32A)", category: "Wiring", price: 299, description: "Single-pole Miniature Circuit Breaker for overload protection.", image: "https://images.pexels.com/photos/599988/pexels-photo-599988.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    //... continue for 101 products
+    { id: 121, name: "Grandeur Chandelier Fan", category: "Fan", price: 12999, description: "Elegant ceiling fan with integrated crystal chandelier.", image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 122, name: "Compact Room Heater", category: "Appliances", price: 1499, description: "2000W fan heater with two heat settings and safety cut-off.", image: "https://images.pexels.com/photos/6324707/pexels-photo-6324707.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 123, name: "Focus LED Spotlight", category: "Lighting", price: 550, description: "Adjustable track-mounted spotlight for accent lighting.", image: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 124, name: "Junction Box (4x4)", category: "Wiring", price: 50, description: "Durable PVC concealed modular junction box for wiring connections.", image: "https://images.pexels.com/photos/906015/pexels-photo-906015.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 125, name: "Industrial Heavy-Duty Exhaust Fan", category: "Fan", price: 3999, description: "24-inch exhaust fan for factories and large workshops.", image: "https://images.pexels.com/photos/159291/beer-machine-beer-brewery-159291.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 126, name: "Digital Clamp Meter", category: "Tools", price: 1199, description: "Professional clamp meter for measuring AC/DC current without contact.", image: "https://images.pexels.com/photos/4317157/pexels-photo-4317157.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 127, name: "Emergency Rechargeable LED Lantern", category: "Lighting", price: 899, description: "Bright LED lantern with up to 8 hours of battery backup.", image: "https://images.pexels.com/photos/988914/pexels-photo-988914.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 128, name: "CAT6 Ethernet Cable (20m)", category: "Wiring", price: 799, description: "High-speed LAN cable for stable internet connections.", image: "https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 129, name: "Stealth Black Ceiling Fan", category: "Fan", price: 3200, description: "Matt black designer fan for a modern aesthetic.", image: "https://images.pexels.com/photos/3773574/pexels-photo-3773574.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 130, name: "Automatic Voltage Stabilizer", category: "Appliances", price: 2199, description: "Protects your appliances from voltage fluctuations.", image: "https://images.pexels.com/photos/577769/pexels-photo-577769.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 131, name: "Vintage Edison Bulb", category: "Lighting", price: 250, description: "Antique-style filament bulb for a warm, retro look.", image: "https://images.pexels.com/photos/132340/pexels-photo-132340.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 132, name: "Wire Sleeve Kit", category: "Wiring", price: 450, description: "Assorted heat-shrink wire sleeves for insulating connections.", image: "https://images.pexels.com/photos/5088008/pexels-photo-5088008.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 133, name: "Mini Air Cooler", category: "Cooler", price: 1999, description: "Compact personal cooler for small rooms and offices.", image: "https://images.pexels.com/photos/5998132/pexels-photo-5998132.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 134, name: "Heat Gun (2000W)", category: "Tools", price: 1399, description: "Dual temperature heat gun for various applications.", image: "https://images.pexels.com/photos/7238779/pexels-photo-7238779.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 135, name: "LED Downlight (12W)", category: "Lighting", price: 350, description: "Recessed ceiling downlight with a clean, modern look.", image: "https://images.pexels.com/photos/1118428/pexels-photo-1118428.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 136, name: "Doorbell Chime Kit", category: "Wiring", price: 499, description: "Wireless doorbell with multiple chime options and long range.", image: "https://images.pexels.com/photos/4239014/pexels-photo-4239014.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 137, name: "Turbo-Flo Wall Fan", category: "Fan", price: 2100, description: "High-performance wall fan with remote control.", image: "https://images.pexels.com/photos/3756883/pexels-photo-3756883.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 138, name: "Water Immersion Heater Rod", category: "Appliances", price: 599, description: "1500W immersion rod for quick water heating.", image: "https://images.pexels.com/photos/92994/pexels-photo-92994.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 139, name: "Motion Sensor LED Light", category: "Lighting", price: 799, description: "Battery-powered motion-activated light for closets and hallways.", image: "https://images.pexels.com/photos/392018/pexels-photo-392018.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 140, name: "PVC Conduit Pipe (10ft)", category: "Wiring", price: 120, description: "Standard PVC pipe for protecting electrical wiring.", image: "https://images.pexels.com/photos/8961343/pexels-photo-8961343.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 141, name: "Low Profile Ceiling Fan", category: "Fan", price: 2899, description: "Hugger-style fan, perfect for rooms with low ceilings.", image: "https://images.pexels.com/photos/6625953/pexels-photo-6625953.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 142, name: "Electric Iron (1000W)", category: "Appliances", price: 750, description: "Dry iron with non-stick soleplate and temperature control.", image: "https://images.pexels.com/photos/6214389/pexels-photo-6214389.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 143, name: "COB Strip LED Light (5m)", category: "Lighting", price: 999, description: "High-density COB LED strip for dotless, continuous lighting.", image: "https://images.pexels.com/photos/314937/pexels-photo-314937.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 144, name: "Modular Socket with USB", category: "Wiring", price: 450, description: "Wall socket with two built-in USB charging ports.", image: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 145, name: "Rechargeable Table Fan", category: "Fan", price: 1899, description: "Portable fan with built-in battery for use during power cuts.", image: "https://images.pexels.com/photos/459762/pexels-photo-459762.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 146, name: "Cordless Drill Driver", category: "Tools", price: 3499, description: "12V cordless drill with two batteries and a charger kit.", image: "https://images.pexels.com/photos/1249611/pexels-photo-1249611.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 147, name: "Smart Downlight (Wi-Fi)", category: "Lighting", price: 850, description: "Smart recessed light with tunable white and color options.", image: "https://images.pexels.com/photos/2088998/pexels-photo-2088998.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 148, name: "HDMI Cable (3m)", category: "Wiring", price: 399, description: "High-speed 4K HDMI cable for connecting media devices.", image: "https://images.pexels.com/photos/34284/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 149, name: "Tower Fan with Remote", category: "Fan", price: 3499, description: "Slim tower fan with 3 speeds, timer, and oscillation.", image: "https://images.pexels.com/photos/3773578/pexels-photo-3773578.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 150, name: "Induction Cooktop", category: "Appliances", price: 2499, description: "2000W induction stove with push-button controls and timer.", image: "https://images.pexels.com/photos/8853502/pexels-photo-8853502.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 151, name: "Ceiling Rose", category: "Wiring", price: 40, description: "Standard electrical ceiling rose for light and fan fixtures.", image: "https://images.pexels.com/photos/279719/pexels-photo-279719.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 152, name: "Digital Soldering Station", category: "Tools", price: 2999, description: "Temperature controlled soldering station for precision electronics work.", image: "https://images.pexels.com/photos/5638161/pexels-photo-5638161.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 153, name: "Outdoor Wall Lantern", category: "Lighting", price: 1199, description: "Classic design outdoor wall light for porches and entrances.", image: "https://images.pexels.com/photos/262039/pexels-photo-262039.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 154, name: "Coaxial TV Cable (20m)", category: "Wiring", price: 499, description: "High-quality coaxial cable for cable TV and satellite connections.", image: "https://images.pexels.com/photos/224924/pexels-photo-224924.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 155, name: "Mist Fan", category: "Fan", price: 7999, description: "Pedestal fan with misting function for enhanced cooling.", image: "https://images.pexels.com/photos/3807755/pexels-photo-3807755.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 156, name: "Electric Kettle (1.5L)", category: "Appliances", price: 999, description: "Stainless steel electric kettle with auto cut-off.", image: "https://images.pexels.com/photos/5946636/pexels-photo-5946636.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 157, name: "LED Mirror Light", category: "Lighting", price: 899, description: "Sleek picture light, perfect for illuminating mirrors and artwork.", image: "https://images.pexels.com/photos/1571458/pexels-photo-1571458.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 158, name: "Modular Dimmer Switch", category: "Wiring", price: 350, description: "Rotary dimmer switch for controlling fan speed or light intensity.", image: "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 159, name: "Mini Exhaust Fan (4-inch)", category: "Fan", price: 650, description: "Compact exhaust fan for small spaces like cabins and small bathrooms.", image: "https://images.pexels.com/photos/833045/pexels-photo-833045.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 160, name: "Screwdriver Set (8 pieces)", category: "Tools", price: 499, description: "Insulated screwdriver set for electrical work.", image: "https://images.pexels.com/photos/1249610/pexels-photo-1249610.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 161, name: "Ceiling Surface Light (15W)", category: "Lighting", price: 699, description: "Round surface-mounted LED ceiling light.", image: "https://images.pexels.com/photos/6489083/pexels-photo-6489083.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 162, name: "Telephone Wire (2-core, 90m)", category: "Wiring", price: 599, description: "Standard two-core telephone cable for landline connections.", image: "https://images.pexels.com/photos/4006151/pexels-photo-4006151.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 163, name: "Bladeless Table Fan", category: "Fan", price: 4999, description: "Modern and safe bladeless fan with remote control.", image: "https://images.pexels.com/photos/3935320/pexels-photo-3935320.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 164, name: "Pop-up Toaster", category: "Appliances", price: 1299, description: "2-slice pop-up toaster with browning control.", image: "https://images.pexels.com/photos/5665564/pexels-photo-5665564.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 165, name: "Under-Cabinet LED Light Bar", category: "Lighting", price: 999, description: "Set of 3 linkable light bars for kitchen under-cabinet lighting.", image: "https://images.pexels.com/photos/6585750/pexels-photo-6585750.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 166, name: "Metal Clad Switch Socket", category: "Wiring", price: 399, description: "Industrial-grade heavy-duty switch and socket combination.", image: "https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 167, name: "Hand Blender", category: "Appliances", price: 1199, description: "250W hand blender for smoothies, soups, and sauces.", image: "https://images.pexels.com/photos/3731175/pexels-photo-3731175.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    // FIX: Changed property 'a' to 'name' to match the Product interface.
+    { id: 168, name: "Hot Air Gun", category: "Tools", price: 1599, description: "Variable temperature hot air gun for shrink wrapping and repairs.", image: "https://images.pexels.com/photos/7238759/pexels-photo-7238759.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 169, name: "Outdoor Garden Spike Light", category: "Lighting", price: 750, description: "Waterproof spike light to highlight plants and pathways.", image: "https://images.pexels.com/photos/209948/pexels-photo-209948.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 170, name: "Speaker Wire (10m)", category: "Wiring", price: 299, description: "High-quality copper speaker wire for home audio systems.", image: "https://images.pexels.com/photos/193003/pexels-photo-193003.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 171, name: "Vintage Style Pedestal Fan", category: "Fan", price: 3999, description: "Retro design pedestal fan with antique brass finish.", image: "https://images.pexels.com/photos/1036936/pexels-photo-1036936.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 172, name: "Digital Kitchen Scale", category: "Appliances", price: 699, description: "Electronic scale for precise measurement in cooking and baking.", image: "https://images.pexels.com/photos/4099235/pexels-photo-4099235.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 173, name: "Dimmable LED Filament Bulb", category: "Lighting", price: 350, description: "Classic-look filament bulb compatible with dimmer switches.", image: "https://images.pexels.com/photos/929385/pexels-photo-929385.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 174, name: "Weatherproof Outdoor Socket Box", category: "Wiring", price: 550, description: "IP66 rated waterproof socket box for outdoor use.", image: "https://images.pexels.com/photos/224929/pexels-photo-224929.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 175, name: "Portable Air Conditioner (1 Ton)", category: "Cooler", price: 24999, description: "Movable AC unit with exhaust hose, perfect for renters.", image: "https://images.pexels.com/photos/38280/pexels-photo-38280.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 176, name: "Angle Grinder (4-inch)", category: "Tools", price: 2199, description: "Powerful angle grinder for cutting and grinding metal.", image: "https://images.pexels.com/photos/176103/pexels-photo-176103.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 177, name: "LED Bulkhead Light", category: "Lighting", price: 650, description: "Durable and weatherproof light for outdoor walls and ceilings.", image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 178, name: "Rotary Tool Kit", category: "Tools", price: 1999, description: "Versatile rotary tool with multiple attachments for crafting and DIY.", image: "https://images.pexels.com/photos/382297/pexels-photo-382297.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 179, name: "Digital Timer Switch Socket", category: "Wiring", price: 799, description: "Programmable timer to automatically turn appliances on and off.", image: "https://images.pexels.com/photos/276528/pexels-photo-276528.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 180, name: "Mixer Grinder (500W)", category: "Appliances", price: 1999, description: "Powerful mixer grinder with 3 jars for wet and dry grinding.", image: "https://images.pexels.com/photos/3622479/pexels-photo-3622479.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 181, name: "Industrial High Bay LED Light", category: "Lighting", price: 4500, description: "150W high bay light for warehouses and factories.", image: "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 182, name: "Wooden Finish Ceiling Fan", category: "Fan", price: 4200, description: "Ceiling fan with wooden finish blades for a rustic look.", image: "https://images.pexels.com/photos/271795/pexels-photo-271795.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 183, name: "Continuity Tester", category: "Tools", price: 199, description: "Simple pen-style continuity tester for checking circuits.", image: "https://images.pexels.com/photos/4011394/pexels-photo-4011394.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 184, name: "Ceiling Fan with Light Kit", category: "Fan", price: 3499, description: "Ceiling fan with an integrated LED light fixture.", image: "https://images.pexels.com/photos/1112598/pexels-photo-1112598.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 185, name: "Infrared Thermometer", category: "Tools", price: 1499, description: "Non-contact IR thermometer for measuring surface temperatures.", image: "https://images.pexels.com/photos/4056461/pexels-photo-4056461.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 186, name: "Spike Guard with USB Ports", category: "Wiring", price: 899, description: "6-socket spike guard with 2 USB charging ports.", image: "https://images.pexels.com/photos/3434523/pexels-photo-3434523.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 187, name: "Ceiling Fan Remote Control Kit", category: "Fan", price: 799, description: "Universal remote control kit to add remote functionality to any fan.", image: "https://images.pexels.com/photos/667838/pexels-photo-667838.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 188, name: "Electric Hand Mixer", category: "Appliances", price: 1499, description: "300W hand mixer with multiple speed settings and attachments.", image: "https://images.pexels.com/photos/4099237/pexels-photo-4099237.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 189, name: "LED Foot Light", category: "Lighting", price: 299, description: "Modular step light for illuminating stairs and pathways.", image: "https://images.pexels.com/photos/6480198/pexels-photo-6480198.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 190, name: "Digital Caliper", category: "Tools", price: 999, description: "Electronic digital caliper for precise measurements.", image: "https://images.pexels.com/photos/4467735/pexels-photo-4467735.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 191, name: "4-Core Armoured Cable (per meter)", category: "Wiring", price: 150, description: "Heavy-duty underground armoured cable for outdoor power.", image: "https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 192, name: "Ceiling Fan Capacitor", category: "Fan", price: 150, description: "Universal capacitor for regulating ceiling fan speed.", image: "https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 193, name: "Room Air Purifier", category: "Appliances", price: 9999, description: "HEPA filter air purifier for removing dust, pollen, and pollutants.", image: "https://images.pexels.com/photos/3951901/pexels-photo-3951901.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 194, name: "LED Strip Light Connector Kit", category: "Lighting", price: 250, description: "Solderless connectors for joining and extending LED strip lights.", image: "https://images.pexels.com/photos/162553/keys-security-safety-password-162553.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 195, name: "Glue Gun with Sticks", category: "Tools", price: 399, description: "40W hot glue gun with a pack of 10 glue sticks.", image: "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 196, name: "3-Pin Plug Top", category: "Wiring", price: 50, description: "Durable 16A 3-pin plug top for heavy appliances.", image: "https://images.pexels.com/photos/4218546/pexels-photo-4218546.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 197, name: "Kids' Room Ceiling Fan", category: "Fan", price: 2999, description: "Colorful and playful ceiling fan designed for a child's room.", image: "https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 198, name: "Digital Weighing Scale", category: "Appliances", price: 899, description: "High-precision digital scale for personal or kitchen use.", image: "https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 199, name: "Rechargeable LED Headlamp", category: "Lighting", price: 599, description: "Hands-free headlamp for repairs, camping, and emergencies.", image: "https://images.pexels.com/photos/2528325/pexels-photo-2528325.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 200, name: "Wire Terminal Crimping Tool", category: "Tools", price: 550, description: "Professional crimper for attaching terminals to wires.", image: "https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] },
+    { id: 201, name: "DB Box (8-Way)", category: "Wiring", price: 1299, description: "Double-door distribution box for housing MCBs.", image: "https://images.pexels.com/photos/5691632/pexels-photo-5691632.jpeg?auto=compress&cs=tinysrgb&w=600", variants: [] }
+
 ];
 
 const DEFAULT_PROMOTION: Promotion = {
@@ -94,7 +199,6 @@ let state = {
     ratings: {} as any,
     compareList: [] as number[],
     currentTransaction: {} as any,
-    currentEditingVariants: [] as Variant[],
     WEBHOOK_SECRET: '',
     qrTimerInterval: null as number | null,
     countdownInterval: null as number | null,
@@ -104,12 +208,11 @@ let state = {
 // --- DOM Element Selectors ---
 const getElement = <T extends HTMLElement>(selector: string): T => document.querySelector(selector) as T;
 
-const productGrid = getElement('.product-grid');
-const adminProductList = getElement<HTMLTableSectionElement>('#admin-product-list');
-const adminOrderList = getElement<HTMLTableSectionElement>('#admin-order-list');
+let productGrid: HTMLElement;
 
 // --- RENDER FUNCTIONS ---
 function renderAllProducts() {
+    if (!productGrid) return;
     productGrid.innerHTML = '';
     state.products.forEach(product => {
         const card = document.createElement('div');
@@ -127,6 +230,11 @@ function renderAllProducts() {
                 <p class="product-offer-highlight"></p>
             </div>
             <div class="product-actions">
+                <div class="quantity-selector">
+                    <button class="quantity-btn minus-btn" aria-label="Decrease quantity">-</button>
+                    <input type="number" class="quantity-input" value="1" min="1" max="10" readonly>
+                    <button class="quantity-btn plus-btn" aria-label="Increase quantity">+</button>
+                </div>
                 <div class="main-actions">
                     <button class="quick-view-btn">Quick View</button>
                     <button class="buy-now-btn">Buy Now</button>
@@ -202,294 +310,6 @@ function updateProductDisplay(card: HTMLElement, product: Product, selectedVaria
     }
 }
 
-function renderAdminProducts() {
-    adminProductList.innerHTML = ''; 
-    state.products.forEach(product => {
-        const priceHTML = product.salePrice ? `<del>₹${product.price}</del> <ins>₹${product.salePrice}</ins>` : `₹${product.price}`;
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td data-label="Image">${product.image ? `<img src="${product.image}" alt="${product.name}" loading="lazy">` : 'No Image'}</td>
-            <td data-label="Name">${product.name}</td>
-            <td data-label="Description" class="product-description-cell" title="${product.description}">${product.description}</td>
-            <td data-label="Price">${priceHTML}</td>
-            <td data-label="Actions">
-                <button class="edit-btn" data-id="${product.id}">Edit</button>
-                <button class="delete-btn" data-id="${product.id}">Delete</button>
-            </td>
-        `;
-        adminProductList.appendChild(row);
-    });
-}
-
-function renderAdminOrders() {
-    const getStatusBadge = (status: string) => {
-        const statusClass = `status-${status.toLowerCase().replace(' ', '_')}`;
-        return `<span class="status-badge ${statusClass}">${status.replace('_', ' ')}</span>`;
-    };
-
-    if (state.orders.length === 0) {
-        adminOrderList.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #aaa;">No orders have been placed yet.</td></tr>`;
-        return;
-    }
-    
-    adminOrderList.innerHTML = '';
-    [...state.orders].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).forEach(order => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td data-label="Order ID">${order.orderId}</td>
-            <td data-label="Customer">${order.customer.name}</td>
-            <td data-label="Product">${order.product.name}</td>
-            <td data-label="Price">₹${order.product.price}</td>
-            <td data-label="Date">${order.date}</td>
-            <td data-label="Status">${getStatusBadge(order.status)}</td>
-        `;
-        adminOrderList.appendChild(row);
-    });
-}
-
-
-// --- Admin Panel Logic ---
-function setupAdminPanel() {
-    const productForm = getElement<HTMLFormElement>('#product-form');
-    const formTitle = getElement<HTMLHeadingElement>('#form-title');
-    const formSubmitBtn = getElement<HTMLButtonElement>('#form-submit-btn');
-    const formCancelBtn = getElement<HTMLButtonElement>('#form-cancel-btn');
-
-    const productIdInput = getElement<HTMLInputElement>('#product-id');
-    const productNameInput = getElement<HTMLInputElement>('#product-name');
-    const productCategoryInput = getElement<HTMLInputElement>('#product-category');
-    const productPriceInput = getElement<HTMLInputElement>('#product-price');
-    const productSalePriceInput = getElement<HTMLInputElement>('#product-sale-price');
-    const productDescriptionInput = getElement<HTMLTextAreaElement>('#product-description-input');
-    const productImageInput = getElement<HTMLInputElement>('#product-image');
-    const imagePreview = getElement<HTMLImageElement>('#image-preview');
-    const removeImageBtn = getElement<HTMLButtonElement>('#remove-image-btn');
-    const removeImageFlag = getElement<HTMLInputElement>('#remove-image-flag');
-
-    const resetAdminForm = () => {
-        productForm.reset();
-        productIdInput.value = '';
-        imagePreview.src = '';
-        imagePreview.style.display = 'none';
-        removeImageBtn.style.display = 'none';
-        removeImageFlag.value = 'false';
-        getElement<HTMLLabelElement>('label[for="product-image"]').textContent = 'Product Image (Optional)';
-        formTitle.textContent = 'Add New Product';
-        formSubmitBtn.textContent = 'Add Product';
-        formCancelBtn.style.display = 'none';
-        state.currentEditingVariants = [];
-        renderAdminVariantList();
-    };
-
-    productForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const id = productIdInput.value ? parseInt(productIdInput.value) : null;
-        const name = productNameInput.value;
-        const category = productCategoryInput.value;
-        const price = parseFloat(productPriceInput.value);
-        const salePrice = productSalePriceInput.value ? parseFloat(productSalePriceInput.value) : undefined;
-        const description = productDescriptionInput.value;
-        const imageFile = productImageInput.files?.[0];
-
-        const processProductUpdate = (imgSrc: string | null | undefined = undefined) => {
-             if (id) { // Editing
-                const productIndex = state.products.findIndex(p => p.id === id);
-                if (productIndex > -1) {
-                    const existingProduct = state.products[productIndex];
-                    existingProduct.name = name;
-                    existingProduct.category = category;
-                    existingProduct.price = price;
-                    existingProduct.salePrice = salePrice;
-                    existingProduct.description = description;
-                    existingProduct.variants = state.currentEditingVariants;
-                    if (removeImageFlag.value === 'true') {
-                        existingProduct.image = undefined;
-                    } else if (imgSrc !== undefined) {
-                        existingProduct.image = imgSrc ?? undefined;
-                    }
-                }
-            } else { // Adding
-                const newId = Math.max(0, ...state.products.map(p => p.id)) + 1;
-                const newProduct: Product = {
-                    id: newId, name, category, price, salePrice, description,
-                    image: imgSrc ?? undefined,
-                    variants: state.currentEditingVariants
-                };
-                state.products.push(newProduct);
-            }
-            
-            DB.saveProducts(state.products);
-            renderAllProducts();
-            renderAdminProducts();
-            resetAdminForm();
-        };
-
-        if (imageFile) {
-            const reader = new FileReader();
-            reader.onload = (event) => { processProductUpdate(event.target?.result as string); };
-            reader.readAsDataURL(imageFile);
-        } else {
-             const existingProduct = id ? state.products.find(p => p.id === id) : null;
-             processProductUpdate(existingProduct?.image);
-        }
-    });
-
-    adminProductList.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        const id = parseInt(target.dataset.id || '');
-        if (target.classList.contains('delete-btn')) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                state.products = state.products.filter(p => p.id !== id);
-                DB.saveProducts(state.products);
-                renderAllProducts();
-                renderAdminProducts();
-            }
-        }
-        if (target.classList.contains('edit-btn')) {
-            const product = state.products.find(p => p.id === id);
-            if (product) {
-                productIdInput.value = product.id.toString();
-                productNameInput.value = product.name;
-                productCategoryInput.value = product.category;
-                productPriceInput.value = product.price.toString();
-                productSalePriceInput.value = product.salePrice?.toString() || '';
-                productDescriptionInput.value = product.description;
-                
-                state.currentEditingVariants = product.variants ? [...product.variants] : [];
-                renderAdminVariantList();
-                
-                const imageLabel = getElement<HTMLLabelElement>('label[for="product-image"]');
-                if (product.image) {
-                    imagePreview.src = product.image;
-                    imagePreview.style.display = 'block';
-                    removeImageBtn.style.display = 'inline-block';
-                    imageLabel.textContent = 'Replace Current Image (Optional)';
-                } else {
-                     imagePreview.style.display = 'none';
-                     removeImageBtn.style.display = 'none';
-                     imageLabel.textContent = 'Add Product Image (Optional)';
-                }
-                removeImageFlag.value = 'false';
-
-                formTitle.textContent = 'Edit Product';
-                formSubmitBtn.textContent = 'Save Changes';
-                formCancelBtn.style.display = 'inline-block';
-                getElement('.admin-main-content').scrollTop = getElement('.admin-main-content').scrollHeight;
-            }
-        }
-    });
-    
-    formCancelBtn.onclick = () => resetAdminForm();
-
-    productImageInput.addEventListener('change', () => {
-        if (productImageInput.files && productImageInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imagePreview.src = e.target?.result as string;
-                imagePreview.style.display = 'block';
-                removeImageBtn.style.display = 'inline-block';
-                removeImageFlag.value = 'false';
-            };
-            reader.readAsDataURL(productImageInput.files[0]);
-        }
-    });
-    
-    removeImageBtn.onclick = () => {
-        productImageInput.value = '';
-        imagePreview.src = '';
-        imagePreview.style.display = 'none';
-        removeImageBtn.style.display = 'none';
-        removeImageFlag.value = 'true';
-    };
-}
-
-
-// --- Admin Panel Variant Management ---
-const variantModal = getElement('#variant-modal');
-const variantForm = getElement<HTMLFormElement>('#variant-form');
-const variantIdInput = getElement<HTMLInputElement>('#variant-id-input');
-const variantNameInput = getElement<HTMLInputElement>('#variant-name-input');
-const variantPriceInput = getElement<HTMLInputElement>('#variant-price-input');
-const variantSalePriceInput = getElement<HTMLInputElement>('#variant-sale-price-input');
-
-function renderAdminVariantList() {
-    const listEl = getElement('#variant-list');
-    listEl.innerHTML = '';
-    state.currentEditingVariants.forEach(variant => {
-        const item = document.createElement('div');
-        item.className = 'variant-item';
-        const priceText = (variant.price) 
-            ? (variant.salePrice ? `<del>₹${variant.price}</del> <ins>₹${variant.salePrice}</ins>` : `₹${variant.price}`)
-            : 'Uses main price';
-
-        item.innerHTML = `
-            <span>${variant.name}</span>
-            <span>${priceText}</span>
-            <div>
-                <button type="button" class="edit-variant-btn" data-id="${variant.id}">Edit</button>
-                <button type="button" class="delete-variant-btn" data-id="${variant.id}" style="background:#dc3545; border-color:#dc3545; color:white;">Del</button>
-            </div>
-        `;
-        listEl.appendChild(item);
-    });
-};
-
-function setupVariantManagement() {
-    getElement('#add-variant-btn').onclick = () => {
-        variantForm.reset();
-        variantIdInput.value = '';
-        variantModal.querySelector('h2')!.textContent = 'Add Variant';
-        openModal(variantModal);
-    };
-
-    variantForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const variantId = variantIdInput.value ? parseInt(variantIdInput.value) : null;
-        const newVariant: Variant = {
-            id: variantId || Date.now(),
-            name: variantNameInput.value,
-            price: variantPriceInput.value ? parseFloat(variantPriceInput.value) : undefined,
-            salePrice: variantSalePriceInput.value ? parseFloat(variantSalePriceInput.value) : undefined,
-        };
-        
-        if (variantId) { // Editing
-            const index = state.currentEditingVariants.findIndex(v => v.id === variantId);
-            if (index > -1) state.currentEditingVariants[index] = newVariant;
-        } else { // Adding
-            state.currentEditingVariants.push(newVariant);
-        }
-        renderAdminVariantList();
-        closeModal(variantModal);
-    });
-
-    getElement('#variant-list').addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        const variantId = parseInt(target.dataset.id || '');
-        if (!variantId) return;
-        
-        if (target.classList.contains('edit-variant-btn')) {
-            const variant = state.currentEditingVariants.find(v => v.id === variantId);
-            if (variant) {
-                variantForm.reset();
-                variantIdInput.value = variant.id.toString();
-                variantNameInput.value = variant.name;
-                variantPriceInput.value = variant.price?.toString() || '';
-                variantSalePriceInput.value = variant.salePrice?.toString() || '';
-                variantModal.querySelector('h2')!.textContent = 'Edit Variant';
-                openModal(variantModal);
-            }
-        }
-        
-        if (target.classList.contains('delete-variant-btn')) {
-            if (confirm('Delete this variant?')) {
-                state.currentEditingVariants = state.currentEditingVariants.filter(v => v.id !== variantId);
-                renderAdminVariantList();
-            }
-        }
-    });
-}
-
-
 // --- Promotion & Countdown Logic ---
 function startCountdown(endDate: string) {
   const countdownDate = new Date(endDate).getTime();
@@ -542,16 +362,22 @@ function applyPromotions() {
     }
 
     if (topBanner && sessionStorage.getItem('topBannerDismissed') !== 'true') {
-        getElement('#offer-text-top').textContent = promotionConfig.headline;
+        const offerTextEl = getElement('#offer-text-top');
+        if (offerTextEl) {
+            offerTextEl.textContent = promotionConfig.headline;
+        }
         topBanner.classList.remove('hidden');
         document.body.classList.add('banner-visible');
     }
 
-    mainBanner.innerHTML = `
-        <h2>${promotionConfig.headline}</h2>
-        <div id="offer-countdown-timer-main"></div>
-        <p>${promotionConfig.description}</p>`;
-    mainBanner.style.display = 'block';
+    if (mainBanner) {
+        mainBanner.innerHTML = `
+            <h2>${promotionConfig.headline}</h2>
+            <div id="offer-countdown-timer-main"></div>
+            <p>${promotionConfig.description}</p>`;
+        mainBanner.style.display = 'block';
+    }
+
 
     startCountdown(promotionConfig.endDate);
     renderAllProducts(); // Re-render products to apply discounts
@@ -594,6 +420,8 @@ function renderCompareTray() {
     const itemsContainer = getElement<HTMLElement>('#compare-tray-items');
     const compareNowBtn = getElement<HTMLButtonElement>('#compare-now-btn');
 
+    if (!tray || !itemsContainer || !compareNowBtn) return;
+
     if (state.compareList.length === 0) {
         tray.classList.remove('visible');
         return;
@@ -620,6 +448,8 @@ function renderCompareTray() {
 
 function renderCompareModal() {
     const contentEl = getElement('#compare-modal-content');
+    if (!contentEl) return;
+
     const productsToCompare = state.compareList.map(id => state.products.find(p => p.id === id)).filter(Boolean) as Product[];
 
     if (productsToCompare.length < 2) {
@@ -681,6 +511,8 @@ function renderCompareModal() {
 function setupCompareFeature() {
     const tray = getElement('#compare-tray');
     const compareModal = getElement('#compare-modal');
+
+    if (!tray || !compareModal) return;
 
     tray.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
@@ -788,6 +620,12 @@ function renderStarRating(container: HTMLElement, productId: string) {
 
 // --- INITIALIZATION ---
 function init() {
+    productGrid = getElement('.product-grid');
+    if (!productGrid) {
+        console.error("The '.product-grid' element was not found in the DOM. App initialization failed.");
+        return;
+    }
+
     DB.init();
     state.products = DB.getProducts();
     state.promotion = DB.getPromotion();
@@ -801,8 +639,6 @@ function init() {
     renderCompareTray();
 
     // Setup Event Listeners
-    setupAdminPanel();
-    setupVariantManagement();
     setupCompareFeature();
 
     const hamburgerBtn = getElement('#hamburger-btn');
@@ -834,16 +670,22 @@ function init() {
         if(anchor.id !== 'my-orders-btn') {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector((this as HTMLAnchorElement).getAttribute('href')!)?.scrollIntoView({ behavior: 'smooth' });
+                const targetElement = document.querySelector((this as HTMLAnchorElement).getAttribute('href')!);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         }
     });
 
-    getElement('#close-top-banner').addEventListener('click', () => {
-        getElement('#top-offer-banner').classList.add('hidden');
-        document.body.classList.remove('banner-visible');
-        sessionStorage.setItem('topBannerDismissed', 'true');
-    });
+    const closeTopBannerBtn = getElement('#close-top-banner');
+    if (closeTopBannerBtn) {
+        closeTopBannerBtn.addEventListener('click', () => {
+            getElement('#top-offer-banner')?.classList.add('hidden');
+            document.body.classList.remove('banner-visible');
+            sessionStorage.setItem('topBannerDismissed', 'true');
+        });
+    }
 
     // Accordion
     document.querySelectorAll('.accordion-header').forEach(header => {
@@ -873,13 +715,35 @@ function init() {
         });
     });
 
-    // Dummy logic for features not fully refactored yet, to keep them functional
     const quickViewModal = getElement('#quick-view-modal');
     productGrid.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
+
+        if (target.classList.contains('quantity-btn')) {
+            const selector = target.closest('.quantity-selector');
+            if (!selector) return;
+    
+            const input = selector.querySelector('.quantity-input') as HTMLInputElement;
+            let currentValue = parseInt(input.value, 10);
+            const max = parseInt(input.max, 10) || 10;
+            const min = parseInt(input.min, 10) || 1;
+    
+            if (target.classList.contains('plus-btn')) {
+                if (currentValue < max) {
+                    currentValue++;
+                }
+            } else if (target.classList.contains('minus-btn')) {
+                if (currentValue > min) {
+                    currentValue--;
+                }
+            }
+            input.value = currentValue.toString();
+            return; // Stop further event processing
+        }
+        
         const card = target.closest('.product-card');
         if (!card) return;
-        // FIX: Cast card to HTMLElement to access dataset property.
+
         const productId = (card as HTMLElement).dataset.id!;
         const product = state.products.find(p => p.id.toString() === productId);
         if (!product) return;
@@ -887,24 +751,59 @@ function init() {
         if (target.classList.contains('quick-view-btn')) {
              const quickViewContent = getElement('#quick-view-content');
              const priceEl = card.querySelector('.product-price')!;
-             quickViewContent.innerHTML = `
-                ${product.image ? `<img src="${product.image}" id="quick-view-img" alt="${product.name}" loading="lazy">` : ''}
-                <h3>${product.name}</h3>
-                <div class="price">${priceEl.innerHTML}</div>
-                <div class="product-variants"></div>
-                <p class="description" style="margin-top:1rem">${product.description}</p>`;
-            
-            const qvModalContent = quickViewContent.closest('.modal-content') as HTMLElement;
-            renderFrontendVariants(qvModalContent, product);
-            
-            const ratingInput = quickViewModal.querySelector('.rating-input') as HTMLElement;
-            ratingInput.dataset.productId = productId;
-            // resetRatingInput(); // This would need to be implemented
-            openModal(quickViewModal);
+             if (quickViewContent && priceEl) {
+                 quickViewContent.innerHTML = `
+                    ${product.image ? `<img src="${product.image}" id="quick-view-img" alt="${product.name}" loading="lazy">` : ''}
+                    <h3>${product.name}</h3>
+                    <div class="price">${priceEl.innerHTML}</div>
+                    <div class="product-variants"></div>
+                    <p class="description" style="margin-top:1rem">${product.description}</p>`;
+                
+                const qvModalContent = quickViewContent.closest('.modal-content') as HTMLElement;
+                if (qvModalContent) {
+                    renderFrontendVariants(qvModalContent, product);
+                }
+                
+                if (quickViewModal) {
+                    const ratingInput = quickViewModal.querySelector('.rating-input') as HTMLElement;
+                    if (ratingInput) {
+                        ratingInput.dataset.productId = productId;
+                    }
+                    openModal(quickViewModal);
+                }
+             }
         }
         
         if (target.classList.contains('buy-now-btn')) {
-             openModal(getElement('#delivery-modal'));
+            const productInfoContainer = getElement('#product-to-buy-info');
+            const priceEl = card.querySelector('.product-price');
+            const quantityInput = card.querySelector('.quantity-input') as HTMLInputElement;
+            const quantity = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+
+            if (productInfoContainer && priceEl) {
+                 // Determine the current price from the displayed price element
+                let finalPrice = 0;
+                const insPrice = priceEl.querySelector('ins');
+                let singlePriceText = insPrice ? insPrice.textContent : priceEl.textContent;
+                if (singlePriceText) {
+                    finalPrice = parseFloat(singlePriceText.replace(/[^0-9.]/g, ''));
+                }
+                const totalPrice = finalPrice * quantity;
+
+                productInfoContainer.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>Quantity: ${quantity}</p>
+                    <p style="font-size: 1.4rem; font-weight: bold; color: var(--cyan);">Total: ₹${totalPrice.toFixed(2)}</p>
+                `;
+                
+                state.currentTransaction = {
+                    product,
+                    quantity,
+                    totalPrice,
+                };
+                const deliveryModal = getElement('#delivery-modal');
+                if (deliveryModal) openModal(deliveryModal);
+            }
         }
 
         if (target.classList.contains('compare-btn')) {
@@ -934,35 +833,6 @@ function init() {
             (item as HTMLElement).style.transitionDelay = `${index * 100}ms`; 
             scrollObserver.observe(item);
         });
-    });
-    
-    // Admin login
-    const loginModal = getElement('#login-modal');
-    getElement('#admin-btn').onclick = () => openModal(loginModal);
-    getElement('#login-form').addEventListener('submit', e => {
-        e.preventDefault();
-        // Simplified auth check
-        closeModal(loginModal);
-        openModal(getElement('#admin-modal'));
-        renderAdminProducts();
-        renderAdminOrders();
-    });
-
-    getElement('.admin-sidebar').addEventListener('click', (e) => {
-        const navButton = (e.target as HTMLElement).closest('.admin-nav-btn');
-        if (navButton) {
-            // FIX: Cast navButton to HTMLElement to access dataset property.
-            const tabId = (navButton as HTMLElement).dataset.tab;
-            document.querySelectorAll('.admin-sidebar .admin-nav-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.admin-section').forEach(content => content.classList.remove('active'));
-            
-            navButton.classList.add('active');
-            const activeContent = getElement(`#admin-section-${tabId}`);
-            if (activeContent) {
-               activeContent.classList.add('active');
-               if (tabId === 'orders') renderAdminOrders();
-            }
-        }
     });
 
 }

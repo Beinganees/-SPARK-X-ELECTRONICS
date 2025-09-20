@@ -587,6 +587,54 @@
         box-shadow: 0 0 20px var(--cyan);
         transform: scale(1.05);
     }
+
+    /* Quantity Selector */
+    .product-actions .quantity-selector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+    .quantity-selector .quantity-input {
+        width: 50px;
+        height: 38px;
+        text-align: center;
+        border: 1px solid var(--glass-border);
+        background: rgba(0,0,0,0.5);
+        color: #fff;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        -moz-appearance: textfield;
+    }
+    .quantity-selector .quantity-input::-webkit-outer-spin-button,
+    .quantity-selector .quantity-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .quantity-selector .quantity-btn {
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--glass-border);
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.5rem;
+        line-height: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        transition: 0.3s;
+        flex: 0 0 auto; /* Override flex: 1 from .product-actions button */
+    }
+    .quantity-selector .quantity-btn:hover {
+        background: var(--cyan);
+        color: black;
+        border-color: var(--cyan);
+    }
     
     /* Product Variants */
     .product-variants {
@@ -1770,7 +1818,6 @@
     </ul>
     <div class="actions">
       <button onclick="document.getElementById('products-section').scrollIntoView();">Shop Now</button>
-      <button id="admin-btn">Admin</button>
     </div>
     <button id="hamburger-btn" aria-label="Toggle navigation menu" aria-expanded="false">
       <span></span>
@@ -1950,158 +1997,6 @@
   </footer>
 
   <!-- All Modals -->
-  <!-- Admin Login Modal -->
-  <div id="login-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h2 id="login-modal-title">Admin Login</h2>
-      <form id="login-form">
-        <div class="form-group">
-          <label for="userid">User ID</label>
-          <input type="text" id="userid" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" required>
-        </div>
-        <p id="login-error" style="color: #ff4444; text-align: center; display: none;"></p>
-        <div class="form-actions" style="justify-content:flex-end; display:flex;">
-          <button type="submit">Login</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Admin Panel Modal -->
-  <div id="admin-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
-      <div class="modal-content admin-panel">
-          <span class="close-btn">&times;</span>
-          <div class="admin-panel-header">
-             <h2 id="admin-modal-title">Admin Panel</h2>
-          </div>
-          <div class="admin-panel-layout">
-              <nav class="admin-sidebar">
-                <button class="admin-nav-btn active" data-tab="products">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H3Zm12 2a1 1 0 1 0 0-2a1 1 0 0 0 0 2Z"/></svg>
-                    <span>Products</span>
-                </button>
-                <button class="admin-nav-btn" data-tab="orders">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm10.5 4.5a.5.5 0 0 0-1 0v3a.5.5 0 0 0 1 0v-3ZM10 10a.5.5 0 0 0-1 0v1a.5.5 0 0 0 1 0v-1Zm-2.5 1.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0v-2Z" clip-rule="evenodd" /></svg>
-                    <span>Orders</span>
-                </button>
-                <button class="admin-nav-btn" data-tab="webhooks">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a1.5 1.5 0 0 1 3 0V5h-3V3.5ZM10 5H4.062a.5.5 0 0 0-.5.5v1.25a.75.75 0 0 0 1.5 0V6.5h3.188a2 2 0 0 1 1.99 1.838l.333 3.332a2.5 2.5 0 0 1-2.485 2.83L8.5 14.5H8.25a.75.75 0 0 0 0 1.5h.25a4 4 0 0 0 3.976-4.525l-.333-3.332A.5.5 0 0 0 11.938 6.5H12v-.25a.75.75 0 0 0 1.5 0V5.5a.5.5 0 0 0-.5-.5H13V3.5a3 3 0 1 0-6 0V5H4.062a2 2 0 0 0-2 2V16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H10Z" /></svg>
-                    <span>Webhooks</span>
-                </button>
-                <button class="admin-nav-btn" data-tab="settings">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 0 1-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 0 1 .947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 0 1 2.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 0 1 2.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 0 1 .947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 0 1-.947-2.287c.836-1.372-.734-2.942-2.106-2.106A1.532 1.532 0 0 1 11.49 3.17ZM10 8a2 2 0 1 0 0 4a2 2 0 0 0 0-4Z" clip-rule="evenodd" /></svg>
-                    <span>Settings</span>
-                </button>
-              </nav>
-              <main class="admin-main-content">
-                 <!-- Products Section -->
-                 <div id="admin-section-products" class="admin-section active">
-                    <table class="admin-table">
-                        <thead><tr><th>Image</th><th>Product Name</th><th>Description</th><th>Price</th><th>Actions</th></tr></thead>
-                        <tbody id="admin-product-list"></tbody>
-                    </table>
-                    <div class="admin-card">
-                      <h3 id="form-title">Add New Product</h3>
-                      <form id="product-form" class="admin-form">
-                          <input type="hidden" id="product-id"><input type="hidden" id="remove-image-flag" value="false">
-                          <div class="form-row">
-                            <div class="form-group"><label for="product-name">Product Name</label><input type="text" id="product-name" required></div>
-                            <div class="form-group"><label for="product-category">Category</label><input type="text" id="product-category" placeholder="e.g., Fan, Cooler" required></div>
-                          </div>
-                          <div class="form-row">
-                              <div class="form-group"><label for="product-price">Original Price (Numbers only)</label><input type="text" id="product-price" placeholder="e.g., 1199" required></div>
-                              <div class="form-group"><label for="product-sale-price">Sale Price (Numbers only, Optional)</label><input type="text" id="product-sale-price" placeholder="e.g., 999"></div>
-                          </div>
-                          <div class="form-group"><label for="product-description-input">Description</label><textarea id="product-description-input" required></textarea></div>
-                           <div class="admin-card" style="background: rgba(0,0,0,0.5);">
-                              <h3 style="margin-top:0; text-align: left;">Manage Variants</h3>
-                              <p style="font-size: 0.8rem; color: #aaa; margin-top: -1rem; margin-bottom: 1rem;">Add variants like colors or sizes. Leave price fields blank to use the main product price.</p>
-                              <div id="variant-list"></div>
-                              <button type="button" id="add-variant-btn" style="padding: 0.5rem 1rem; border-radius: 5px; margin-top: 1rem; border:1px solid var(--cyan); background:transparent; color: var(--cyan); cursor:pointer;">+ Add Variant</button>
-                          </div>
-                           <div class="form-row" style="margin-top:2rem">
-                              <div class="form-group"><label for="product-image">Product Image (Optional)</label><input type="file" id="product-image" accept="image/*"></div>
-                              <div class="form-group image-preview-container">
-                                  <img id="image-preview" src="" alt="Image Preview" style="display: none;">
-                                  <button type="button" id="remove-image-btn" style="display: none;">Remove Current Image</button>
-                              </div>
-                          </div>
-                          <div class="form-actions">
-                              <button type="button" id="form-cancel-btn" style="display:none; background: #555;">Cancel</button>
-                              <button type="submit" id="form-submit-btn">Add Product</button>
-                          </div>
-                      </form>
-                    </div>
-                 </div>
-
-                 <!-- Orders Section -->
-                 <div id="admin-section-orders" class="admin-section">
-                    <h3>All Orders</h3>
-                    <table class="admin-table">
-                        <thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Price</th><th>Date</th><th>Status</th></tr></thead>
-                        <tbody id="admin-order-list"></tbody>
-                    </table>
-                 </div>
-
-                 <!-- Webhooks Section -->
-                 <div id="admin-section-webhooks" class="admin-section">
-                    <div class="admin-card">
-                        <h3>Razorpay Webhook Simulation</h3>
-                        <p style="color: #ccc; line-height: 1.6;">This tool simulates your backend server's webhook endpoint. In a real scenario, after a customer pays via QR or payment link, Razorpay sends a notification to this endpoint to confirm the payment automatically. This is crucial for updating order status without manual intervention.</p>
-                        <div class="form-group">
-                            <label for="webhook-secret">Your Webhook Secret (Keep this on your server)</label>
-                            <input type="password" id="webhook-secret" readonly>
-                        </div>
-                        <div class="form-actions" style="justify-content: flex-start; display:flex;">
-                             <button type="button" id="simulate-webhook-btn">Simulate Webhook Event</button>
-                        </div>
-                        <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Webhook Event Log</h4>
-                        <div id="webhook-event-log"><p style="color:#888;">No events yet. Create a pending order and use the simulation button.</p></div>
-                    </div>
-                 </div>
-                 
-                 <!-- Settings Section -->
-                 <div id="admin-section-settings" class="admin-section">
-                    <div class="admin-card">
-                        <h3>Manage Homepage Promotion</h3>
-                        <form id="promotion-form" class="admin-form">
-                            <div class="form-group"><label for="promotion-headline-input">Headline</label><input type="text" id="promotion-headline-input" placeholder="e.g., Festival Sale!"></div>
-                            <div class="form-group"><label for="promotion-description-input">Description</label><textarea id="promotion-description-input" placeholder="e.g., Get up to 40% off on all products..."></textarea></div>
-                            <div class="form-group checkbox-group"><input type="checkbox" id="promotion-active-checkbox"><label for="promotion-active-checkbox">Activate Promotion</label></div>
-                            <div class="form-actions"><button type="submit">Save Promotion</button></div>
-                        </form>
-                    </div>
-                    <div class="admin-card">
-                        <h3>Change Password</h3>
-                        <form id="change-password-form" class="admin-form">
-                            <div class="form-group">
-                              <label for="old-password">Old Password</label>
-                              <input type="password" id="old-password" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="new-password">New Password</label>
-                              <input type="password" id="new-password" required>
-                            </div>
-                            <div class="form-group">
-                              <label for="confirm-password">Confirm New Password</label>
-                              <input type="password" id="confirm-password" required>
-                            </div>
-                            <div class="form-actions">
-                              <button type="submit">Update Password</button>
-                            </div>
-                        </form>
-                    </div>
-                 </div>
-              </main>
-          </div>
-      </div>
-  </div>
-
   <!-- Delivery Details Modal -->
   <div id="delivery-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="delivery-modal-title">
     <div class="modal-content">
@@ -2239,33 +2134,6 @@
         <div id="order-search-results"></div>
     </div>
   </div>
-  
-  <!-- Variant Modal (for Admin) -->
-  <div id="variant-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="variant-modal-title">
-    <div class="modal-content" style="max-width: 400px;">
-      <span class="close-btn">&times;</span>
-      <h2 id="variant-modal-title">Add Variant</h2>
-      <form id="variant-form">
-        <input type="hidden" id="variant-id-input">
-        <div class="form-group">
-          <label for="variant-name-input">Variant Name (e.g., Red, 128GB)</label>
-          <input type="text" id="variant-name-input" required>
-        </div>
-        <div class="form-group">
-          <label for="variant-price-input">Variant Price (Optional)</label>
-          <input type="text" id="variant-price-input" placeholder="Overrides main price">
-        </div>
-        <div class="form-group">
-          <label for="variant-sale-price-input">Variant Sale Price (Optional)</label>
-          <input type="text" id="variant-sale-price-input" placeholder="Overrides sale price">
-        </div>
-        <div class="form-actions">
-          <button type="submit">Save Variant</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
 
   <!-- Gallery Lightbox -->
   <div id="gallery-lightbox" class="lightbox">
