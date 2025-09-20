@@ -2320,32 +2320,28 @@
     });
 
     // --- Promotion, Discount & Countdown Logic ---
-    const nextSunday = new Date();
-    nextSunday.setDate(nextSunday.getDate() + (7 - nextSunday.getDay()) % 7);
-    nextSunday.setHours(23, 59, 59, 999);
-
-    const promotionConfig = {
-      isActive: true,
-      endDate: nextSunday.toISOString(),
-      primaryOffer: {
-        text: "Limited Time Offer: 10% off all Fans this week!",
-        discountPercent: 10,
-        category: "Fan",
-      },
-      secondaryOffer: {
-        text: "Plus, get FREE Installation on orders above ₹2000!",
-        threshold: 2000,
-      }
+    const getPromotionConfig = () => {
+        const defaultConfig = {
+            isActive: false,
+            headline: "Limited Time Offer!",
+            description: "Get huge discounts on selected items for a short time.",
+            endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Default: 1 week from now
+            primaryOffer: {
+                text: "10% off all Fans this week!",
+                discountPercent: 10,
+                category: "Fan",
+            }
+        };
+        const savedConfig = localStorage.getItem('sparkxPromotionConfig');
+        return savedConfig ? { ...defaultConfig, ...JSON.parse(savedConfig) } : defaultConfig;
     };
-    
+
     let countdownInterval;
 
-    function startCountdown() {
-      const countdownDate = new Date(promotionConfig.endDate).getTime();
+    function startCountdown(endDate) {
+      const countdownDate = new Date(endDate).getTime();
       const topTimerEl = document.getElementById('offer-countdown-timer-top');
       const mainTimerEl = document.getElementById('offer-countdown-timer-main');
-
-      if (!topTimerEl || !mainTimerEl) return;
       
       if (countdownInterval) clearInterval(countdownInterval);
 
@@ -2355,10 +2351,10 @@
 
         if (distance < 0) {
           clearInterval(countdownInterval);
-          topTimerEl.innerHTML = "<span>Offer Expired</span>";
-          mainTimerEl.innerHTML = "Offer Expired";
-          // Optionally hide banners
+          if(topTimerEl) topTimerEl.innerHTML = "<span>Offer Expired</span>";
+          if(mainTimerEl) mainTimerEl.innerHTML = "Offer Expired";
           document.getElementById('top-offer-banner')?.classList.add('hidden');
+          document.body.classList.remove('banner-visible');
           document.getElementById('promotion-banner').style.display = 'none';
           return;
         }
@@ -2377,69 +2373,44 @@
           <span>${format(seconds)}s</span>
         `;
         const mainTimerHTML = `${format(days)}d : ${format(hours)}h : ${format(minutes)}m : ${format(seconds)}s`;
-
-        topTimerEl.innerHTML = topTimerHTML;
+        
+        if (topTimerEl) topTimerEl.innerHTML = topTimerHTML;
         if(mainTimerEl) mainTimerEl.innerHTML = mainTimerHTML;
       }, 1000);
     }
 
     function applyPromotions() {
-      if (!promotionConfig.isActive) return;
+      const promotionConfig = getPromotionConfig();
+      const topBanner = document.getElementById('top-offer-banner');
+      const mainBanner = document.getElementById('promotion-banner');
+
+      if (!promotionConfig.isActive) {
+        if(topBanner) topBanner.classList.add('hidden');
+        document.body.classList.remove('banner-visible');
+        if(mainBanner) mainBanner.style.display = 'none';
+        if (countdownInterval) clearInterval(countdownInterval);
+        refreshAllProductsUI();
+        return;
+      }
 
       // Top Header Banner
-      const topBanner = document.getElementById('top-offer-banner');
       if (topBanner && sessionStorage.getItem('topBannerDismissed') !== 'true') {
-        document.getElementById('offer-text-top').textContent = promotionConfig.primaryOffer.text;
+        document.getElementById('offer-text-top').textContent = promotionConfig.headline;
         topBanner.classList.remove('hidden');
         document.body.classList.add('banner-visible');
       }
 
       // Main Promotion Banner Section
-      const mainBanner = document.getElementById('promotion-banner');
       mainBanner.innerHTML = `
-          <h2>${promotionConfig.primaryOffer.text}</h2>
+          <h2>${promotionConfig.headline}</h2>
           <div id="offer-countdown-timer-main"></div>
-          <p>${promotionConfig.secondaryOffer.text}</p>`;
+          <p>${promotionConfig.description}</p>`;
       mainBanner.style.display = 'block';
 
       // Start the countdowns
-      startCountdown();
+      startCountdown(promotionConfig.endDate);
       
-      // Apply discounts and highlights to product cards
-      document.querySelectorAll('.product-card').forEach(card => {
-          const priceEl = card.querySelector('.product-price');
-          const originalPrice = parseFloat(priceEl.dataset.originalPrice);
-          const saleBadge = card.querySelector('.sale-badge');
-          const offerHighlightEl = card.querySelector('.product-offer-highlight');
-          
-          let finalPrice = originalPrice;
-          let isDiscounted = false;
-
-          // Primary offer (e.g., category discount)
-          if (card.dataset.category === promotionConfig.primaryOffer.category) {
-              finalPrice = Math.round(originalPrice * (1 - promotionConfig.primaryOffer.discountPercent / 100));
-              isDiscounted = true;
-              
-              priceEl.innerHTML = `<del>₹${originalPrice}</del> <ins>₹${finalPrice}</ins>`;
-              if(saleBadge) {
-                  saleBadge.textContent = `${promotionConfig.primaryOffer.discountPercent}% OFF`;
-                  saleBadge.style.display = 'block';
-              }
-          } else {
-             // Reset to original price if no other discount applies
-             priceEl.innerHTML = `₹${originalPrice}`;
-             if(saleBadge) saleBadge.style.display = 'none';
-          }
-          
-          // Secondary offer (e.g., free shipping/installation)
-          if(offerHighlightEl) {
-              if (originalPrice > promotionConfig.secondaryOffer.threshold) {
-                  offerHighlightEl.textContent = '✓ Free Installation available!';
-              } else {
-                  offerHighlightEl.textContent = '';
-              }
-          }
-      });
+      refreshAllProductsUI();
     }
 
     const closeTopBannerBtn = document.getElementById('close-top-banner');
@@ -2482,6 +2453,7 @@
     };
 
     const updateProductDisplay = (card, selectedVariantId) => {
+        const promotionConfig = getPromotionConfig();
         const priceEl = card.querySelector('.product-price');
         const saleBadge = card.querySelector('.sale-badge');
         
@@ -2499,8 +2471,8 @@
             });
         }
 
-        let originalPrice = selectedVariant?.price ? parseFloat(selectedVariant.price) : baseOriginalPrice;
-        let salePrice = selectedVariant?.salePrice ? parseFloat(selectedVariant.salePrice) : baseSalePrice;
+        let originalPrice = selectedVariant?.price && selectedVariant.price.trim() !== '' ? parseFloat(selectedVariant.price) : baseOriginalPrice;
+        let salePrice = selectedVariant?.salePrice && selectedVariant.salePrice.trim() !== '' ? parseFloat(selectedVariant.salePrice) : baseSalePrice;
 
         let finalPrice = originalPrice;
         let discountApplied = false;
@@ -2568,6 +2540,7 @@
             renderAdminProducts();
             renderAdminOrders();
             setupWebhookTab();
+            setupPromotionTab();
             resetAdminForm();
         } else {
             loginError.textContent = 'Invalid User ID or Password.';
@@ -2610,6 +2583,26 @@
         }
     });
     
+    const setupPromotionTab = () => {
+        const promotionConfig = getPromotionConfig();
+        document.getElementById('promotion-headline-input').value = promotionConfig.headline;
+        document.getElementById('promotion-description-input').value = promotionConfig.description;
+        document.getElementById('promotion-active-checkbox').checked = promotionConfig.isActive;
+    };
+    
+    document.getElementById('promotion-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newConfig = {
+            ...getPromotionConfig(),
+            headline: document.getElementById('promotion-headline-input').value,
+            description: document.getElementById('promotion-description-input').value,
+            isActive: document.getElementById('promotion-active-checkbox').checked,
+        };
+        localStorage.setItem('sparkxPromotionConfig', JSON.stringify(newConfig));
+        alert('Promotion settings saved!');
+        applyPromotions();
+    });
+
     const changePasswordForm = document.getElementById('change-password-form');
     changePasswordForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -2718,8 +2711,12 @@
                     cardToUpdate.dataset.variants = JSON.stringify(currentEditingVariants);
 
                     const imgContainer = cardToUpdate.querySelector('.img-container');
-                    if (removeImageFlag.value === 'true') imgContainer.innerHTML = 'No Image';
-                    else if (imgSrc) imgContainer.innerHTML = `<img src="${imgSrc}" alt="${name}" loading="lazy">`;
+                    if (removeImageFlag.value === 'true') {
+                         imgContainer.innerHTML = 'No Image';
+                         if (imageEl) imageEl.src = '';
+                    } else if (imgSrc) {
+                        imgContainer.innerHTML = `<img src="${imgSrc}" alt="${name}" loading="lazy">`;
+                    }
                 }
             } else { // Adding
                 const newId = nextId++;
@@ -2790,7 +2787,7 @@
                 const imageEl = card.querySelector('.img-container img');
                 const imageLabel = document.querySelector('label[for="product-image"]');
                 
-                if (imageEl) {
+                if (imageEl && imageEl.src) {
                     imagePreview.src = imageEl.src;
                     imagePreview.style.display = 'block';
                     removeImageBtn.style.display = 'inline-block';
@@ -2800,7 +2797,7 @@
                      removeImageBtn.style.display = 'none';
                      imageLabel.textContent = 'Add Product Image (Optional)';
                 }
-                removeImageBtn.textContent = 'Remove Current Image';
+                removeImageFlag.value = 'false';
 
 
                 formTitle.textContent = 'Edit Product';
@@ -2843,7 +2840,6 @@
         removeImageBtn.style.display = 'none';
         removeImageFlag.value = 'false';
         document.querySelector('label[for="product-image"]').textContent = 'Product Image (Optional)';
-        removeImageBtn.textContent = 'Remove Image';
         formTitle.textContent = 'Add New Product';
         formSubmitBtn.textContent = 'Add Product';
         formCancelBtn.style.display = 'none';
@@ -2892,9 +2888,13 @@
         currentEditingVariants.forEach(variant => {
             const item = document.createElement('div');
             item.className = 'variant-item';
+            const priceText = (variant.price && variant.price.trim() !== '') 
+              ? (variant.salePrice && variant.salePrice.trim() !== '' ? `<del>₹${variant.price}</del> <ins>₹${variant.salePrice}</ins>` : `₹${variant.price}`)
+              : 'Uses main price';
+
             item.innerHTML = `
                 <span>${variant.name}</span>
-                <span>${variant.salePrice ? `<del>${variant.price}</del> <ins>${variant.salePrice}</ins>` : variant.price || 'Uses main price'}</span>
+                <span>${priceText}</span>
                 <div>
                     <button type="button" class="edit-variant-btn" data-id="${variant.id}">Edit</button>
                     <button type="button" class="delete-variant-btn" data-id="${variant.id}" style="background:#dc3545; border-color:#dc3545; color:white;">Del</button>
@@ -2914,8 +2914,8 @@
                 variantForm.reset();
                 variantIdInput.value = variant.id;
                 variantNameInput.value = variant.name;
-                variantPriceInput.value = variant.price;
-                variantSalePriceInput.value = variant.salePrice;
+                variantPriceInput.value = variant.price || '';
+                variantSalePriceInput.value = variant.salePrice || '';
                 variantModal.querySelector('h2').textContent = 'Edit Variant';
                 openModal(variantModal);
             }
@@ -2967,7 +2967,7 @@
         
         const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
         if (firstFocusable) {
-            firstFocusable.focus();
+            setTimeout(() => firstFocusable.focus(), 100);
         }
     }
 
@@ -2975,7 +2975,6 @@
         modal.style.display = 'none';
         document.removeEventListener('keydown', trapFocus);
         
-        // Check if closing modal is the current one
         if (currentModal === modal) {
              currentModal = null;
         }
@@ -3040,13 +3039,13 @@
                 <div class="product-variants"></div>
                 <p class="description" style="margin-top:1rem">${description}</p>`;
             
-            const qvCard = quickViewContent.parentElement;
-            qvCard.dataset.variants = card.dataset.variants;
-            qvCard.dataset.salePrice = card.dataset.salePrice;
-            qvCard.dataset.category = card.dataset.category;
-            qvCard.querySelector('.price').dataset.originalPrice = priceEl.dataset.originalPrice;
+            const qvModalContent = quickViewContent.closest('.modal-content');
+            qvModalContent.dataset.variants = card.dataset.variants;
+            qvModalContent.dataset.salePrice = card.dataset.salePrice;
+            qvModalContent.dataset.category = card.dataset.category;
+            qvModalContent.querySelector('.price').dataset.originalPrice = priceEl.dataset.originalPrice;
             
-            renderFrontendVariants(qvCard);
+            renderFrontendVariants(qvModalContent);
             
             const ratingInput = quickViewModal.querySelector('.rating-input');
             ratingInput.dataset.productId = productId;
@@ -3521,6 +3520,7 @@ SparkX Electronics`;
 
     // --- Initial Page Load Actions ---
     applyPromotions(); // Applies discounts, banners, countdowns on page load
+    refreshAllProductsUI();
     
     // --- Scroll Animation Logic ---
     const scrollObserver = new IntersectionObserver((entries, observer) => {
