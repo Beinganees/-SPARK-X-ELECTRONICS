@@ -47,6 +47,9 @@ const DB = {
         if (!localStorage.getItem('productRatings')) {
             localStorage.setItem('productRatings', JSON.stringify({}));
         }
+        if (!localStorage.getItem('sparkxCompareList')) {
+            localStorage.setItem('sparkxCompareList', JSON.stringify([]));
+        }
     },
     getProducts: (): Product[] => JSON.parse(localStorage.getItem('sparkxProducts') || '[]'),
     saveProducts: (products: Product[]) => localStorage.setItem('sparkxProducts', JSON.stringify(products)),
@@ -55,7 +58,9 @@ const DB = {
     getOrders: () => JSON.parse(localStorage.getItem('sparkxOrders') || '[]'),
     saveOrders: (orders: any[]) => localStorage.setItem('sparkxOrders', JSON.stringify(orders)),
     getRatings: () => JSON.parse(localStorage.getItem('productRatings') || '{}'),
-    saveRatings: (ratings: any) => localStorage.setItem('productRatings', JSON.stringify(ratings))
+    saveRatings: (ratings: any) => localStorage.setItem('productRatings', JSON.stringify(ratings)),
+    getCompareList: (): number[] => JSON.parse(localStorage.getItem('sparkxCompareList') || '[]'),
+    saveCompareList: (list: number[]) => localStorage.setItem('sparkxCompareList', JSON.stringify(list)),
 };
 
 
@@ -87,6 +92,7 @@ let state = {
     promotion: {} as Promotion,
     orders: [] as any[],
     ratings: {} as any,
+    compareList: [] as number[],
     currentTransaction: {} as any,
     currentEditingVariants: [] as Variant[],
     WEBHOOK_SECRET: '',
@@ -121,14 +127,18 @@ function renderAllProducts() {
                 <p class="product-offer-highlight"></p>
             </div>
             <div class="product-actions">
-                <button class="quick-view-btn">Quick View</button>
-                <button class="buy-now-btn">Buy Now</button>
+                <div class="main-actions">
+                    <button class="quick-view-btn">Quick View</button>
+                    <button class="buy-now-btn">Buy Now</button>
+                </div>
+                <button class="compare-btn">Compare</button>
             </div>
         `;
         productGrid.appendChild(card);
         renderFrontendVariants(card, product);
         renderStarRating(card.querySelector('.star-rating')!, product.id.toString());
     });
+    updateCompareButtonsUI();
 }
 
 function renderFrontendVariants(card: HTMLElement, product: Product) {
@@ -547,6 +557,150 @@ function applyPromotions() {
     renderAllProducts(); // Re-render products to apply discounts
 }
 
+// --- Compare Products Logic ---
+
+function toggleCompareItem(productId: number) {
+    const isInCompare = state.compareList.includes(productId);
+
+    if (isInCompare) {
+        state.compareList = state.compareList.filter(id => id !== productId);
+    } else {
+        if (state.compareList.length >= 4) {
+            alert('You can only compare up to 4 items at a time.');
+            return;
+        }
+        state.compareList.push(productId);
+    }
+
+    DB.saveCompareList(state.compareList);
+    renderCompareTray();
+    updateCompareButtonsUI();
+}
+
+function updateCompareButtonsUI() {
+    document.querySelectorAll('.compare-btn').forEach(btn => {
+        const card = btn.closest('.product-card') as HTMLElement;
+        if (!card) return;
+        const productId = parseInt(card.dataset.id!);
+        const isInCompare = state.compareList.includes(productId);
+        
+        btn.textContent = isInCompare ? 'Added to Compare' : 'Compare';
+        btn.classList.toggle('added', isInCompare);
+    });
+}
+
+function renderCompareTray() {
+    const tray = getElement<HTMLElement>('#compare-tray');
+    const itemsContainer = getElement<HTMLElement>('#compare-tray-items');
+    const compareNowBtn = getElement<HTMLButtonElement>('#compare-now-btn');
+
+    if (state.compareList.length === 0) {
+        tray.classList.remove('visible');
+        return;
+    }
+
+    tray.classList.add('visible');
+    itemsContainer.innerHTML = '';
+
+    state.compareList.forEach(productId => {
+        const product = state.products.find(p => p.id === productId);
+        if (product) {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'compare-item';
+            itemEl.innerHTML = `
+                <img src="${product.image || ''}" alt="${product.name}">
+                <button class="remove-compare-item" data-id="${product.id}" aria-label="Remove ${product.name} from comparison">&times;</button>
+            `;
+            itemsContainer.appendChild(itemEl);
+        }
+    });
+
+    compareNowBtn.disabled = state.compareList.length < 2;
+}
+
+function renderCompareModal() {
+    const contentEl = getElement('#compare-modal-content');
+    const productsToCompare = state.compareList.map(id => state.products.find(p => p.id === id)).filter(Boolean) as Product[];
+
+    if (productsToCompare.length < 2) {
+        contentEl.innerHTML = '<p>Please select at least two products to compare.</p>';
+        return;
+    }
+    
+    let tableHTML = '<table class="compare-table">';
+    
+    // Table Header (Product Images and Names)
+    tableHTML += '<thead><tr><th>Feature</th>';
+    productsToCompare.forEach(p => {
+        tableHTML += `<th>
+            <div class="compare-product-header">
+                ${p.image ? `<img src="${p.image}" alt="${p.name}">` : 'No Image'}
+                <div>${p.name}</div>
+            </div>
+        </th>`;
+    });
+    tableHTML += '</tr></thead>';
+
+    // Table Body
+    tableHTML += '<tbody>';
+    const attributes: (keyof Product | 'rating')[] = ['price', 'category', 'rating', 'description'];
+    const attributeLabels: Record<string, string> = {
+        price: 'Price',
+        category: 'Category',
+        rating: 'Customer Rating',
+        description: 'Description'
+    };
+
+    attributes.forEach(attr => {
+        tableHTML += `<tr><td>${attributeLabels[attr]}</td>`;
+        productsToCompare.forEach(p => {
+            if (attr === 'price') {
+                const priceHTML = p.salePrice ? `<del>₹${p.price}</del> <ins>₹${p.salePrice}</ins>` : `₹${p.price}`;
+                tableHTML += `<td>${priceHTML}</td>`;
+            } else if (attr === 'rating') {
+                tableHTML += `<td><div class="star-rating" data-product-id-for-render="${p.id}"></div></td>`;
+            } else {
+                tableHTML += `<td>${p[attr as keyof Product]}</td>`;
+            }
+        });
+        tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    contentEl.innerHTML = tableHTML;
+    
+    // Render star ratings after table is in DOM
+    contentEl.querySelectorAll<HTMLElement>('.star-rating[data-product-id-for-render]').forEach(container => {
+        const productId = container.dataset.productIdForRender;
+        if(productId) {
+            renderStarRating(container, productId);
+        }
+    });
+}
+
+function setupCompareFeature() {
+    const tray = getElement('#compare-tray');
+    const compareModal = getElement('#compare-modal');
+
+    tray.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.id === 'clear-compare-btn') {
+            state.compareList = [];
+            DB.saveCompareList(state.compareList);
+            renderCompareTray();
+            updateCompareButtonsUI();
+        }
+        if (target.id === 'compare-now-btn' && state.compareList.length >= 2) {
+            renderCompareModal();
+            openModal(compareModal);
+        }
+        if (target.classList.contains('remove-compare-item')) {
+            const productId = parseInt(target.dataset.id!);
+            toggleCompareItem(productId);
+        }
+    });
+}
+
 
 // --- GENERAL UI & EVENT LISTENERS ---
 // --- Modal Logic ---
@@ -639,14 +793,17 @@ function init() {
     state.promotion = DB.getPromotion();
     state.orders = DB.getOrders();
     state.ratings = DB.getRatings();
+    state.compareList = DB.getCompareList();
     
     // Initial Render
     renderAllProducts();
     applyPromotions();
+    renderCompareTray();
 
     // Setup Event Listeners
     setupAdminPanel();
     setupVariantManagement();
+    setupCompareFeature();
 
     const hamburgerBtn = getElement('#hamburger-btn');
     const navLinks = getElement('#nav-links');
@@ -748,6 +905,10 @@ function init() {
         
         if (target.classList.contains('buy-now-btn')) {
              openModal(getElement('#delivery-modal'));
+        }
+
+        if (target.classList.contains('compare-btn')) {
+            toggleCompareItem(parseInt(productId));
         }
     });
 

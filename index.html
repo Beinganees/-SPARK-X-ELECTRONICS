@@ -544,8 +544,15 @@
     .product-actions {
         margin-top: 1.5rem;
         display: flex;
+        flex-direction: column;
         gap: 0.5rem;
         transform: translateZ(30px);
+    }
+
+    .main-actions {
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
     }
     
     .product-actions button {
@@ -564,13 +571,19 @@
         color: black;
     }
     
-    .quick-view-btn {
+    .quick-view-btn, .compare-btn {
         background: rgba(255,255,255,0.1);
         color: #fff;
         border: 1px solid var(--glass-border);
     }
+    
+    .compare-btn.added {
+        background: var(--cyan);
+        color: black;
+        border-color: var(--cyan);
+    }
 
-    .buy-now-btn:hover, .quick-view-btn:hover {
+    .buy-now-btn:hover, .quick-view-btn:hover, .compare-btn:hover {
         box-shadow: 0 0 20px var(--cyan);
         transform: scale(1.05);
     }
@@ -1507,6 +1520,132 @@
         opacity: 1;
         transform: translateY(0);
     }
+    
+    /* Compare Feature Styles */
+    .compare-tray {
+        position: fixed;
+        bottom: -150px; /* Start hidden */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 600px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-bottom: none;
+        border-radius: 20px 20px 0 0;
+        z-index: 998;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        box-shadow: 0 -10px 30px rgba(0, 255, 255, 0.1);
+        transition: bottom 0.4s ease-in-out;
+    }
+    .compare-tray.visible {
+        bottom: 0;
+    }
+    #compare-tray-items {
+        display: flex;
+        gap: 0.75rem;
+        flex-grow: 1;
+        align-items: center;
+    }
+    .compare-item {
+        position: relative;
+        width: 60px;
+        height: 60px;
+    }
+    .compare-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--glass-border);
+    }
+    .remove-compare-item {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 20px;
+        height: 20px;
+        background: #ff4444;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        line-height: 1;
+        padding: 0;
+    }
+    .compare-tray-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-left: 1rem;
+    }
+    .compare-tray-actions button {
+        padding: 0.6rem 1.2rem;
+        border: 1px solid transparent;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        white-space: nowrap;
+    }
+    #compare-now-btn {
+        background: linear-gradient(135deg, var(--cyan), var(--blue));
+        color: black;
+    }
+    #compare-now-btn:disabled {
+        background: #555;
+        cursor: not-allowed;
+        color: #999;
+    }
+    #clear-compare-btn {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        border: 1px solid var(--glass-border);
+    }
+    #compare-modal .modal-content {
+      max-width: 900px;
+    }
+    #compare-modal-content {
+        overflow-x: auto;
+    }
+    .compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5rem;
+    }
+    .compare-table th, .compare-table td {
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid var(--glass-border);
+        vertical-align: top;
+        min-width: 180px;
+    }
+    .compare-table th {
+        background: rgba(0,255,255,0.1);
+    }
+    .compare-table td:first-child, .compare-table th:first-child {
+        text-align: left;
+        font-weight: bold;
+        background: rgba(0,255,255,0.1);
+        min-width: 120px;
+    }
+    .compare-table .compare-product-header img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+    }
+    .compare-table .star-rating {
+        justify-content: center;
+    }
+
 
     @media (max-width: 992px) {
         nav {
@@ -2139,6 +2278,24 @@
         <img id="lightbox-img" src="" alt="Gallery image">
         <figcaption id="lightbox-caption"></figcaption>
       </figure>
+    </div>
+  </div>
+
+  <!-- Compare Tray -->
+  <div id="compare-tray" class="compare-tray">
+    <div id="compare-tray-items"></div>
+    <div class="compare-tray-actions">
+      <button id="compare-now-btn" disabled>Compare</button>
+      <button id="clear-compare-btn">Clear</button>
+    </div>
+  </div>
+
+  <!-- Compare Modal -->
+  <div id="compare-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2 id="compare-modal-title">Compare Products</h2>
+      <div id="compare-modal-content"></div>
     </div>
   </div>
 
