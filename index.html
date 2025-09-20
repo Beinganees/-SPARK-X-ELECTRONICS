@@ -2713,7 +2713,6 @@
                     const imgContainer = cardToUpdate.querySelector('.img-container');
                     if (removeImageFlag.value === 'true') {
                          imgContainer.innerHTML = 'No Image';
-                         if (imageEl) imageEl.src = '';
                     } else if (imgSrc) {
                         imgContainer.innerHTML = `<img src="${imgSrc}" alt="${name}" loading="lazy">`;
                     }
